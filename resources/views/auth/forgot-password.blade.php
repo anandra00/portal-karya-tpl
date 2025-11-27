@@ -24,6 +24,7 @@
       <div class="login-box">
         <h2>Atur Ulang Kata Sandi</h2>
         <p>Masukkan alamat email terdaftar. Tautan akan terkirim untuk mengatur ulang kata sandi.</p>
+        
         <form action="{{ route('forgot-password.submit') }}" method="POST">
           @csrf
           @method('post')
@@ -31,6 +32,14 @@
           <input type="email" id="email" name="email" placeholder="Masukkan email" required>
 
           <button class="login-btn" type="submit"> Kirim Tautan</button>
+
+          {{-- Link Kembali ke Login --}}
+          <div class="links" style="margin-top: 20px; text-align: center;">
+            <a href="{{ route('login') }}" style="color: #263C92; font-weight: 600; text-decoration: none;">
+                Kembali ke halaman login
+            </a>
+          </div>
+
         </form>
       </div>
     </div>

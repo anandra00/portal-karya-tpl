@@ -11,8 +11,7 @@
   <div class="login-container">
 
     <div class="left-panel">
-      <div class="logos">
-      </div>
+      <div class="logos"></div>
       <div class="welcome-text">
         <h1>Selamat datang di...</h1>
         <h2>Portal Karya Teknologi Rekayasa Perangkat Lunak</h2>
@@ -24,22 +23,47 @@
       <div class="login-box">
         <h2>Atur Ulang Kata Sandi</h2>
         <p>Masukkan password baru dan konfirmasi password baru</p>
+        
+        {{-- Pastikan route ini sesuai --}}
         <form action="{{ route('reset-password.submit', $token) }}" method="POST">
           @csrf
           @method('post')
+
+          {{-- WAJIB ADA: Input Hidden Token --}}
+          <input type="hidden" name="token" value="{{ $token }}">
+
           <div class="mb-3">
-              <label for="password">Password</label>
-              <input type="password" id="password" name="password" placeholder="Masukkan password" required>
-          </div>
-          <div class="mb-3">
-              <label for="password-confirmation">Konfirmasi Password</label>
-              <input type="password" id="password-confirmation" name="password_confirmation" placeholder="Masukkan konfirmasi password" required>
+              <label for="password">Password Baru</label>
+              <input type="password" id="password" name="password" placeholder="Masukkan password baru" required>
           </div>
 
-          <button class="login-btn" type="submit">Perbarui</button>
+          <div class="mb-3">
+              <label for="password-confirmation">Konfirmasi Password</label>
+              <input type="password" id="password-confirmation" name="password_confirmation" placeholder="Ulangi password baru" required>
+          </div>
+
+          <button class="login-btn" type="submit">Perbarui Kata Sandi</button>
+
+          <div class="links" style="margin-top: 15px; text-align: center;">
+            <p>Batal ganti password? <a href="{{ route('login') }}" style="color: #263C92; font-weight: 600; text-decoration: none;">Masuk</a></p>
+          </div>
+
         </form>
       </div>
     </div>
   </div>
+
+  {{-- Script Notifikasi Error --}}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  @if(session('error'))
+  <script>
+      Swal.fire({
+          icon: 'error',
+          title: 'Gagal',
+          text: '{{ session("error") }}',
+          confirmButtonColor: '#263C92'
+      });
+  </script>
+  @endif
 </body>
 </html>
