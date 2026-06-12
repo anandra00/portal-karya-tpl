@@ -1,0 +1,389 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+/* ============================================================
+   GLOBAL UI — Single Source of Truth
+   All shared styles: variables, navbar, footer, hero, cards,
+   buttons, animations, responsive breakpoints.
+   ============================================================ */
+
+/* ==================== CSS VARIABLES ==================== */
+:root {
+    --warna-utama: #4F46E5;    /* Indigo 600 */
+    --warna-hero: #312E81;     /* Indigo 900 */
+    --warna-highlight: #818CF8; /* Indigo 400 */
+    --warna-secondary: #3B5BDB;
+    --bs-primary: var(--warna-utama);
+    --bs-primary-rgb: 79, 70, 229;
+    --text-dark: #111827;
+    --text-muted: #6B7280;
+    --bg-light: #F9FAFB;
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+/* ==================== BASE STYLES ==================== */
+body {
+    font-family: 'Outfit', sans-serif !important;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    padding-top: 80px;
+    font-size: 1rem;
+    overflow-x: hidden;
+}
+
+/* ==================== NAVBAR — Glassmorphism ==================== */
+/* Fix Tailwind conflict: Tailwind sets visibility: collapse on .collapse */
+.collapse.navbar-collapse {
+    visibility: visible !important;
+}
+
+.navbar-custom {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+    padding: 0.75rem 0;
+    transition: all 0.3s ease;
+}
+
+.navbar-custom .navbar-brand {
+    color: var(--warna-hero) !important;
+}
+
+.navbar-custom .navbar-brand small {
+    color: var(--warna-utama) !important;
+    font-weight: 600 !important;
+}
+
+.navbar-custom .nav-link {
+    color: var(--text-dark) !important;
+    font-weight: 600;
+    margin-left: 1.5rem;
+    transition: color 0.3s ease;
+    font-size: 0.95rem;
+    position: relative;
+}
+
+.navbar-custom .nav-link:hover,
+.navbar-custom .nav-link.active {
+    color: var(--warna-utama) !important;
+}
+
+.nav-tpl-link {
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-tpl-link::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--warna-utama), var(--warna-highlight));
+    bottom: -2px;
+    left: 0;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s cubic-bezier(0.65, 0, 0.35, 1);
+    border-radius: 2px;
+}
+
+.nav-tpl-link:hover::after,
+.nav-tpl-link.active::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* ==================== HERO SECTION ==================== */
+.hero-section {
+    background: linear-gradient(135deg, var(--warna-hero) 0%, var(--warna-utama) 100%);
+    position: relative;
+    padding: 5rem 0;
+    overflow: hidden;
+    color: white;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+CjxwYXRoIGQ9Ik0wIDBoNDB2NDBIMHoiIGZpbGw9Im5vbmUiLz4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0icmdiYSgyNTUsIDI1NSwgMjU1LCAwLjE1KSIvPgo8L3N2Zz4=');
+    pointer-events: none;
+}
+
+.hero-section .display-4,
+.hero-section .display-6 {
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.hero-section .lead {
+    font-weight: 400;
+    font-size: 1.25rem;
+    opacity: 0.9;
+}
+
+/* ==================== INFO SECTION ==================== */
+.info-section {
+    padding: 60px 0;
+    background-color: #f8fafc;
+}
+
+.info-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.info-header h2 {
+    font-weight: 800;
+    color: var(--text-dark);
+    letter-spacing: -0.5px;
+}
+
+.info-header hr {
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--warna-utama), var(--warna-highlight));
+    border-radius: 2px;
+    opacity: 1;
+    margin: 1rem auto 2rem;
+    border: none;
+}
+
+/* ==================== PREMIUM CARD ==================== */
+.card {
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 16px;
+    overflow: hidden;
+    background: white;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.card-img-top {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.card-title {
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.3;
+}
+
+.card-body .badge {
+    font-weight: 600;
+    padding: 0.4em 0.8em;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+}
+
+/* Premium Card Variant (glassmorphism) */
+.premium-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+}
+
+.premium-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 1);
+}
+
+.premium-shadow {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+.premium-badge {
+    padding: 0.5em 1em;
+    background: linear-gradient(135deg, var(--warna-utama), var(--warna-secondary));
+    color: #ffffff;
+    border: none;
+    font-weight: 600;
+    border-radius: 30px;
+    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+}
+
+/* ==================== BUTTONS ==================== */
+.btn-tpl {
+    background: linear-gradient(135deg, var(--warna-utama) 0%, var(--warna-highlight) 100%);
+    color: white !important;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.btn-tpl:hover {
+    background: linear-gradient(135deg, var(--warna-hero) 0%, var(--warna-utama) 100%);
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
+}
+
+/* ==================== FOOTER ==================== */
+.footer-custom {
+    background-color: var(--text-dark);
+    color: white;
+    padding: 3rem 0 1rem;
+}
+
+.footer-custom a {
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-custom a:hover {
+    color: var(--warna-highlight) !important;
+}
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* For elements that should animate immediately (hero content) */
+.hero-section .fade-in-up {
+    animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ==================== RESPONSIVE — MOBILE ==================== */
+@media (max-width: 991.98px) {
+    .navbar-custom .nav-link {
+        margin-left: 0;
+        padding: 0.6rem 1rem;
+    }
+
+    .nav-tpl-link::after {
+        bottom: 0;
+    }
+}
+
+@media (max-width: 767.98px) {
+    body {
+        padding-top: 70px;
+    }
+
+    .hero-section {
+        padding: 3rem 0;
+    }
+
+    .hero-section .display-4,
+    .hero-section .display-6 {
+        font-size: 1.75rem;
+    }
+
+    .hero-section .lead {
+        font-size: 1rem;
+    }
+
+    .info-section {
+        padding: 40px 0;
+    }
+
+    .info-header h2 {
+        font-size: 1.4rem;
+    }
+
+    /* Cards smaller hover effect on mobile */
+    .card:hover,
+    .premium-card:hover {
+        transform: translateY(-3px);
+    }
+
+    /* Footer responsive */
+    .footer-custom {
+        padding: 2rem 0 1rem;
+    }
+
+    .footer-custom .col-md-4 {
+        text-align: center;
+    }
+
+    .footer-custom img {
+        height: 120px !important;
+    }
+
+    .footer-custom p,
+    .footer-custom li {
+        font-size: 0.85rem;
+    }
+
+    /* Button group wrapping */
+    .btn-group-responsive {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: center;
+    }
+
+    .btn-group-responsive .btn {
+        flex: 1 1 auto;
+        min-width: 180px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .hero-section .display-4,
+    .hero-section .display-6 {
+        font-size: 1.5rem;
+    }
+
+    .hero-section {
+        padding: 2.5rem 0;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+}

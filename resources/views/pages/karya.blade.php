@@ -7,30 +7,23 @@
 @endpush
 
 @section('hero')
-<section class="hero-section text-white text-center py-5">
-    <div class="container">
-        <h1 class="display-6">Selamat Datang Di Portal Teknologi Rekayasa Perangkat Lunak SV IPB</h1>
-        <p class="lead">Syntax Error Compile Lagi</p>
-    </div>
-</section>
+@include('partials.hero')
 @endsection
 
 @section('content')
-<section class="info-section">
+<section class="info-section py-5">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <header class="info-header text-center mb-4">
-                    <h2>Kumpulan Karya Mahasiswa TPL SV IPB</h2>
+                <header class="info-header mb-5 text-center">
+                    <h2 class="fw-bold" style="color: var(--warna-hero);">Kumpulan Karya Mahasiswa TPL SV IPB</h2>
                     <hr>
                 </header>
             
                 {{-- Search Bar --}}
-                <div class="row justify-content-center mb-4">
+                <div class="row justify-content-center mb-4 fade-in-up">
                     <div class="col-md-8 col-lg-6">
-                        <form action="" method="GET">
-                            @csrf
-                            @method("GET")
+                        <form action="{{ route('karya.public') }}" method="GET">
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-search"></i></span>
                                 <input type="text" 
@@ -38,60 +31,46 @@
                                        name="judul" 
                                        placeholder="Cari karya..." 
                                        value="{{ request('judul') }}">
-                                <button class="btn btn-primary" type="submit">Cari</button>
+                                <button class="btn btn-tpl" type="submit">Cari</button>
                             </div>
                         </form>
                     </div>
                 </div>
 
                 {{-- Filter Kategori --}}
-                <div class="row justify-content-center mb-4">
-                    <div class="col-md-10 text-center">
-                        <a href="/karya?kategori=" 
-                           class="btn btn-sm {{ !request('kategori') ? 'btn-primary' : 'btn-outline-primary' }} me-2 mb-2">
+                <div class="row justify-content-center mb-4 fade-in-up">
+                    <div class="col-md-10 text-center filter-buttons">
+                        <a href="{{ route('karya.public') }}" 
+                           class="btn btn-sm {{ !request('kategori') ? 'btn-tpl' : 'btn-outline-primary' }} mb-2">
                             Semua
                         </a>
-                        <a href="/karya?kategori=Web Development" 
-                           class="btn btn-sm {{ request('kategori') == 'Web Development' ? 'btn-primary' : 'btn-outline-primary' }} me-2 mb-2">
-                            Web Development
+                        @foreach(['Web Development', 'Mobile Apps', 'Data Science', 'IoT', 'Game Development'] as $kat)
+                        <a href="{{ route('karya.public', ['kategori' => $kat]) }}" 
+                           class="btn btn-sm {{ request('kategori') == $kat ? 'btn-tpl' : 'btn-outline-primary' }} mb-2">
+                            {{ $kat }}
                         </a>
-                        <a href="/karya?kategori=Mobile Apps" 
-                           class="btn btn-sm {{ request('kategori') == 'Mobile Apps' ? 'btn-primary' : 'btn-outline-primary' }} me-2 mb-2">
-                            Mobile Apps
-                        </a>
-                        <a href="/karya?kategori=Data Science" 
-                           class="btn btn-sm {{ request('kategori') == 'Data Science' ? 'btn-primary' : 'btn-outline-primary' }} me-2 mb-2">
-                            Data Science
-                        </a>
-                        <a href="/karya?kategori=IoT" 
-                           class="btn btn-sm {{ request('kategori') == 'IoT' ? 'btn-primary' : 'btn-outline-primary' }} me-2 mb-2">
-                            IoT
-                        </a>
-                        <a href="/karya?kategori=Game Development" 
-                           class="btn btn-sm {{ request('kategori') == 'Game Development' ? 'btn-primary' : 'btn-outline-primary' }} me-2 mb-2">
-                            Game Development
-                        </a>
+                        @endforeach
                     </div>
                 </div>
                     
                 {{-- Grid Karya --}}
                 <div class="row">
                     @forelse ($karya as $k)
-                        <div class="col-12 col-md-6 col-lg-4 mb-4">
-                            <div class="card h-100 shadow-sm border-0">
+                        <div class="col-12 col-md-6 col-lg-4 mb-4 fade-in-up">
+                            <div class="card premium-card h-100 border-0">
                                 @if($k->preview_karya)
                                     <img src="{{ asset('storage/' . $k->preview_karya) }}" 
                                          class="card-img-top" 
                                          alt="{{ $k->judul }}"
                                          style="height: 250px; object-fit: cover;">
                                 @else
-                                    <div style="height: 250px; background: #333; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                                    <div class="karya-placeholder">
                                         {{ $k->judul }}
                                     </div>
                                 @endif
                                 
                                 <div class="card-body d-flex flex-column">
-                                    <span class="badge text-white mb-2" style="background-color: var(--warna-utama);">
+                                    <span class="badge text-white mb-2" style="background-color: var(--warna-utama); align-self: flex-start;">
                                         {{ $k->kategori }}
                                     </span>
                                     <h5 class="card-title">{{ Str::limit($k->judul, 50) }}</h5>
@@ -113,12 +92,12 @@
                                             @endif
                                         @endfor
                                         
-                                        <h6 class="mt-2 text-muted">
+                                        <small class="mt-1 text-muted d-block">
                                             {{ number_format($avgRating, 1) }} ({{ $reviewCount }} ulasan)
-                                        </h6>
+                                        </small>
                                     </div>
                                     
-                                    <a href="/karya/{{ $k->id }}" 
+                                    <a href="{{ route('karya.public.show', $k->id) }}" 
                                        class="btn btn-tpl btn-sm mt-auto">
                                         Selengkapnya
                                     </a>

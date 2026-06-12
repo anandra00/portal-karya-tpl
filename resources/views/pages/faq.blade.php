@@ -4,16 +4,10 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/faq.css') }}">
-<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 @endpush
 
 @section('hero')
-<section class="hero-section text-white text-center py-5">
-    <div class="container">
-        <h1 class="display-4">Selamat Datang Di Portal Teknologi Rekayasa Perangkat Lunak SV IPB <br></h1>
-        <p class="lead">Syntax Error Compile Lagi</p>
-    </div>
-</section>
+@include('partials.hero')
 @endsection
 
 @section('content')
@@ -21,13 +15,13 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <header class="info-header">
-                    <h2>Frequently Asked Questions (FAQ)</h2>
+                <header class="info-header mb-5 text-center">
+                    <h2 class="fw-bold" style="color: var(--warna-hero);">Frequently Asked Questions (FAQ)</h2>
                     <hr>
                 </header>
 
-                <div class="accordion" id="faqAccordion">
-                    <div class="accordion-item">
+                <div class="accordion premium-accordion fade-in-up" id="faqAccordion">
+                    <div class="accordion-item premium-card">
                         <h2 class="accordion-header" id="headingOne">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
                                 Apa itu Program Studi Teknologi Rekayasa Perangkat Lunak (TPL)?
@@ -40,7 +34,7 @@
                         </div>
                     </div>
 
-                    <div class="accordion-item">
+                    <div class="accordion-item premium-card">
                         <h2 class="accordion-header" id="headingTwo">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
                                 Apakah karya mahasiswa di portal ini dapat diunduh?
@@ -53,7 +47,7 @@
                         </div>
                     </div>
 
-                    <div class="accordion-item">
+                    <div class="accordion-item premium-card">
                         <h2 class="accordion-header" id="headingThree">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
                                 Apa perbedaan TPL dengan program studi Informatika?
@@ -66,7 +60,7 @@
                         </div>
                     </div>
 
-                    <div class="accordion-item">
+                    <div class="accordion-item premium-card">
                         <h2 class="accordion-header" id="headingFour">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
                                 Apakah mahasiswa bisa langsung mengunggah karyanya ke portal?

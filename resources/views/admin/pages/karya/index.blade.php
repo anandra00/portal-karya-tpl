@@ -1,176 +1,81 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('admin.layouts.app')
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portal TPL SV IPB - Kelola Karya</title>
+@section('title', 'Kelola Karya')
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/feather-icons"></script>
-
-    <link rel="stylesheet" href="{{ asset('css/admin/kelolakarya.css') }}">
-</head>
-
-<body>
-
-    {{-- NAVIGASI --}}
-    <div class="nav-container1">
-        <a href="/">
-            <img src="{{ asset('images/logo_TPL.png') }}" alt="Logo TPL SV IPB" class="logo-TPL">
-        </a>
+@section('content')
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h1 class="page-title">Kelola Karya</h1>
+        <p class="page-subtitle">Daftar karya mahasiswa yang telah divalidasi</p>
     </div>
+    <a href="{{ route('karya.create') }}" class="btn btn-primary">
+        <i data-feather="plus-circle"></i> Tambah Karya
+    </a>
+</div>
 
-    <div class="nav-container2">
-        <h2>Selamat Datang Di Portal Karya Teknologi Rekayasa Perangkat Lunak SV IPB</h2>
-        <p>Syntax Error Compile Lagi</p>
-    </div>
+<div class="row g-4 mt-2">
+    {{-- Karya Disetujui --}}
+    <div class="col-md-6">
+        <div class="dashboard-card" style="display: block; border-top: 4px solid var(--success);">
+            <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--success); display: flex; align-items: center; gap: 8px;">
+                <i data-feather="check-circle"></i> Karya Disetujui
+            </h3>
 
-    {{-- LAYOUT UTAMA --}}
-    <div class="main-wrapper">
-
-        {{-- SIDEBAR --}}
-        <div class="sidebar">
-            <a href="{{ route('dashboard') }}">Dashboard</a>
-            <a href="{{ route('karya.index') }}" class="active">Kelola Karya</a>
-            <a href="{{ route('info-prodi.index') }}">InfoProdi</a>
-            <a href="{{ route('karya.validasi') }}">Validasi Konten</a>
-            <a href="{{ route('dosen.index') }}">Dosen</a>
-            <a href="{{ route('admin.berita.index') }}">Berita</a>
-            <a href="{{ route('admin.matakuliah.index') }}">Mata Kuliah</a>
-            <a href="{{ route('admin.review.index') }}">Kelola Review</a>
-            @if (Auth::user()->role == "admin")
-                <a href="{{ route('admin.list') }}">Admin</a>
-            @endif
-        </div>
-
-        {{-- KONTEN --}}
-        <div class="content">
-
-            {{-- Pesan Sukses --}}
-            @if (session('success'))
-                <div class="alert alert-success">
-                    <strong>✓ Berhasil!</strong> {{ session('success') }}
-                </div>
-            @endif
-
-            {{-- Tombol Tambah Karya --}}
-            <div style="margin: 20px; text-align: right; width: 100%;">
-                <a href="{{ route('karya.create') }}" style="
-            background: #007bff; 
-            color: white; 
-            padding: 10px 20px; 
-            border-radius: 5px; 
-            text-decoration: none; 
-            display: inline-flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 8px; 
-            font-weight: 500;
-        ">
-                    <i data-feather="plus"></i>
-                    Tambah Karya
-                </a>
-            </div>
-
-            {{-- GRID --}}
-            <div class="grid-container">
-
-                {{-- Karya Disetujui --}}
-                <div class="column sukses">
-                    <h3>Karya Disetujui</h3>
-
-                    @forelse($accepted as $a)
-                        <div class="card">
-                            <div class="info">
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                @forelse($accepted as $a)
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-main);">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(16, 185, 129, 0.1); color: var(--success); display: flex; align-items: center; justify-content: center;">
                                 <i data-feather="file-text"></i>
-                                <div>
-                                    <strong>{{ $a->judul }}</strong><br>
-                                    <small>{{ $a->user->name ?? 'Anonim' }}</small>
-                                </div>
                             </div>
-
-                            <div class="right-side">
-                                <span class="status sukses">Disetujui</span>
-                                <a href="{{ route('karya.show', $a->id) }}" class="edit-btn">
-                                    Lihat
-                                </a>
+                            <div>
+                                <h4 style="font-size: 1rem; font-weight: 600; margin: 0; color: var(--text-main);">{{ $a->judul }}</h4>
+                                <span style="font-size: 0.85rem; color: var(--text-muted);">{{ $a->user->name ?? 'Anonim' }}</span>
                             </div>
                         </div>
-                    @empty
-                        <p>Tidak ada karya disetujui.</p>
-                    @endforelse
-                </div>
-
-                {{-- Karya Ditolak --}}
-                <div class="column ditolak">
-                    <h3>Karya Ditolak</h3>
-
-                    @forelse($rejected as $r)
-                        <div class="card">
-                            <div class="info">
-                                <i data-feather="file-text"></i>
-                                <div>
-                                    <strong>{{ $r->judul }}</strong><br>
-                                    <small>{{ $r->user->name ?? 'Anonim' }}</small>
-                                </div>
-                            </div>
-
-                            <div class="right-side">
-                                <span class="status ditolak">Ditolak</span>
-                                <a href="{{ route('karya.show', $r->id) }}" class="edit-btn">
-                                    Lihat
-                                </a>
-                            </div>
-                        </div>
-                    @empty
-                        <p>Tidak ada karya ditolak.</p>
-                    @endforelse
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-
-    {{-- FOOTER --}}
-    <footer>
-        <div class="footer-container">
-
-            <div class="footer-left">
-                <div class="location">
-                    <i data-feather="map-pin"></i>
-                    <div class="address">
-                        <p><strong>KAMPUS BOGOR</strong> — Jl. Raya Pajajaran, Kota Bogor, Jawa Barat 16128</p>
-                        <p><strong>KAMPUS SUKABUMI</strong> — Jl. Sarasa No. 46, Babakan, Cibeureum, Kota Sukabumi</p>
+                        <a href="{{ route('karya.show', $a->id) }}" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.4rem 1rem;">
+                            Lihat
+                        </a>
                     </div>
-                </div>
+                @empty
+                    <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                        <p style="margin: 0;">Tidak ada karya disetujui.</p>
+                    </div>
+                @endforelse
             </div>
+        </div>
+    </div>
 
-            <div class="footer-right">
-                <div class="contact-item">
-                    <i data-feather="phone"></i>
-                    <span>(0251) 8348007</span>
-                </div>
-                <div class="contact-item">
-                    <i data-feather="mail"></i>
-                    <span>sv@apps.ipb.ac.id</span>
-                </div>
+    {{-- Karya Ditolak --}}
+    <div class="col-md-6">
+        <div class="dashboard-card" style="display: block; border-top: 4px solid var(--danger);">
+            <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--danger); display: flex; align-items: center; gap: 8px;">
+                <i data-feather="x-circle"></i> Karya Ditolak
+            </h3>
+
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                @forelse($rejected as $r)
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-main);">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(239, 68, 68, 0.1); color: var(--danger); display: flex; align-items: center; justify-content: center;">
+                                <i data-feather="file-text"></i>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1rem; font-weight: 600; margin: 0; color: var(--text-main);">{{ $r->judul }}</h4>
+                                <span style="font-size: 0.85rem; color: var(--text-muted);">{{ $r->user->name ?? 'Anonim' }}</span>
+                            </div>
+                        </div>
+                        <a href="{{ route('karya.show', $r->id) }}" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.4rem 1rem;">
+                            Lihat
+                        </a>
+                    </div>
+                @empty
+                    <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                        <p style="margin: 0;">Tidak ada karya ditolak.</p>
+                    </div>
+                @endforelse
             </div>
-
         </div>
-
-        <hr>
-
-        <div class="footer-bottom">
-            <p>© 2025 IPB University — Sekolah Vokasi</p>
-        </div>
-
-        <script>
-            feather.replace();
-        </script>
-    </footer>
-
-</body>
-
-</html>
+    </div>
+</div>
+@endsection

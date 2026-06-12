@@ -1,113 +1,45 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portal TPL SV IPB - Admin</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/feather-icons"></script>
-  <link rel="stylesheet" href="{{ asset('css/admin/dashboard.css') }}">
-</head>
+@extends('admin.layouts.app')
 
-<body>
+@section('title', 'Dashboard')
 
-  <div class="nav-container1">
-    <a href="/">
-      <img src="{{ asset('images/logo_TPL.png') }}" alt="Logo TPL SVIPB" class="logo-TPL">
-    </a>
-  </div>
+@section('content')
+<div class="page-header">
+    <h1 class="page-title">Dashboard</h1>
+    <p class="page-subtitle">Selamat datang di Portal Karya Teknologi Rekayasa Perangkat Lunak SV IPB</p>
+</div>
 
-  <div class="nav-container2">
-    <h2>Selamat Datang Di Portal Karya Teknologi Rekayasa Perangkat Lunak SV IPB</h2>
-    <p>Syntax Error Compile Lagi</p>
-  </div>
-
-  <div class="layout">
-    <aside class="sidebar">
-      <a href="{{ 'dashboard' }}" class="active">Dashboard</a>
-      <a href="{{ route('karya.index') }}">Kelola Karya</a>
-     <a href="{{ route('info-prodi.index') }}">Edit Info Profil</a>
-      <a href="{{ route('karya.validasi') }}">Validasi Konten</a>
-      <a href ="{{ route('dosen.index') }}">Dosen</a>
-      <a href ="{{ route('admin.berita.index') }}">Berita</a>
-      <a href ="{{ route('admin.matakuliah.index') }}">Mata Kuliah</a>
-      <a href ="{{ route('admin.review.index') }}">Kelola Review</a>
-      @if (Auth::user()->role == "admin")
-      <a href ="{{ route('admin.list') }}">Admin</a>
-      @endif
-    </aside>
-
-    <main class="content">
-      <div class="card-container">
-        <div class="card">
-          <div class="left">
-            <div class="">
-              <i data-feather="bell"></i>
-              <span class="notif-count"></span>
-            </div>
-          </div>
-          <div class="right">
+<div class="card-grid">
+    <div class="dashboard-card" style="position: relative;">
+        <div class="card-info">
             <h3>Ajuan Karya</h3>
-            <button class="btn-lihat" type="button" onclick="window.location.href='{{ route('ajuankarya') }}'"> Lihat</button>
-          </div>
+            <p>0</p>
         </div>
-        <div class="card">
-          <div class="left">
-            <div class="">
-              <i data-feather="bell"></i>
-              <span class="notif-count"></span>
-            </div>
-          </div>
-          <div class="right">
-            <h3> Karya Terunggah</h3>
-            <button class="btn-lihat" type="button" onclick="window.location.href='{{ route('lihatkarya') }}'"> Lihat</button>
-          </div>
+        <div class="card-icon">
+            <i data-feather="file-text"></i>
         </div>
+        <a href="{{ route('ajuankarya') }}" class="btn btn-secondary dashboard-card-link">Lihat</a>
+    </div>
 
-        <div class="card">
-          <div class="left">
-            <div class="">
-              <i data-feather="bell"></i>
-              <span class="notif-count"></span>
-            </div>
-          </div>
-          <div class="right">
+    <div class="dashboard-card" style="position: relative;">
+        <div class="card-info">
+            <h3>Karya Terunggah</h3>
+            <p>0</p>
+        </div>
+        <div class="card-icon">
+            <i data-feather="upload-cloud"></i>
+        </div>
+        <a href="{{ route('lihatkarya') }}" class="btn btn-secondary dashboard-card-link">Lihat</a>
+    </div>
+
+    <div class="dashboard-card" style="position: relative;">
+        <div class="card-info">
             <h3>Pengunjung</h3>
-            <button class="btn-lihat" type="button" onclick="window.location.href='{{ route('lihatpengunjung') }}'"> Lihat</button>
-          </div>
+            <p>0</p>
         </div>
-      </div>
-    </main>
-  </div>
-
-  <footer>
-    <div class="footer-container">
-      <div class="footer-left">
-        <div class="location">
-          <i data-feather="map-pin"></i>
-          <div class="address">
-            <p><strong>KAMPUS BOGOR</strong> — Jl. Raya Pajajaran, Kota Bogor, Jawa Barat 16128</p>
-            <p><strong>KAMPUS SUKABUMI</strong> — Jl. Sarasa No. 46, Babakan, Kec. Cibeureum, Kota Sukabumi, Jawa Barat 43142</p>
-          </div>
+        <div class="card-icon">
+            <i data-feather="users"></i>
         </div>
-      </div>
-
-      <div class="footer-right">
-        <div class="contact-item">
-          <i data-feather="phone"></i>
-          <span>(0251) 8348007</span>
-        </div>
-        <div class="contact-item">
-          <i data-feather="mail"></i>
-          <span>sv@apps.ipb.ac.id</span>
-        </div>
-      </div>
+        <a href="{{ route('lihatpengunjung') }}" class="btn btn-secondary dashboard-card-link">Lihat</a>
     </div>
-    <hr>
-    <div class="footer-bottom">
-      <p>© 2025 IPB University — Sekolah Vokasi</p>
-    </div>
-    <script>feather.replace();</script>
-  </footer>
-</body>
-</html>
+</div>
+@endsection

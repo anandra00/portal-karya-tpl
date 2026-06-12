@@ -7,21 +7,16 @@
 @endpush
 
 @section('hero')
-<section class="hero-section text-white text-center py-5">
-    <div class="container">
-        <h1 class="display-6">Unggah Karya Mahasiswa</h1>
-        <p class="lead">Bagikan Karya Terbaikmu</p>
-    </div>
-</section>
+@include('partials.hero', ['title' => 'Unggah Karya Mahasiswa', 'subtitle' => 'Bagikan Karya Terbaikmu'])
 @endsection
 
 @section('content')
 <main class="detail-section py-5">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-8">
+            <div class="col-lg-8 fade-in-up">
                 <div class="card p-4">
-                    <h3 class="mb-4">Form Unggah Karya</h3>
+                    <h3 class="mb-4 fw-bold">Form Unggah Karya</h3>
                     
                     {{-- Pesan Error --}}
                     @if ($errors->any())
@@ -70,12 +65,9 @@
                                     name="kategori" 
                                     required>
                                 <option value="">Pilih Kategori</option>
-                                <option value="Web Development" {{ old('kategori') == 'Web Development' ? 'selected' : '' }}>Web Development</option>
-                                <option value="Mobile Apps" {{ old('kategori') == 'Mobile Apps' ? 'selected' : '' }}>Mobile Apps</option>
-                                <option value="Data Science" {{ old('kategori') == 'Data Science' ? 'selected' : '' }}>Data Science</option>
-                                <option value="IoT" {{ old('kategori') == 'IoT' ? 'selected' : '' }}>Internet of Things</option>
-                                <option value="Game Development" {{ old('kategori') == 'Game Development' ? 'selected' : '' }}>Game Development</option>
-                                <option value="Lainnya" {{ old('kategori') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                                @foreach(['Web Development', 'Mobile Apps', 'Data Science', 'IoT', 'Game Development', 'Lainnya'] as $kat)
+                                    <option value="{{ $kat }}" {{ old('kategori') == $kat ? 'selected' : '' }}>{{ $kat == 'IoT' ? 'Internet of Things' : $kat }}</option>
+                                @endforeach
                             </select>
                             @error('kategori')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -146,18 +138,23 @@
                             @enderror
                         </div>
 
-                        <div class="form-group">
-                            <label for="link">Pengumpulan (Link)</label>
-                            <input type="url" id="link" name="link" value="{{ old('link') }}" 
-                                placeholder="https://drive.google.com/karya123">
-                            <small style="color: #666;">Link Google Drive, GitHub, atau URL lainnya</small>
+                        {{-- 7. Link Pengumpulan --}}
+                        <div class="mb-3">
+                            <label for="link" class="form-label">Pengumpulan (Link)</label>
+                            <input type="url" 
+                                   class="form-control @error('link') is-invalid @enderror" 
+                                   id="link" 
+                                   name="link" 
+                                   value="{{ old('link') }}" 
+                                   placeholder="https://drive.google.com/karya123">
+                            <small class="text-muted">Link Google Drive, GitHub, atau URL lainnya</small>
                             @error('link')
-                                <div class="error">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        {{-- 7. Upload Gambar --}}
-                        <div class="mb-3">
+                        {{-- 8. Upload Gambar --}}
+                        <div class="mb-4">
                             <label for="gambar" class="form-label">Screenshot/Gambar Karya <span class="text-danger">*</span></label>
                             <input type="file" 
                                    class="form-control @error('gambar') is-invalid @enderror" 
@@ -172,7 +169,7 @@
                         </div>
 
                         {{-- Buttons --}}
-                        <div class="d-flex gap-2">
+                        <div class="d-flex flex-wrap gap-2">
                             <button type="submit" class="btn btn-tpl">
                                 <i class="bi bi-upload me-2"></i>Unggah Karya
                             </button>

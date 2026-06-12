@@ -1,105 +1,63 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portal TPL SVIPB - Admin</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/feather-icons"></script>
-  <link rel="stylesheet" href="{{ asset('css/admin/dashboard.css') }}">
-</head>
+@extends('admin.layouts.app')
 
-<body>
+@section('title', 'Kelola Admin')
 
-  <div class="nav-container1">
-    <a href="/">
-      <img src="{{ asset('images/logo_TPL.png') }}" alt="Logo TPL SVIPB" class="logo-TPL">
+@section('content')
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h1 class="page-title">Daftar Admin</h1>
+        <p class="page-subtitle">Kelola akun administrator Portal TPL</p>
+    </div>
+    <a href="{{ route('admin.create') }}" class="btn btn-primary">
+        <i data-feather="user-plus"></i> Tambah Admin
     </a>
-  </div>
+</div>
 
-  <div class="nav-container2">
-    <h2>Selamat Datang Di Portal Karya Teknologi Rekayasa Perangkat Lunak SV IPB</h2>
-    <p>Syntax Error Compile Lagi</p>
-  </div>
-
-  <div class="layout">
-    <aside class="sidebar">
-      <a href="{{ 'dashboard' }}">Dashboard</a>
-      <a href="{{ route('karya.index') }}">Kelola Karya</a>
-     <a href="{{ route('info-prodi.index') }}">Edit Info Profil</a>
-      <a href="{{ route('karya.validasi') }}">Validasi Konten</a>
-      <a href ="{{ route('dosen.index') }}">Dosen</a>
-      <a href ="{{ route('admin.berita.index') }}">Berita</a>
-      <a href ="{{ route('admin.matakuliah.index') }}">Mata Kuliah</a>
-      <a href ="{{ route('admin.list') }}" class="active">Admin</a>
-    </aside>
-
-    <main class="content">
-      <div class="card-container">
-         <h2 class="mb-3">Daftar Admin</h2>
-
-          <a href="{{ route('admin.create') }}" class="btn btn-primary mb-3">+ Tambah Admin</a>
-
-          <table class="table">
-              <thead>
-                  <tr>
-                      <th>No</th>
-                      <th>Nama</th>
-                      <th>Email</th>
-                      <th>Aksi</th>
-                  </tr>
-              </thead>
-
-              <tbody>
-                  @foreach($admins as $index => $admin)
-                      <tr>
-                          <td>{{ $index + 1 }}</td>
-                          <td>{{ $admin->name }}</td>
-                          <td>{{ $admin->email }}</td>
-                          <td>
-                              <form action="{{ route('admin.delete', $admin->id) }}" method="POST">
-                                  @csrf
-                                  @method('DELETE')
-                                  <button>Hapus</button>
-                              </form>
-                          </td>
-                      </tr>
-                  @endforeach
-              </tbody>
-
-          </table>
-      </div>
-    </main>
-  </div>
-
-  <footer>
-    <div class="footer-container">
-      <div class="footer-left">
-        <div class="location">
-          <i data-feather="map-pin"></i>
-          <div class="address">
-            <p><strong>KAMPUS BOGOR</strong> — Jl. Raya Pajajaran, Kota Bogor, Jawa Barat 16128</p>
-            <p><strong>KAMPUS SUKABUMI</strong> — Jl. Sarasa No. 46, Babakan, Kec. Cibeureum, Kota Sukabumi, Jawa Barat 43142</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="footer-right">
-        <div class="contact-item">
-          <i data-feather="phone"></i>
-          <span>(0251) 8348007</span>
-        </div>
-        <div class="contact-item">
-          <i data-feather="mail"></i>
-          <span>sv@apps.ipb.ac.id</span>
-        </div>
-      </div>
-    </div>
-    <hr>
-    <div class="footer-bottom">
-      <p>© 2025 IPB University — Sekolah Vokasi</p>
-    </div>
-    <script>feather.replace();</script>
-  </footer>
-</body>
-</html>
+<div class="dashboard-card" style="display: block; overflow-x: auto;">
+    <table style="width: 100%; border-collapse: collapse; min-width: 600px;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--border-color); color: var(--text-muted); text-align: left;">
+                <th style="padding: 1rem; width: 50px;">No</th>
+                <th style="padding: 1rem;">Nama</th>
+                <th style="padding: 1rem;">Email</th>
+                <th style="padding: 1rem; text-align: right;">Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($admins as $index => $admin)
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 1rem; color: var(--text-muted);">{{ $index + 1 }}</td>
+                    <td style="padding: 1rem; color: var(--text-main); font-weight: 500;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--bg-main); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 600;">
+                                {{ substr($admin->name, 0, 1) }}
+                            </div>
+                            {{ $admin->name }}
+                        </div>
+                    </td>
+                    <td style="padding: 1rem; color: var(--text-muted);">{{ $admin->email }}</td>
+                    <td style="padding: 1rem; text-align: right;">
+                        @if($admin->id !== Auth::id())
+                            <form action="{{ route('admin.delete', $admin->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus admin ini?');" style="margin: 0;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger" style="padding: 0.4rem 1rem; font-size: 0.85rem;">
+                                    <i data-feather="trash-2"></i> Hapus
+                                </button>
+                            </form>
+                        @else
+                            <span class="badge badge-success" style="background: rgba(16, 185, 129, 0.1); color: var(--success); padding: 0.4rem 1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">Anda</span>
+                        @endif
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="4" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                        Belum ada data admin selain Anda.
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+@endsection

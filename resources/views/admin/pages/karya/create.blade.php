@@ -1,223 +1,105 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tambah Karya - Admin</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/feather-icons"></script>
-  <link rel="stylesheet" href="{{ asset('css/admin/dashboard.css') }}">
-  <style>
-    .form-container {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      max-width: 800px;
-      margin: 30px auto;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .form-group {
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 500;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-    textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-    .btn-submit {
-      background-color: #28a745;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    .btn-cancel {
-      background-color: #6c757d;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-left: 10px;
-      text-decoration: none;
-      display: inline-block;
-    }
-    .error {
-      color: #dc3545;
-      font-size: 12px;
-      margin-top: 5px;
-    }
-  </style>
-</head>
+@extends('admin.layouts.app')
 
-<body>
-  <div class="nav-container1">
-    <img src="{{ asset('images/logo_TPL.png') }}" alt="Logo TPL" class="logo-TPL">
-  </div>
+@section('title', 'Tambah Karya')
 
-  <div class="nav-container2">
-    <h2>Tambah Karya Baru</h2>
-    <p>Isi form di bawah untuk menambahkan karya mahasiswa</p>
-    
-    <div style="position: absolute; top: 20px; right: 20px; color: white;">
-      <span>Halo, {{ Auth::user()->name }}</span>
-      <a href="{{ route('logout') }}" style="color: #ff6b6b; margin-left: 15px; text-decoration: none;">Logout</a>
+@section('content')
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h1 class="page-title">Tambah Karya</h1>
+        <p class="page-subtitle">Formulir penambahan karya mahasiswa baru</p>
     </div>
-  </div>
+    <a href="{{ route('karya.index') }}" class="btn btn-secondary">
+        <i data-feather="arrow-left"></i> Kembali
+    </a>
+</div>
 
-  <div class="form-container">
+<div class="dashboard-card" style="display: block;">
     @if ($errors->any())
-      <div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
-        <strong>Oops! Ada yang salah:</strong>
-        <ul style="margin: 10px 0 0 20px;">
-          @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-          @endforeach
-        </ul>
-      </div>
+        <div style="background-color: #FEE2E2; color: #991B1B; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid #F87171;">
+            <div style="display: flex; align-items: center; gap: 8px; font-weight: 600; margin-bottom: 0.5rem;">
+                <i data-feather="alert-circle" style="width: 18px; height: 18px;"></i> Oops! Ada kesalahan:
+            </div>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
     @endif
 
     <form action="{{ route('karya.store') }}" method="POST" enctype="multipart/form-data">
-      @csrf
-      
-      {{-- Judul Karya --}}
-      <div class="form-group">
-        <label for="judul">Judul Karya <span style="color: red;">*</span></label>
-        <input type="text" id="judul" name="judul" value="{{ old('judul') }}" required 
-               placeholder="Contoh: Sistem Informasi Pengelolaan Data Mahasiswa">
-        @error('judul')
-          <div class="error">{{ $message }}</div>
-        @enderror
-      </div>
+        @csrf
+        
+        <div style="margin-bottom: 1.5rem;">
+            <label for="judul" style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Judul Karya <span style="color: var(--danger);">*</span></label>
+            <input type="text" id="judul" name="judul" value="{{ old('judul') }}" required 
+                   placeholder="Contoh: Sistem Informasi Pengelolaan Data Mahasiswa"
+                   class="form-control">
+        </div>
 
-      {{-- Kategori --}}
-      <div class="form-group">
-        <label for="kategori">Kategori <span style="color: red;">*</span></label>
-        <select id="kategori" name="kategori" required>
-          <option value="">Pilih Kategori</option>
-          <option value="Web Development" {{ old('kategori') == 'Web Development' ? 'selected' : '' }}>Web Development</option>
-          <option value="Mobile Apps" {{ old('kategori') == 'Mobile Apps' ? 'selected' : '' }}>Mobile Apps</option>
-          <option value="Data Science" {{ old('kategori') == 'Data Science' ? 'selected' : '' }}>Data Science</option>
-          <option value="IoT" {{ old('kategori') == 'IoT' ? 'selected' : '' }}>Internet of Things</option>
-          <option value="Game Development" {{ old('kategori') == 'Game Development' ? 'selected' : '' }}>Game Development</option>
-          <option value="Lainnya" {{ old('kategori') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
-        </select>
-        @error('kategori')
-          <div class="error">{{ $message }}</div>
-        @enderror
-      </div>
+        <div style="margin-bottom: 1.5rem;">
+            <label for="kategori" style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Kategori <span style="color: var(--danger);">*</span></label>
+            <select id="kategori" name="kategori" required class="form-control">
+                <option value="">Pilih Kategori</option>
+                <option value="Web Development" {{ old('kategori') == 'Web Development' ? 'selected' : '' }}>Web Development</option>
+                <option value="Mobile Apps" {{ old('kategori') == 'Mobile Apps' ? 'selected' : '' }}>Mobile Apps</option>
+                <option value="Data Science" {{ old('kategori') == 'Data Science' ? 'selected' : '' }}>Data Science</option>
+                <option value="IoT" {{ old('kategori') == 'IoT' ? 'selected' : '' }}>Internet of Things</option>
+                <option value="Game Development" {{ old('kategori') == 'Game Development' ? 'selected' : '' }}>Game Development</option>
+                <option value="Lainnya" {{ old('kategori') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+            </select>
+        </div>
 
-      {{-- Deskripsi --}}
-      <div class="form-group">
-        <label for="deskripsi">Deskripsi <span style="color: red;">*</span></label>
-        <textarea id="deskripsi" name="deskripsi" required 
-                  placeholder="Jelaskan detail tentang karya ini...">{{ old('deskripsi') }}</textarea>
-        @error('deskripsi')
-          <div class="error">{{ $message }}</div>
-        @enderror
-      </div>
+        <div style="margin-bottom: 1.5rem;">
+            <label for="deskripsi" style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Deskripsi <span style="color: var(--danger);">*</span></label>
+            <textarea id="deskripsi" name="deskripsi" required rows="5"
+                      placeholder="Jelaskan detail tentang karya ini..."
+                      class="form-control">{{ old('deskripsi') }}</textarea>
+        </div>
 
-      {{-- Tim Pembuat --}}
-      <div class="form-group">
-        <label for="tim_pembuat">Tim Pembuat <span style="color: red;">*</span></label>
-        <input type="text" id="tim_pembuat" name="tim_pembuat" value="{{ old('tim_pembuat') }}" required 
-               placeholder="Contoh: Salsabila dan Tim Syntax Error">
-        @error('tim_pembuat')
-          <div class="error">{{ $message }}</div>
-        @enderror
-      </div>
+        <div style="margin-bottom: 1.5rem;">
+            <label for="tim_pembuat" style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Tim Pembuat <span style="color: var(--danger);">*</span></label>
+            <input type="text" id="tim_pembuat" name="tim_pembuat" value="{{ old('tim_pembuat') }}" required 
+                   placeholder="Contoh: Salsabila dan Tim Syntax Error"
+                   class="form-control">
+        </div>
 
-      {{-- Tahun --}}
-      <div class="form-group">
-        <label for="tahun">Tahun <span style="color: red;">*</span></label>
-        <select id="tahun" name="tahun" required>
-          <option value="">Pilih Tahun</option>
-          @for ($year = date('Y'); $year >= 2020; $year--)
-            <option value="{{ $year }}" {{ old('tahun', date('Y')) == $year ? 'selected' : '' }}>
-              {{ $year }}
-            </option>
-          @endfor
-        </select>
-        @error('tahun')
-          <div class="error">{{ $message }}</div>
-        @enderror
-      </div>
+        <div class="row g-3" style="margin-bottom: 1.5rem;">
+            <div class="col-md-6">
+                <label for="tahun" style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Tahun <span style="color: var(--danger);">*</span></label>
+                <select id="tahun" name="tahun" required class="form-control">
+                    <option value="">Pilih Tahun</option>
+                    @for ($year = date('Y'); $year >= 2020; $year--)
+                        <option value="{{ $year }}" {{ old('tahun', date('Y')) == $year ? 'selected' : '' }}>
+                            {{ $year }}
+                        </option>
+                    @endfor
+                </select>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="link" style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Pengumpulan (Link/PDF)</label>
+                <input type="url" id="link" name="link" value="{{ old('link') }}" 
+                       placeholder="https://drive.google.com/karya123"
+                       class="form-control">
+                <small style="color: var(--text-muted); display: block; margin-top: 0.25rem;">Link Google Drive, GitHub, atau URL lainnya</small>
+            </div>
+        </div>
 
-      {{-- Link Pengumpulan (Google Drive, dll) --}}
-      <div class="form-group">
-        <label for="link">Pengumpulan (Link/PDF)</label>
-        <input type="url" id="link" name="link" value="{{ old('link') }}" 
-               placeholder="https://drive.google.com/karya123">
-        <small style="color: #666;">Link Google Drive, GitHub, atau URL lainnya</small>
-        @error('link')
-          <div class="error">{{ $message }}</div>
-        @enderror
-      </div>
+        <div style="margin-bottom: 2rem;">
+            <label for="preview_karya" style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Screenshot/Gambar Karya</label>
+            <input type="file" id="preview_karya" name="preview_karya" accept="image/*" class="form-control">
+            <small style="color: var(--text-muted); display: block; margin-top: 0.25rem;">Format: JPG, PNG, max 2MB</small>
+        </div>
 
-      {{-- Upload Gambar --}}
-      <div class="form-group">
-        <label for="preview_karya">Screenshot/Gambar Karya</label>
-        <input type="file" id="preview_karya" name="preview_karya" accept="image/*">
-        <small style="color: #666;">Format: JPG, PNG, max 2MB</small>
-        @error('preview_karya')
-          <div class="error">{{ $message }}</div>
-        @enderror
-      </div>
-
-      {{-- Buttons --}}
-      <button type="submit" class="btn-submit">
-        <i data-feather="save"></i> Simpan ke Validasi
-      </button>
-      <a href="{{ route('karya.index') }}" class="btn-cancel">
-        <i data-feather="x"></i> Batal
-      </a>
+        <div class="action-group">
+            <button type="submit" class="btn btn-primary">
+                <i data-feather="save"></i> Simpan ke Validasi
+            </button>
+            <a href="{{ route('karya.index') }}" class="btn btn-secondary">
+                Batal
+            </a>
+        </div>
     </form>
-  </div>
-
-   <footer>
-    <div class="footer-container">
-      <div class="footer-left">
-        <div class="location">
-          <i data-feather="map-pin"></i>
-          <div class="address">
-            <p><strong>KAMPUS BOGOR</strong> — Jl. Raya Pajajaran, Kota Bogor, Jawa Barat 16128</p>
-            <p><strong>KAMPUS SUKABUMI</strong> — Jl. Sarasa No. 46, Babakan, Kec. Cibeureum, Kota Sukabumi, Jawa Barat 43142</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="footer-right">
-        <div class="contact-item">
-          <i data-feather="phone"></i>
-          <span>(0251) 8348007</span>
-        </div>
-        <div class="contact-item">
-          <i data-feather="mail"></i>
-          <span>sv@apps.ipb.ac.id</span>
-        </div>
-      </div>
-    </div>
-    <hr>
-    <div class="footer-bottom">
-      <p>© 2025 IPB University — Sekolah Vokasi</p>
-    </div>
-    <script>feather.replace();</script>
-  </footer>
-
-  <script>feather.replace();</script>
-</body>
-</html>
+</div>
+@endsection

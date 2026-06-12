@@ -1,18 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Karya - BookNest')
+@section('title', 'Detail Karya')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/detailkarya.css') }}">
 @endpush
 
 @section('hero')
-    <section class="hero-section text-white text-center py-5">
-        <div class="container">
-            <h1 class="display-6">Selamat Datang Di Portal Teknologi Rekayasa Perangkat Lunak SV IPB</h1>
-            <p class="lead">Syntax Error Compile Lagi</p>
-        </div>
-    </section>
+@include('partials.hero')
 @endsection
 
 @section('content')
@@ -24,18 +19,16 @@
                     <div class="row g-4">
 
                         {{-- Main Content --}}
-                        <div class="col-lg-8">
+                        <div class="col-lg-8 fade-in-up">
                             {{-- Author Card --}}
                             <div class="card p-3 mb-4 author-card">
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center flex-wrap">
 
-                                    {{-- PERBAIKAN 1: Avatar Penulis (Menggunakan Nama Tim) --}}
                                     <img src="https://ui-avatars.com/api/?name={{ urlencode($karya->tim_pembuat) }}&background=random&color=fff&size=80"
                                         alt="Avatar Penulis" class="avatar rounded-circle" width="80" height="80">
 
                                     <div class="ms-3">
                                         <h5 class="mb-0 fw-bold">{{$karya->tim_pembuat}}</h5>
-                                        {{-- <small class="text-muted">pembuat@gmail.com</small>--}}
                                     </div>
                                     <div class="rating-box text-end ms-auto">
                                         @php
@@ -53,9 +46,9 @@
                                             @endif
                                         @endfor
 
-                                        <h6 class="mt-2 text-muted">
+                                        <small class="mt-1 text-muted d-block">
                                             {{ number_format($avgRating, 1) }} ({{ $reviewCount }} ulasan)
-                                        </h6>
+                                        </small>
                                     </div>
                                 </div>
                             </div>
@@ -68,11 +61,10 @@
 
                                 <h5 class="fw-bold">{{ $karya->deskripsi }}</h5>
 
-                                {{-- Tombol untuk melihat karya --}}
                                 @if ($karya->link_pengumpulan)
                                     <a href="{{ $karya->link_pengumpulan }}" target="_blank"
-                                        class="btn btn-tpl btn-lg mt-3 w-100" style="background-color:#263c92; color:white;">
-                                        <i class="bi bi-box-arrow-up-right me-2"></i> Lihat Karya
+                                        class="btn btn-tpl btn-lg mt-4 w-100">
+                                        <i class="bi bi-box-arrow-up-right me-2"></i> Kunjungi Karya Ini
                                     </a>
                                 @endif
 
@@ -80,7 +72,7 @@
                         </div>
 
                         {{-- Sidebar --}}
-                        <div class="col-lg-4">
+                        <div class="col-lg-4 fade-in-up">
                             {{-- Feedback Form --}}
                             <div class="card p-3 mb-4">
                                 <form action="{{ route('review.store') }}" method="post">
@@ -110,7 +102,6 @@
                                 <div class="card p-3 mb-3 feedback-card">
                                     <div class="d-flex align-items-center mb-2">
 
-                                        {{-- PERBAIKAN 2: Avatar Reviewer (Cek Foto DB atau Inisial) --}}
                                         <img src="{{ $r->user->foto ? asset('storage/' . $r->user->foto) : 'https://ui-avatars.com/api/?name=' . urlencode($r->user->name) . '&background=random&color=fff' }}"
                                             alt="Avatar {{ $r->user->name }}" class="avatar-sm rounded-circle" width="50"
                                             height="50" style="object-fit: cover;">

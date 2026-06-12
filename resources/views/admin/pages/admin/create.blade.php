@@ -1,94 +1,52 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portal TPL SV IPB - Admin</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/feather-icons"></script>
-  <link rel="stylesheet" href="{{ asset('css/admin/dashboard.css') }}">
-</head>
+@extends('admin.layouts.app')
 
-<body>
+@section('title', 'Tambah Admin')
 
-  <div class="nav-container1">
-    <a href="/">
-      <img src="{{ asset('images/logo_TPL.png') }}" alt="Logo TPL SVIPB" class="logo-TPL">
+@section('content')
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h1 class="page-title">Tambah Admin Baru</h1>
+        <p class="page-subtitle">Berikan akses administrator ke sistem</p>
+    </div>
+    <a href="{{ route('admin.list') }}" class="btn btn-secondary">
+        <i data-feather="arrow-left"></i> Kembali
     </a>
-  </div>
+</div>
 
-  <div class="nav-container2">
-    <h2>Selamat Datang Di Portal Karya Teknologi Rekayasa Perangkat Lunak SV IPB</h2>
-    <p>Syntax Error Compile Lagi</p>
-  </div>
-
-  <div class="layout">
-    <aside class="sidebar">
-      <a href="{{ 'dashboard' }}">Dashboard</a>
-      <a href="{{ route('karya.index') }}">Kelola Karya</a>
-     <a href="{{ route('info-prodi.index') }}">Edit Info Profil</a>
-      <a href="{{ route('karya.validasi') }}">Validasi Konten</a>
-      <a href ="{{ route('dosen.index') }}">Dosen</a>
-      <a href ="{{ route('admin.berita.index') }}">Berita</a>
-      <a href ="{{ route('admin.matakuliah.index') }}">Mata Kuliah</a>
-      <a href ="{{ route('admin.list') }}" class="active">Admin</a>
-    </aside>
-
-    <main class="content">
-         <h2 class="mb-3">Tambah Admin Baru</h2>
-
-        <form action="{{ route('admin.store') }}" method="POST">
-            @csrf
-
-            <div class="mb-3">
-                <label>Nama</label>
-                <input type="text" name="name" class="form-control" required>
-            </div>
-
-            <div class="mb-3">
-                <label>Email</label>
-                <input type="email" name="email" class="form-control" required>
-            </div>
-
-            <div class="mb-3">
-                <label>Password</label>
-                <input type="password" name="password" class="form-control" required>
-            </div>
-
-            <button class="btn btn-success">Simpan</button>
-
-        </form>
-    </main>
-  </div>
-
-  <footer>
-    <div class="footer-container">
-      <div class="footer-left">
-        <div class="location">
-          <i data-feather="map-pin"></i>
-          <div class="address">
-            <p><strong>KAMPUS BOGOR</strong> — Jl. Raya Pajajaran, Kota Bogor, Jawa Barat 16128</p>
-            <p><strong>KAMPUS SUKABUMI</strong> — Jl. Sarasa No. 46, Babakan, Kec. Cibeureum, Kota Sukabumi, Jawa Barat 43142</p>
-          </div>
+<div class="dashboard-card" style="display: block; max-width: 600px;">
+    @if ($errors->any())
+        <div style="background-color: #FEE2E2; color: #991B1B; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid #F87171;">
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
-      </div>
+    @endif
 
-      <div class="footer-right">
-        <div class="contact-item">
-          <i data-feather="phone"></i>
-          <span>(0251) 8348007</span>
+    <form action="{{ route('admin.store') }}" method="POST">
+        @csrf
+
+        <div style="margin-bottom: 1.5rem;">
+            <label for="name" style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Nama Lengkap <span style="color: var(--danger);">*</span></label>
+            <input type="text" id="name" name="name" value="{{ old('name') }}" required class="form-control" placeholder="Masukkan nama admin">
         </div>
-        <div class="contact-item">
-          <i data-feather="mail"></i>
-          <span>sv@apps.ipb.ac.id</span>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label for="email" style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Alamat Email <span style="color: var(--danger);">*</span></label>
+            <input type="email" id="email" name="email" value="{{ old('email') }}" required class="form-control" placeholder="admin@apps.ipb.ac.id">
         </div>
-      </div>
-    </div>
-    <hr>
-    <div class="footer-bottom">
-      <p>© 2025 IPB University — Sekolah Vokasi</p>
-    </div>
-    <script>feather.replace();</script>
-  </footer>
-</body>
-</html>
+
+        <div style="margin-bottom: 2rem;">
+            <label for="password" style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Password <span style="color: var(--danger);">*</span></label>
+            <input type="password" id="password" name="password" required class="form-control" placeholder="Minimal 8 karakter">
+        </div>
+
+        <div class="action-group">
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                <i data-feather="save"></i> Simpan Admin
+            </button>
+        </div>
+    </form>
+</div>
+@endsection

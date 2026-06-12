@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal Karya Teknologi RPL - SV IPB</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
    <link rel="stylesheet" href="{{ asset('css/admin/login.css') }}">
 </head>
 <body>
@@ -35,7 +35,7 @@
 
           {{-- Link Kembali ke Login --}}
           <div class="links" style="margin-top: 20px; text-align: center;">
-            <a href="{{ route('login') }}" style="color: #263C92; font-weight: 600; text-decoration: none;">
+            <a href="{{ route('login') }}" style="color: #4F46E5; font-weight: 600; text-decoration: none;">
                 Kembali ke halaman login
             </a>
           </div>

@@ -15,45 +15,48 @@ class KaryaController extends Controller
     // ============================================
 
     // Tampilkan semua karya yang ACCEPTED dengan search & filter
-    // public function karyaUser(Request $request)
-    // {
-    //     $query = Karya::where('status_validasi', 'accepted')
-    //                   ->with('reviews');
+    public function karyaUser(Request $request)
+    {
+        $query = Karya::where('status_validasi', 'accepted')
+                      ->with('reviews');
 
-    //     // Filter berdasarkan search
-    //     if ($request->has('search') && $request->search != '') {
-    //         $search = $request->search;
-    //         $query->where(function($q) use ($search) {
-    //             $q->where('judul', 'like', '%' . $search . '%')
-    //               ->orWhere('tim_pembuat', 'like', '%' . $search . '%')
-    //               ->orWhere('kategori', 'like', '%' . $search . '%')
-    //               ->orWhere('deskripsi', 'like', '%' . $search . '%');
-    //         });
-    //     }
+        // Filter berdasarkan search
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('judul', 'like', '%' . $search . '%')
+                  ->orWhere('tim_pembuat', 'like', '%' . $search . '%')
+                  ->orWhere('kategori', 'like', '%' . $search . '%')
+                  ->orWhere('deskripsi', 'like', '%' . $search . '%');
+            });
+        }
 
-    //     // Filter berdasarkan kategori
-    //     if ($request->has('kategori') && $request->kategori != '') {
-    //         $query->where('kategori', $request->kategori);
-    //     }
+        // Filter berdasarkan kategori
+        if ($request->has('kategori') && $request->kategori != '') {
+            $query->where('kategori', $request->kategori);
+        }
 
-    //     $karyas = $query->orderBy('created_at', 'desc')->get();
+        $karyas = $query->orderBy('created_at', 'desc')->get();
 
-    //     return view('pages.karya', compact('karyas'));
-    // }
+        // Using variable name $karya as that was used in the previous closure
+        $karya = $karyas;
+        return view('pages.karya', compact('karya'));
+    }
 
     // Detail karya
-    // public function userShow(string $id)
-    // {
-    //     $karya = Karya::with('reviews.user')->findOrFail($id);
+    public function userShow(string $id)
+    {
+        $karya = Karya::with('reviews.user')->findOrFail($id);
+        $review = \App\Models\Review::with('user')->where('karya_id', $id)->get();
 
-    //     // Cek apakah karya sudah ACCEPTED
-    //     if ($karya->status_validasi !== 'accepted') {
-    //         return redirect()->route('home')
-    //                        ->with('error', 'Karya ini belum disetujui atau tidak tersedia.');
-    //     }
+        // Cek apakah karya sudah ACCEPTED
+        if ($karya->status_validasi !== 'accepted') {
+            return redirect()->route('home')
+                           ->with('error', 'Karya ini belum disetujui atau tidak tersedia.');
+        }
 
-    //     return view('pages.detailkarya', compact('karya'));
-    // }
+        return view('pages.detailkarya', compact('karya', 'review'));
+    }
 
     // ============================================
     // UNTUK ADMIN (Backend)

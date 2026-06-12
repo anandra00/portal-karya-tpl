@@ -6,14 +6,9 @@
 <link rel="stylesheet" href="{{ asset('css/homepages.css') }}">
 @endpush
 
-{{-- BAGIAN HERO: Teks Saja (Seperti Semula) --}}
+{{-- BAGIAN HERO --}}
 @section('hero')
-<section class="hero-section text-white text-center py-5">
-    <div class="container">
-         <h1 class="display-4">Selamat Datang di Portal Teknologi Rekayasa Perangkat Lunak SV IPB <br></h1>
-        <p class="lead">Syntax Error Compile Lagi</p>
-    </div>
-</section>
+@include('partials.hero')
 @endsection
 
 @section('content')
@@ -30,15 +25,19 @@
 
 <section class="info-section">
     
-    {{-- BAGIAN VIDEO: Terpisah, tapi dirapikan (Ada Container) --}}
-    <div class="container mt-4 mb-5" style="animation: fadeIn 0.5s ease-out forwards; opacity: 0;">
+    {{-- BAGIAN VIDEO --}}
+    <div class="container mt-4 mb-5 fade-in-up">
         <div class="row justify-content-center">
-            <div class="col-lg-10"> {{-- Pembatas lebar agar video tidak terlalu gepeng --}}
+            <div class="col-lg-10">
                 <div class="ratio ratio-16x9 shadow-lg" style="border-radius: 15px; overflow: hidden; border: 1px solid #ddd;">
-                    <video controls autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
-                        <source src="{{ asset('videos/TEKNOLOGI REKAYASA PERANGKAT LUNAK - Video Profil 2025 (1).mp4') }}" type="video/mp4">
-                        Browser Anda tidak mendukung tag video.
-                    </video>
+                    <iframe 
+                        src="https://www.youtube.com/embed/ch03himP1XQ?si=guh3EiDAjV6s4CYJ" 
+                        title="YouTube video player" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        referrerpolicy="strict-origin-when-cross-origin" 
+                        allowfullscreen>
+                    </iframe>
                 </div>
             </div>
         </div>
@@ -47,23 +46,22 @@
     <div class="container">
         {{-- BAGIAN KARYA MAHASISWA --}}
         <div class="row justify-content-center">
-            <div class="col-lg-10"> {{-- Disamakan dengan lebar video --}}
+            <div class="col-lg-10">
                 <header class="info-header">
                     <h2>Kumpulan Karya Mahasiswa Teknologi Rekayasa Perangkat Lunak SV IPB</h2>
                     <hr>
                 </header>
                 <div class="row">
                     @foreach ($karyas as $karya)
-                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="col-12 col-md-6 col-lg-4 mb-4 fade-in-up">
                         <div class="card h-100 shadow-sm border-0">
-                            {{-- GAMBAR KARYA: Fixed Height 220px --}}
                             <img src="{{ $karya->preview_karya ? asset('storage/' . $karya->preview_karya) : 'https://placehold.co/600x400/333/white?text=Aplikasi+1' }}" 
                                  class="card-img-top" 
                                  alt="Karya Mahasiswa"
                                  style="height: 220px; object-fit: cover; width: 100%;">
                             
                             <div class="card-body d-flex flex-column">
-                                <span class="badge text-white mb-2" style="background-color: var(--warna-utama);">{{ $karya->kategori }}</span>
+                                <span class="badge text-white mb-2" style="background-color: var(--warna-utama); align-self: flex-start;">{{ $karya->kategori }}</span>
                                 <h5 class="card-title">{{ $karya->judul }}</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">{{ $karya->tim_pembuat }}</h6>
                                 
@@ -83,21 +81,21 @@
                                         @endif
                                     @endfor
                                     
-                                    <h6 class="mt-2 text-muted">
+                                    <small class="mt-1 text-muted d-block">
                                         {{ number_format($avgRating, 1) }} ({{ $reviewCount }} ulasan)
-                                    </h6>
+                                    </small>
                                 </div>
                                 
-                                <a href="/karya/{{$karya->id}}" class="btn btn-tpl btn-sm mt-auto align-self-end">Selengkapnya</a>
+                                <a href="{{ route('karya.public.show', $karya->id) }}" class="btn btn-tpl btn-sm mt-auto align-self-end">Selengkapnya</a>
                             </div>
                         </div>
                     </div>
                     @endforeach
                 </div>
 
-                <div class="text-center mt-3">
-                    <a href="/karya" class="btn btn-tpl btn-lg px-5 py-3">Cari Karya Lainnya</a>
-                    <a href="{{ route('unggah') }}" class="btn btn-tpl btn-lg px-5 py-3 ms-2">Unggah Karya</a>
+                <div class="text-center mt-3 btn-group-responsive">
+                    <a href="{{ route('karya.public') }}" class="btn btn-tpl btn-lg px-4 py-3">Cari Karya Lainnya</a>
+                    <a href="{{ route('unggah') }}" class="btn btn-tpl btn-lg px-4 py-3">Unggah Karya</a>
                 </div>
             </div>
         </div>
@@ -110,13 +108,12 @@
         </h2>
 
         <div class="row justify-content-center">
-            <div class="col-lg-10"> {{-- Disamakan dengan lebar konten lainnya --}}
+            <div class="col-lg-10">
                 @foreach ($beritas as $berita)
-                <div class="card mb-4 shadow-sm text-dark border-0">
+                <div class="card mb-4 shadow-sm text-dark border-0 fade-in-up">
                     <div class="row g-0 align-items-center">
                         <div class="col-md-4">
                             <a href="{{ route('berita.show', $berita->id) }}">
-                                {{-- GAMBAR BERITA: Fixed Height 200px --}}
                                 <img src="{{ asset('storage/' . $berita->gambar ) }}" 
                                      class="img-fluid rounded-start" 
                                      alt="{{ $berita->judul }}"

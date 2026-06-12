@@ -1,102 +1,97 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portal TPL SVIPB - Dosen</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/feather-icons"></script>
-  <link rel="stylesheet" href="{{ asset('css/admin/validasikonten1.css') }}">
-</head>
+@extends('admin.layouts.app')
 
-<body>
+@section('title', 'Validasi Karya')
 
-  <div class="nav-container1">
-    <img src="{{ asset('images/logo_TPL.png') }}" alt="Logo TPL SVIPB" class="logo-TPL">
-  </div>
-
-  <div class="nav-container2">
-    <h2>Selamat Datang Di Portal Karya Teknologi Rekayasa Perangkat Lunak SV IPB</h2>
-    <p>Syntax Error Compile Lagi</p>
-  </div>
-
-  <div class="container">
-    <div class="sidebar">
-      <a href="{{ route('karya.index') }}" class="active">Kelola Karya</a>
-      <a href="{{ route('dashboard') }}">Dashboard</a>
-      <a href="{{ route('info-prodi.index') }}">Info Prodi</a>
-      <a href="{{ route('karya.validasi') }}">Validasi Konten</a>
-      <a href="{{ route('dosen.index') }}">Dosen</a>
-       <a href ="{{ route('admin.berita.index') }}">Berita</a>
-       <a href ="{{ route('admin.matakuliah.index') }}">Mata Kuliah</a>
-        <a href ="{{ route('admin.review.index') }}">Kelola Review</a>
-        @if (Auth::user()->role == "superadmin")
-      <a href ="{{ route('admin.list') }}">Admin</a>
-      @endif
+@section('content')
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h1 class="page-title">Validasi Karya</h1>
+        <p class="page-subtitle">Periksa dan berikan keputusan untuk karya mahasiswa</p>
     </div>
+    <a href="{{ route('karya.validasi') }}" class="btn btn-secondary">
+        <i data-feather="arrow-left"></i> Kembali
+    </a>
+</div>
 
-    <div class="content">
-      <h2 class="title-halaman">Validasi Karya</h2>
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="dashboard-card" style="display: block;">
+            <form action="{{ route('karya.update', $karya->id) }}" method="POST">
+                @csrf
+                @method('PUT')
 
-      <div class="form-container">
-        <form action="{{ route("karya.update", $karya->id) }}" method="POST">
-          @csrf
-          @method("PUT")
-          <label>Judul Karya</label>
-          <input type="text" name="judul" value="{{ $karya->judul }}">
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Judul Karya</label>
+                    <input type="text" name="judul" value="{{ $karya->judul }}" class="form-control" readonly>
+                </div>
 
-          <label>Tahun</label>
-          <input type="number" name="tahun" value="{{ $karya->tahun }}">
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Deskripsi</label>
+                    <textarea name="deskripsi" rows="5" class="form-control" readonly>{{ $karya->deskripsi }}</textarea>
+                </div>
 
-          <label>Deskripsi</label>
-          <textarea name="deskripsi">{{ $karya->deskripsi }}</textarea>
+                <div class="row g-3" style="margin-bottom: 1.5rem;">
+                    <div class="col-md-6">
+                        <label style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Tim Pembuat</label>
+                        <input type="text" name="tim_pembuat" value="{{ $karya->tim_pembuat }}" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Tahun</label>
+                        <input type="number" name="tahun" value="{{ $karya->tahun }}" class="form-control" readonly>
+                    </div>
+                </div>
 
-          <label>Tim Pembuat</label>
-          <input type="text" name="tim_pembuat" value="{{ $karya->tim_pembuat }}">
+                <div style="margin-bottom: 2rem;">
+                    <label style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Pengumpulan (Link/PDF)</label>
+                    @if($karya->link_pengumpulan)
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" name="link_pengumpulan" value="{{ $karya->link_pengumpulan }}" class="form-control" readonly>
+                            <a href="{{ $karya->link_pengumpulan }}" target="_blank" class="btn btn-secondary" style="white-space: nowrap;">
+                                Buka Link
+                            </a>
+                        </div>
+                    @else
+                        <input type="text" value="Tidak ada link disertakan" class="form-control" readonly>
+                    @endif
+                </div>
 
-          <label>Pengumpulan (Link/PDF)</label>
-          <input type="text" name="link_pengumpulan" value="{{ $karya->link_pengumpulan }}">
+                <hr style="border-color: var(--border-color); margin: 2rem 0;">
 
-          <label for="statusx">Status</label>
-          <select id="status" name="status_validasi">
-            <option value="accepted">Terima</option>
-            <option value="rejected">Tolak</option>
-          </select>
+                <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text-main);">Keputusan Validasi</h3>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="status" style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Pilih Status</label>
+                    <select id="status" name="status_validasi" class="form-control" required style="border-color: var(--primary); border-width: 2px;">
+                        <option value="" disabled selected>-- Pilih Keputusan --</option>
+                        <option value="accepted">Terima (Accepted)</option>
+                        <option value="rejected">Tolak (Rejected)</option>
+                    </select>
+                </div>
 
-          <button class="btn-submit" type="submit">Validasi</button>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <div class="footer-container">
-      <div class="footer-left">
-        <div class="location">
-          <i data-feather="map-pin"></i>
-          <div class="address">
-            <p><strong>KAMPUS BOGOR</strong> — Jl. Raya Pajajaran, Kota Bogor, Jawa Barat 16128</p>
-            <p><strong>KAMPUS SUKABUMI</strong> — Jl. Sarasa No. 46, Babakan, Kec. Cibeureum, Kota Sukabumi, Jawa Barat 43142</p>
-          </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 1.05rem; padding: 0.75rem;">
+                    <i data-feather="check-circle"></i> Konfirmasi Validasi
+                </button>
+            </form>
         </div>
-      </div>
+    </div>
 
-      <div class="footer-right">
-        <div class="contact-item">
-          <i data-feather="phone"></i>
-          <span>(0251) 8348007</span>
+    <div class="col-lg-4">
+        <div class="dashboard-card" style="display: block;">
+            <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main);">Preview Gambar</h3>
+            @if($karya->preview_karya)
+                <img src="{{ asset('storage/' . $karya->preview_karya) }}" alt="Preview" style="width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border-color);">
+                <a href="{{ asset('storage/' . $karya->preview_karya) }}" target="_blank" class="btn btn-secondary mt-3" style="width: 100%; justify-content: center;">
+                    <i data-feather="external-link"></i> Buka Gambar Penuh
+                </a>
+            @else
+                <div style="width: 100%; height: 200px; background: var(--bg-main); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); border: 1px dashed var(--border-color);">
+                    <div style="text-align: center;">
+                        <i data-feather="image" style="width: 32px; height: 32px; margin-bottom: 8px;"></i>
+                        <p style="margin: 0; font-size: 0.9rem;">Tidak ada gambar</p>
+                    </div>
+                </div>
+            @endif
         </div>
-        <div class="contact-item">
-          <i data-feather="mail"></i>
-          <span>sv@apps.ipb.ac.id</span>
-        </div>
-      </div>
     </div>
-    <hr>
-    <div class="footer-bottom">
-      <p>© 2025 IPB University — Sekolah Vokasi</p>
-    </div>
-    <script>feather.replace();</script>
-  </footer>
-</body>
-</html>
+</div>
+@endsection

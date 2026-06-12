@@ -1,94 +1,57 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portal TPL SVIPB - Dosen</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/feather-icons"></script>
-  <link rel="stylesheet" href="{{ asset('css/admin/lihatpengunjung.css') }}">
-  
-</head>
+@extends('admin.layouts.app')
 
-<body>
-  <div class="nav-container1">
-    <img src="{{ asset('images/logo_TPL.png') }}" alt="Logo TPL SVIPB" class="logo-TPL">
-  </div>
+@section('title', 'Daftar Pengunjung')
 
-  <div class="nav-container2">
-    <h2>Selamat Datang Di Portal Karya Teknologi Rekayasa Perangkat Lunak SV IPB</h2>
-    <p>Syntax Error Compile Lagi</p>
-  </div>
-
-  <div class="container">
-    <aside class="sidebar">
-      <a href="{{ route('dashboard') }}" class="active">Dashboard</a>
-      <a href="{{ route('karya.index') }}">Kelola Karya</a>
-      <a href="{{ route('info-prodi.index') }}">Edit Info Profil</a>
-      <a href="{{ route('karya.validasi') }}">Validasi Konten</a>
-      <a href="{{ route('dosen.index') }}">Dosen</a>
-      <a href="{{ route('admin.berita.index') }}">Berita</a>
-      <a href="{{ route('admin.matakuliah.index') }}">Mata Kuliah</a>
-    </aside>
-{{-- cek --}}
-    <div class="content">
-      <h2 class="page-title">Daftar Pengunjung </h2>
-       
-      <div class="card-list">
-        @foreach ($users as $user)
-            <div class="card-item">
-
-                <!-- Foto Profil -->
-                <img src="{{ asset('images/Icons.png') }}"
-                     class="w-16 h-16 rounded-full shadow-lg object-cover">
-
-                <!-- Info User -->
-                <div>
-                    <h3 class="">{{ $user->name }}</h3>
-                    <p class="">{{ $user->email }}</p>
-                    <p class="">
-                        {{ $user->created_at->format('H:i • d M Y') }}
-                    </p>
-                </div>
-
-            </div>
-        @endforeach
-      </div>
+@section('content')
+<div class="page-header">
+    <h1 class="page-title">Daftar Pengunjung</h1>
+    <p class="page-subtitle">Semua pengguna yang terdaftar pada sistem Portal Prodi TPL</p>
 </div>
 
-      </div>
-      </div>
+<div class="table-container">
+    <div class="table-header">
+        <h3>Data Pengunjung</h3>
+        <span class="badge badge-primary" style="background-color: rgba(79, 70, 229, 0.1); color: var(--primary);">Total: {{ count($users) }}</span>
     </div>
-  </div>
-
-  <footer>
-    <div class="footer-container">
-      <div class="footer-left">
-        <div class="location">
-          <i data-feather="map-pin"></i>
-          <div class="address">
-            <p><strong>KAMPUS BOGOR</strong> — Jl. Raya Pajajaran, Kota Bogor, Jawa Barat 16128</p>
-            <p><strong>KAMPUS SUKABUMI</strong> — Jl. Sarasa No. 46, Babakan, Kec. Cibeureum, Kota Sukabumi, Jawa Barat 43142</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="footer-right">
-        <div class="contact-item">
-          <i data-feather="phone"></i>
-          <span>(0251) 8348007</span>
-        </div>
-        <div class="contact-item">
-          <i data-feather="mail"></i>
-          <span>sv@apps.ipb.ac.id</span>
-        </div>
-      </div>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Profil</th>
+                    <th>Nama Pengguna</th>
+                    <th>Email</th>
+                    <th>Waktu Bergabung</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($users as $user)
+                    <tr>
+                        <td>
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random" 
+                                 alt="Avatar" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                        </td>
+                        <td>
+                            <strong style="color: var(--text-main);">{{ $user->name }}</strong>
+                        </td>
+                        <td>
+                            {{ $user->email }}
+                        </td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: 0.9rem;">
+                                <i data-feather="clock" style="width: 14px; height: 14px;"></i>
+                                {{ $user->created_at->format('d M Y, H:i') }}
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                            Tidak ada data pengunjung ditemukan.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
-    <hr>
-    <div class="footer-bottom">
-      <p>© 2025 IPB University — Sekolah Vokasi</p>
-    </div>
-    <script>feather.replace();</script>
-  </footer>
-</body>
-</html>
+</div>
+@endsection

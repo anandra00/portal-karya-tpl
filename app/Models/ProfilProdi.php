@@ -6,7 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProfilProdi extends Model
 {
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'kode_prodi',
+        'nama_prodi',
+        'deskripsi',
+        'visi',
+        'misi',
+        'tujuan',
+        'capaian',
+        'link_video',
+        'logo'
+    ];
 
     protected $primaryKey = 'kode_prodi';
     public $incrementing = false;       // karena bukan auto-increment

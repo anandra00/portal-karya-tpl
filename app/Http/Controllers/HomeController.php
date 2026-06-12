@@ -21,4 +21,15 @@ class HomeController extends Controller
         
         return view('pages.homepages', compact('karyas','beritas'));
     }
+
+    public function dosen()
+    {
+        $dosens = \App\Models\Dosen::all();
+        return view('pages.dosen', compact('dosens'));
+    }
+
+    public function faq()
+    {
+        return view('pages.faq');
+    }
 }

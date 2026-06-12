@@ -1,98 +1,63 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tambah Berita - Portal TPL SVIPB</title>
+@extends('admin.layouts.app')
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/feather-icons"></script>
-  <link rel="stylesheet" href="{{ asset('css/admin/kelolakarya1.css') }}">
-</head>
+@section('title', 'Tambah Berita')
 
-<body>
-  <div class="nav-container1">
-    <img src="{{ asset('images/logo_TPL.png') }}" alt="Logo TPL" class="logo-TPL">
-  </div>
-
-  <div class="nav-container2">
-    <h2>Selamat Datang Di Portal Berita Teknologi Rekayasa Perangkat Lunak SV IPB</h2>
-    <p>Syntax Error Compile Lagi</p>
-  </div>
-
-  <div class="container">
-    <aside class="sidebar">
-      <a href="{{ route('dashboard') }}">Dashboard</a>
-      <a href="{{ route('karya.index') }}">Kelola Karya</a>
-      <a href="{{ route('info-prodi.index') }}">Edit Info Profil</a>
-      <a href="{{ route('karya.validasi') }}">Validasi Konten</a>
-      <a href="{{ route('dosen.index') }}">Dosen</a>
-      <a href="{{ route('admin.berita.index') }}">Berita</a>
-      <a href="{{ route('admin.matakuliah.index') }}" class="active">Mata Kuliah</a>
-       @if (Auth::user()->role == "admin")
-      <a href ="{{ route('admin.list') }}">Admin</a>
-      @endif
-    </aside>
-    <div class="content">
-      <h2 class="title-halaman">Tambah Berita</h2>
-      @if(session('success'))
-        <div class="alert success">{{ session('success') }}</div>
-      @elseif(session('error'))
-        <div class="alert error">{{ session('error') }}</div>
-      @endif
-  
-      <div class="form-container">
-        <form action="{{ route('admin.berita.store') }}" method="POST" enctype="multipart/form-data">
-          @csrf
-  
-          <label>Judul Berita</label>
-          <input type="text" name="judul" placeholder="Masukkan judul berita" required>
-  
-          <label>Isi Berita</label>
-          <textarea name="isi" placeholder="Masukkan isi berita" rows="6" required></textarea>
-  
-          <label>Gambar Berita</label>
-          <input type="file" name="gambar" accept="image/*">
-  
-          <label>Tanggal Publikasi</label>
-          <input type="date" name="tanggal_publikasi" required>
-  
-          <input type="hidden" name="user_id" value="{{ auth()->id() }}">
-  
-          <button type="submit" class="btn-submit">Simpan</button>
-        </form>
-      </div>
+@section('content')
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h1 class="page-title">Tambah Berita</h1>
+        <p class="page-subtitle">Formulir penambahan berita dan informasi terbaru</p>
     </div>
-  </div>
+    <a href="{{ route('admin.berita.index') }}" class="btn btn-secondary">
+        <i data-feather="arrow-left"></i> Kembali
+    </a>
+</div>
 
-   <footer>
-    <div class="footer-container">
-      <div class="footer-left">
-        <div class="location">
-          <i data-feather="map-pin"></i>
-          <div class="address">
-            <p><strong>KAMPUS BOGOR</strong> — Jl. Raya Pajajaran, Kota Bogor, Jawa Barat 16128</p>
-            <p><strong>KAMPUS SUKABUMI</strong> — Jl. Sarasa No. 46, Babakan, Kec. Cibeureum, Kota Sukabumi, Jawa Barat 43142</p>
-          </div>
+<div class="dashboard-card" style="display: block; max-width: 800px;">
+    @if(session('success'))
+        <div style="background-color: #D1FAE5; color: #065F46; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid #34D399; display: flex; align-items: center; gap: 8px;">
+            <i data-feather="check-circle" style="width: 18px; height: 18px;"></i> {{ session('success') }}
         </div>
-      </div>
+    @elseif(session('error'))
+        <div style="background-color: #FEE2E2; color: #991B1B; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid #F87171; display: flex; align-items: center; gap: 8px;">
+            <i data-feather="alert-circle" style="width: 18px; height: 18px;"></i> {{ session('error') }}
+        </div>
+    @endif
 
-      <div class="footer-right">
-        <div class="contact-item">
-          <i data-feather="phone"></i>
-          <span>(0251) 8348007</span>
+    <form action="{{ route('admin.berita.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        
+        <div style="margin-bottom: 1.5rem;">
+            <label for="judul" style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Judul Berita <span style="color: var(--danger);">*</span></label>
+            <input type="text" id="judul" name="judul" required placeholder="Masukkan judul berita" class="form-control">
         </div>
-        <div class="contact-item">
-          <i data-feather="mail"></i>
-          <span>sv@apps.ipb.ac.id</span>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label for="tanggal_publikasi" style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Tanggal Publikasi <span style="color: var(--danger);">*</span></label>
+            <input type="date" id="tanggal_publikasi" name="tanggal_publikasi" required class="form-control">
         </div>
-      </div>
-    </div>
-    <hr>
-    <div class="footer-bottom">
-      <p>© 2025 IPB University — Sekolah Vokasi</p>
-    </div>
-    <script>feather.replace();</script>
-  </footer>
-</body>
-</html>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label for="gambar" style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Gambar Berita</label>
+            <input type="file" id="gambar" name="gambar" accept="image/*" class="form-control">
+            <small style="color: var(--text-muted); display: block; margin-top: 0.25rem;">Format: JPG, PNG. Rekomendasi rasio 16:9.</small>
+        </div>
+
+        <div style="margin-bottom: 2rem;">
+            <label for="isi" style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Isi Berita <span style="color: var(--danger);">*</span></label>
+            <textarea id="isi" name="isi" required rows="10" placeholder="Masukkan konten berita selengkapnya..." class="form-control" style="resize: vertical;"></textarea>
+        </div>
+
+        <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+
+        <div class="action-group">
+            <button type="submit" class="btn btn-primary">
+                <i data-feather="save"></i> Simpan Berita
+            </button>
+            <a href="{{ route('admin.berita.index') }}" class="btn btn-secondary">
+                Batal
+            </a>
+        </div>
+    </form>
+</div>
+@endsection

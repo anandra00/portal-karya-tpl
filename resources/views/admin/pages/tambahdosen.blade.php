@@ -1,100 +1,52 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portal TPL SVIPB - Dosen</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/feather-icons"></script>
-  <link rel="stylesheet" href="{{ asset('css/admin/kelolakarya1.css') }}">
-</head>
+@extends('admin.layouts.app')
 
-<body>
+@section('title', 'Tambah Dosen')
 
-  <div class="nav-container1">
-    <img src="{{ asset('images/logo_TPL.png') }}" alt="Logo TPL SVIPB" class="logo-TPL">
-  </div>
-
-  <div class="nav-container2">
-    <h2>Selamat Datang Di Portal Karya Teknologi Rekayasa Perangkat Lunak SV IPB</h2>
-    <p>Syntax Error Compile Lagi</p>
-  </div>
-
-  <div class="container">
-    <div class="sidebar">
-      <a href="{{ route('karya.index') }}" class="active">Kelola Karya</a>
-      <a href="{{ route('dashboard') }}">Dashboard</a>
-      <a href="{{ route('info-prodi.index') }}">Info Prodi</a>
-      <a href="{{ route('karya.validasi') }}">Validasi Konten</a>
-      <a href="{{ route('dosen.index') }}">Dosen</a>
-    </div>
-
-<div class="content">
-    <h2 class="title-halaman">Tambah Dosen</h2>
-
-    <div class="form-container">
-        <form action="{{ route('dosen.store') }}" method="POST" enctype="multipart/form-data">
-          @csrf
-          @method("POST")
-
-          <label>Unggah Foto</label>
-          <div class="upload-box">
-              <input type="file" id="foto" name="foto" accept="image/*" onchange="previewImage(event)">
-          </div>
-
-          <label>Nama Dosen</label>
-          <input type="text" name="nama" placeholder="Masukkan Nama" required>
-
-          <label>Bidang Keahlian</label>
-          <input type="text" name="research_interest" placeholder="Contoh: Pemrograman, AI, Jaringan">
-          
-          <label>Prodi</label>
-          <input type="text" name="prodi" placeholder="Contoh: Teknologi Rekayasa Perangkat Lunak">
-
-          <label for="status">Status</label>
-          <select id="status" name="status" required>
-              <option value="aktif">Aktif</option>
-              <option value="non-aktif">Non-Aktif</option>
-          </select>
-
-          <!-- Tombol -->
-          <button class="btn-submit" type="submit">
-              Unggah
-          </button>
-        </form>
-    </div>
+@section('content')
+<div class="page-header">
+    <h1 class="page-title">Tambah Dosen</h1>
+    <p class="page-subtitle">Masukkan data dosen baru untuk program studi</p>
 </div>
 
-  </div>
+<div class="form-card">
+    <form action="{{ route('dosen.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        
+        <div class="form-group">
+            <label class="form-label" for="foto">Unggah Foto</label>
+            <input type="file" id="foto" name="foto" class="form-control" accept="image/*">
+            <small style="color: var(--text-muted); display: block; margin-top: 0.25rem;">Format gambar (.jpg, .jpeg, .png). Maksimal 2MB.</small>
+        </div>
 
-  <footer>
-    <div class="footer-container">
-      <div class="footer-left">
-        <div class="location">
-          <i data-feather="map-pin"></i>
-          <div class="address">
-            <p><strong>KAMPUS BOGOR</strong> — Jl. Raya Pajajaran, Kota Bogor, Jawa Barat 16128</p>
-            <p><strong>KAMPUS SUKABUMI</strong> — Jl. Sarasa No. 46, Babakan, Kec. Cibeureum, Kota Sukabumi, Jawa Barat 43142</p>
-          </div>
+        <div class="form-group">
+            <label class="form-label" for="nama">Nama Dosen</label>
+            <input type="text" id="nama" name="nama" class="form-control" placeholder="Masukkan Nama Lengkap" required>
         </div>
-      </div>
 
-      <div class="footer-right">
-        <div class="contact-item">
-          <i data-feather="phone"></i>
-          <span>(0251) 8348007</span>
+        <div class="form-group">
+            <label class="form-label" for="research_interest">Bidang Keahlian</label>
+            <input type="text" id="research_interest" name="research_interest" class="form-control" placeholder="Contoh: Pemrograman, AI, Jaringan">
         </div>
-        <div class="contact-item">
-          <i data-feather="mail"></i>
-          <span>sv@apps.ipb.ac.id</span>
+        
+        <div class="form-group">
+            <label class="form-label" for="prodi">Program Studi</label>
+            <input type="text" id="prodi" name="prodi" class="form-control" placeholder="Contoh: Teknologi Rekayasa Perangkat Lunak" value="Teknologi Rekayasa Perangkat Lunak">
         </div>
-      </div>
-    </div>
-    <hr>
-    <div class="footer-bottom">
-      <p>© 2025 IPB University — Sekolah Vokasi</p>
-    </div>
-    <script>feather.replace();</script>
-  </footer>
-</body>
-</html>
+
+        <div class="form-group">
+            <label class="form-label" for="status">Status</label>
+            <select id="status" name="status" class="form-control" required>
+                <option value="aktif">Aktif</option>
+                <option value="non-aktif">Non-Aktif</option>
+            </select>
+        </div>
+
+        <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+            <button type="submit" class="btn btn-primary">
+                <i data-feather="save" style="width: 16px; height: 16px;"></i> Simpan Data Dosen
+            </button>
+            <a href="{{ route('dosen.index') }}" class="btn btn-secondary">Batal</a>
+        </div>
+    </form>
+</div>
+@endsection

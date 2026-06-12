@@ -9,9 +9,13 @@
     <title>@yield('title', config('app.name', 'Portal TPL SVIPB'))</title>
 
     {{-- Fonts --}}
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Outfit', sans-serif !important; }
+    </style>
     {{-- Bootstrap --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -19,6 +23,9 @@
 
     {{-- Laravel default styles --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    {{-- Global UI (Navbar, Fonts, Typography) --}}
+    <link rel="stylesheet" href="{{ asset('css/global-ui.css') }}">
 
     {{-- Custom CSS (khusus halaman anak) --}}
     @stack('styles')
@@ -41,12 +48,36 @@
         @include('partials.footer')
 
         {{-- Scripts --}}
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
-            integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
-            crossorigin="anonymous"></script>
+
+        {{-- Scroll Animation (Intersection Observer) --}}
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry, index) => {
+                        if (entry.isIntersecting) {
+                            // Stagger animation delay based on order
+                            const delay = index * 100;
+                            setTimeout(() => {
+                                entry.target.classList.add('visible');
+                            }, delay);
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                });
+
+                // Observe all .fade-in-up elements NOT inside hero section
+                document.querySelectorAll('.fade-in-up:not(.hero-section .fade-in-up)').forEach(el => {
+                    observer.observe(el);
+                });
+            });
+        </script>
+
         @stack('scripts')
     </div>
 </body>

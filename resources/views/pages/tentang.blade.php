@@ -7,29 +7,22 @@
 @endpush
 
 @section('hero')
-<section class="hero-section text-white text-center py-5" style="background-color: #263c92;">
-    <div class="container">
-        <h1 class="display-4 fw-bold">Selamat Datang Di Portal Teknologi Rekayasa Perangkat Lunak SV IPB</h1>
-        <p class="lead-7 opacity-75">Syntax Error Compile Lagi</p>
-    </div>
-</section>
+@include('partials.hero')
 @endsection
 
 @section('content')
 <main class="tentang-section py-5">
 
-    {{-- ======================== VIDEO PROFIL (Gaya Homepage) ======================== --}}
-    <div class="container mb-5">
+    {{-- ======================== VIDEO PROFIL ======================== --}}
+    <div class="container mb-5 fade-in-up">
         <div class="row justify-content-center">
-            <div class="col-lg-10"> {{-- Pembatas lebar agar video rapi seperti di Homepage --}}
-                <div class="ratio ratio-16x9 shadow-lg" style="border-radius: 15px; overflow: hidden; border: 1px solid #ddd;">
+            <div class="col-lg-10">
+                <div class="ratio ratio-16x9 premium-shadow" style="border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.2);">
                     <video controls autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
                         
-                        {{-- Logika Video: Cek apakah ada video custom di database --}}
                         @if (!empty($profil->video))
                             <source src="{{ asset('storage/' . $profil->video) }}" type="video/mp4">
                         @else
-                            {{-- Video Default --}}
                             <source src="{{ asset('videos/TEKNOLOGI REKAYASA PERANGKAT LUNAK - Video Profil 2025 (1).mp4') }}" type="video/mp4">
                         @endif
 
@@ -40,13 +33,13 @@
         </div>
     </div>
 
-    {{-- ======================== VISI, MISI, CAPAIAN (Gaya Original Anda) ======================== --}}
+    {{-- ======================== VISI, MISI, CAPAIAN ======================== --}}
     <div class="container py-3">
         <div class="row justify-content-center">
             <div class="col-lg-8">
 
-                {{-- ======================== VISI ======================== --}}
-                <div class="info-box">
+                {{-- VISI --}}
+                <div class="info-box premium-card fade-in-up">
                     <div class="info-box-header">
                         <h3>Visi</h3>
                     </div>
@@ -55,8 +48,8 @@
                     </div>
                 </div>
 
-                {{-- ======================== MISI ======================== --}}
-                <div class="info-box">
+                {{-- MISI --}}
+                <div class="info-box premium-card fade-in-up">
                     <div class="info-box-header">
                         <h3>Misi</h3>
                     </div>
@@ -65,8 +58,8 @@
                     </div>
                 </div>
 
-                {{-- ======================== CAPAIAN ======================== --}}
-                <div class="info-box">
+                {{-- CAPAIAN --}}
+                <div class="info-box premium-card fade-in-up">
                     <div class="info-box-header">
                         <h3>Capaian</h3>
                     </div>
