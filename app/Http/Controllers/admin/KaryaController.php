@@ -197,6 +197,25 @@ class KaryaController extends Controller
         $karya = Karya::findOrFail($id);
         $karya->update(['status_validasi' => 'accepted']);
 
+        \App\Models\ActivityLog::create([
+            'type' => 'Validation',
+            'action' => 'Karya Diterima',
+            'judul_karya' => $karya->judul,
+            'deskripsi' => 'Karya ' . $karya->judul . ' telah divalidasi dan diterima.',
+            'pembuat' => $karya->tim_pembuat ?? 'Mahasiswa',
+            'validasi' => \Illuminate\Support\Facades\Auth::user()->name ?? 'Admin',
+            'status' => 'validated',
+            'link' => route('karyadetail', $karya->id)
+        ]);
+
+        try {
+            if ($karya->user && $karya->user->email) {
+                \Illuminate\Support\Facades\Mail::to($karya->user->email)->send(new \App\Mail\KaryaStatusMail($karya));
+            }
+        } catch (\Exception $e) {
+            // Silently catch mail errors so it doesn't break flow if SMTP is not configured
+        }
+
         return redirect()->route('kelolakarya')
             ->with('success', 'Karya berhasil disetujui!');
     }
@@ -207,8 +226,67 @@ class KaryaController extends Controller
         $karya = Karya::findOrFail($id);
         $karya->update(['status_validasi' => 'rejected']);
 
+        \App\Models\ActivityLog::create([
+            'type' => 'Validation',
+            'action' => 'Karya Ditolak',
+            'judul_karya' => $karya->judul,
+            'deskripsi' => 'Karya ' . $karya->judul . ' telah ditolak.',
+            'pembuat' => $karya->tim_pembuat ?? 'Mahasiswa',
+            'validasi' => \Illuminate\Support\Facades\Auth::user()->name ?? 'Admin',
+            'status' => 'rejected',
+            'link' => '#'
+        ]);
+
+        try {
+            if ($karya->user && $karya->user->email) {
+                \Illuminate\Support\Facades\Mail::to($karya->user->email)->send(new \App\Mail\KaryaStatusMail($karya));
+            }
+        } catch (\Exception $e) {
+            // Silently catch mail errors
+        }
+
         return redirect()->route('kelolakarya')
             ->with('success', 'Karya berhasil ditolak!');
+    }
+
+    // Admin - export data ke CSV
+    public function exportCsv()
+    {
+        $karyas = Karya::with('user')->get();
+
+        $filename = "laporan_karya_" . date('Y-m-d_H-i-s') . ".csv";
+
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$filename",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $columns = ['ID', 'Judul Karya', 'Tahun', 'Tim Pembuat', 'Kategori', 'Status', 'Pengunggah', 'Tanggal Upload'];
+
+        $callback = function() use($karyas, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($karyas as $karya) {
+                $row['ID']  = $karya->id;
+                $row['Judul Karya']    = $karya->judul;
+                $row['Tahun']    = $karya->tahun;
+                $row['Tim Pembuat']  = $karya->tim_pembuat;
+                $row['Kategori']  = $karya->kategori->nama ?? '-';
+                $row['Status']  = $karya->status_validasi;
+                $row['Pengunggah']  = $karya->user->name ?? 'Unknown';
+                $row['Tanggal Upload']  = $karya->created_at->format('Y-m-d H:i:s');
+
+                fputcsv($file, array($row['ID'], $row['Judul Karya'], $row['Tahun'], $row['Tim Pembuat'], $row['Kategori'], $row['Status'], $row['Pengunggah'], $row['Tanggal Upload']));
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 
     // Admin - halaman validasi konten

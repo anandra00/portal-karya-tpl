@@ -3,9 +3,14 @@
 @section('title', 'Daftar Pengunjung')
 
 @section('content')
-<div class="page-header">
-    <h1 class="page-title">Daftar Pengunjung</h1>
-    <p class="page-subtitle">Semua pengguna yang terdaftar pada sistem Portal Prodi TPL</p>
+<div class="page-header d-flex justify-content-between align-items-center">
+    <div>
+        <h1 class="page-title">Daftar Pengunjung</h1>
+        <p class="page-subtitle">Semua pengguna yang terdaftar pada sistem Portal Prodi TPL</p>
+    </div>
+    <a href="{{ route('pengunjung.export') }}" class="btn btn-success" style="padding: 0.5rem 1rem; border-radius: 8px;">
+        <i data-feather="download" style="width: 18px; height: 18px; margin-right: 4px;"></i> Export CSV
+    </a>
 </div>
 
 <div class="table-container">

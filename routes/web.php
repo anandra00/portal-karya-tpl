@@ -114,8 +114,15 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     
     // Karya Management
     Route::get('karya/validasi', [KaryaController::class, 'validation'])->name("karya.validasi");
+    Route::get('karya/export', [KaryaController::class, 'exportCsv'])->name('karya.export');
     Route::get('karya/validasi/{id}', [KaryaController::class, 'validationForm'])->name("karya.form");
     Route::resource('karya', KaryaController::class);
+
+    // Admin - Info Prodi
+    Route::resource('info-prodi', \App\Http\Controllers\Admin\ProfilProdiController::class)->except(['create', 'store', 'show', 'destroy']);
+
+    // Admin - Activity Log
+    Route::get('/activity-logs', [\App\Http\Controllers\admin\ActivityController::class, 'index'])->name('activity-logs.index');
 
     // Info Prodi
     Route::resource('info-prodi', ProfilProdiController::class);
@@ -147,14 +154,36 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
     // Pengunjung Management
     Route::get('lihat-pengunjung', function () {
-        $users = User::get();
+        $users = App\Models\User::where('role', 'user')->get();
         return view('admin.pengunjung.index', compact('users'));
     })->name('lihatpengunjung');
 
+    Route::get('export-pengunjung', function () {
+        $users = App\Models\User::where('role', 'user')->get();
+        $filename = "laporan_pengunjung_" . date('Y-m-d_H-i-s') . ".csv";
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$filename",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+        $columns = ['ID', 'Nama', 'Email', 'Role', 'Tanggal Mendaftar'];
+        $callback = function() use($users, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+            foreach ($users as $user) {
+                fputcsv($file, [$user->id, $user->name, $user->email, $user->role, $user->created_at]);
+            }
+            fclose($file);
+        };
+        return response()->stream($callback, 200, $headers);
+    })->name('pengunjung.export');
+
     // Admin List & Management
     Route::get('/list', [AdminController::class, 'index'])->name('admin.list');
+    Route::get('/backup-database', [DashboardController::class, 'backupDatabase'])->name('admin.backup');
     Route::get('/create', [AdminController::class, 'create'])->name('admin.create');
     Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
     Route::delete('/delete/{id}', [AdminController::class, 'destroy'])->name('admin.delete');
 });
-

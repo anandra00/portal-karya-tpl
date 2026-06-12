@@ -3,9 +3,14 @@
 @section('title', 'Karya Terunggah')
 
 @section('content')
-<div class="page-header">
-    <h1 class="page-title">Karya Terunggah</h1>
-    <p class="page-subtitle">Daftar semua karya mahasiswa yang telah diterima dan diunggah</p>
+<div class="page-header d-flex justify-content-between align-items-center">
+    <div>
+        <h1 class="page-title">Karya Terunggah</h1>
+        <p class="page-subtitle">Daftar semua karya mahasiswa yang telah diterima dan diunggah</p>
+    </div>
+    <a href="{{ route('karya.export') }}" class="btn btn-success" style="padding: 0.5rem 1rem; border-radius: 8px;">
+        <i data-feather="download" style="width: 18px; height: 18px; margin-right: 4px;"></i> Export CSV
+    </a>
 </div>
 
 <div class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">

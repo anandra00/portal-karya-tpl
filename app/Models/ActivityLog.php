@@ -13,7 +13,7 @@ class ActivityLog extends Model
         'judul_karya',
         'deskripsi',
         'pembuat',
-        'validator',
+        'validasi',
         'status',
         'link',
     ];

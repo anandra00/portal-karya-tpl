@@ -13,6 +13,10 @@
             <i data-feather="folder"></i>
             <span>Kelola Karya</span>
         </a>
+        <a href="{{ route('activity-logs.index') }}" class="{{ request()->routeIs('activity-logs.*') ? 'active' : '' }}">
+            <i data-feather="clock"></i>
+            <span>Jejak Audit</span>
+        </a>
         <a href="{{ route('info-prodi.index') }}" class="{{ request()->routeIs('info-prodi.*') ? 'active' : '' }}">
             <i data-feather="info"></i>
             <span>Info Prodi</span>
