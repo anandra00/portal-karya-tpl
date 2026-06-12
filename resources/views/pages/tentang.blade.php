@@ -13,8 +13,8 @@
 
     {{-- ======================== VIDEO PROFIL ======================== --}}
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 fade-in-up">
-        <div class="aspect-video shadow-2xl rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800">
-            <video controls autoplay muted loop class="w-full h-full object-cover">
+        <div class="relative w-full shadow-2xl rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800" style="padding-top: 56.25%;">
+            <video controls autoplay muted loop class="absolute top-0 left-0 w-full h-full object-cover">
                 @if (!empty($profil->video))
                     <source src="{{ asset('storage/' . $profil->video) }}" type="video/mp4">
                 @else
