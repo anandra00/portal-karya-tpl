@@ -65,15 +65,12 @@ class KaryaController extends Controller
     // Admin - lihat semua karya
     public function index()
     {
-        $accepted = Karya::with('user')
-            ->where('status_validasi', 'accepted')
+        $karyas = Karya::with('user')
+            ->whereIn('status_validasi', ['accepted', 'rejected'])
+            ->orderBy('created_at', 'desc')
             ->get();
 
-        $rejected = Karya::with('user')
-            ->where('status_validasi', 'rejected')
-            ->get();
-
-        return view('admin.karya.index', compact('accepted', 'rejected'));
+        return view('admin.karya.lihatkarya', compact('karyas'));
     }
 
     public function store(Request $request)

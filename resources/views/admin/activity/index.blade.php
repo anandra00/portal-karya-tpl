@@ -1,67 +1,65 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
+
 @section('title', 'Activity Log')
 
-@push('styles')
-<style>
-    body { background-color: var(--bg-light); }
-</style>
-@endpush
-
 @section('content')
-<div class="container-fluid py-5 mt-5">
-    <div class="row">
-        <!-- Sidebar -->
-        <div class="col-lg-3 col-md-4 mb-4">
-            @include('admin.partials.sidebar')
-        </div>
-
-        <!-- Content -->
-        <div class="col-lg-9 col-md-8">
-            <div class="card premium-card border-0 shadow-sm rounded-4">
-                <div class="card-header bg-white border-0 py-3 d-flex align-items-center justify-content-between">
-                    <h5 class="mb-0 fw-bold"><i class="bi bi-clock-history me-2 text-primary"></i>Activity Log (Jejak Audit)</h5>
-                </div>
-                
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th class="ps-4">Tipe</th>
-                                    <th>Aksi</th>
-                                    <th>Deskripsi</th>
-                                    <th>Aktor</th>
-                                    <th>Waktu</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($logs as $log)
-                                <tr>
-                                    <td class="ps-4">
-                                        <span class="badge bg-secondary">{{ $log->type }}</span>
-                                    </td>
-                                    <td><strong>{{ $log->action }}</strong></td>
-                                    <td>{{ $log->deskripsi }}</td>
-                                    <td><i class="bi bi-person-fill me-1"></i>{{ $log->validasi ?? 'Sistem' }}</td>
-                                    <td><small class="text-muted">{{ $log->created_at->diffForHumans() }}</small></td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="5" class="text-center py-4 text-muted">Belum ada aktivitas tercatat.</td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                @if($logs->hasPages())
-                <div class="card-footer bg-white border-0 py-3 d-flex justify-content-center">
-                    {{ $logs->links() }}
-                </div>
-                @endif
-            </div>
-        </div>
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h1 class="page-title">Activity Log (Jejak Audit)</h1>
+        <p class="page-subtitle">Daftar semua aktivitas yang tercatat dalam sistem</p>
     </div>
+</div>
+
+<div class="dashboard-card" style="display: block; overflow-x: auto;">
+    <table style="width: 100%; border-collapse: collapse; min-width: 800px;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--border-color); color: var(--text-muted); text-align: left;">
+                <th style="padding: 1rem;">Tipe</th>
+                <th style="padding: 1rem;">Aksi</th>
+                <th style="padding: 1rem;">Deskripsi</th>
+                <th style="padding: 1rem;">Aktor</th>
+                <th style="padding: 1rem; text-align: right;">Waktu</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($logs as $log)
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 1rem;">
+                        <span style="display: inline-flex; align-items: center; background: rgba(107, 114, 128, 0.1); color: var(--text-muted); padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: 600; font-size: 0.85rem;">
+                            {{ $log->type }}
+                        </span>
+                    </td>
+                    <td style="padding: 1rem; color: var(--text-main); font-weight: 600;">
+                        {{ $log->action }}
+                    </td>
+                    <td style="padding: 1rem; color: var(--text-muted); max-width: 300px; white-space: normal;">
+                        {{ $log->deskripsi }}
+                    </td>
+                    <td style="padding: 1rem; color: var(--text-main);">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <i data-feather="user" style="width: 16px; height: 16px; color: var(--primary);"></i>
+                            <span>{{ $log->validasi ?? 'Sistem' }}</span>
+                        </div>
+                    </td>
+                    <td style="padding: 1rem; text-align: right; color: var(--text-muted); font-size: 0.9rem;">
+                        {{ $log->created_at->diffForHumans() }}
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 3rem 1rem; color: var(--text-muted);">
+                        <i data-feather="clock" style="width: 48px; height: 48px; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <p style="margin: 0; font-size: 1.1rem;">Belum ada aktivitas tercatat.</p>
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+    
+    @if($logs->hasPages())
+    <div style="padding: 1.5rem; border-top: 1px solid var(--border-color); display: flex; justify-content: center;">
+        {{ $logs->links() }}
+    </div>
+    @endif
 </div>
 @endsection
