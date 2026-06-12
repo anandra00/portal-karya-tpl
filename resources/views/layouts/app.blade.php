@@ -8,6 +8,10 @@
 
     <title>@yield('title', config('app.name', 'Portal TPL SVIPB'))</title>
     @yield('meta')
+    
+    {{-- PWA Manifest & Theme Color --}}
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <meta name="theme-color" content="#4F46E5">
 
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,6 +34,13 @@
 
     {{-- Custom CSS (khusus halaman anak) --}}
     @stack('styles')
+
+    {{-- Dark Mode Init (Prevent Flash) --}}
+    <script>
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
 </head>
 
 <body class="font-sans antialiased">
@@ -77,6 +88,50 @@
                     observer.observe(el);
                 });
             });
+        </script>
+
+        {{-- Dark Mode Toggle Logic --}}
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const toggleBtn = document.getElementById('theme-toggle');
+                const icon = document.getElementById('theme-icon');
+                
+                // Set initial icon
+                if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                    icon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
+                    icon.classList.add('text-warning');
+                }
+
+                if (toggleBtn) {
+                    toggleBtn.addEventListener('click', () => {
+                        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                        if (isDark) {
+                            document.documentElement.removeAttribute('data-theme');
+                            localStorage.setItem('theme', 'light');
+                            icon.classList.replace('bi-sun-fill', 'bi-moon-stars-fill');
+                            icon.classList.remove('text-warning');
+                        } else {
+                            document.documentElement.setAttribute('data-theme', 'dark');
+                            localStorage.setItem('theme', 'dark');
+                            icon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
+                            icon.classList.add('text-warning');
+                        }
+                    });
+                }
+            });
+        </script>
+
+        {{-- PWA Service Worker Registration --}}
+        <script>
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    }, function(err) {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+                });
+            }
         </script>
 
         @stack('scripts')

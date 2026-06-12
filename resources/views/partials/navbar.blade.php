@@ -41,6 +41,12 @@
                        href="{{ route('faq') }}">FAQ</a>
                 </li>
 
+                <li class="nav-item d-flex align-items-center ms-lg-2">
+                    <button class="btn btn-link nav-tpl-link px-2 text-decoration-none" id="theme-toggle" title="Toggle Dark Mode">
+                        <i class="bi bi-moon-stars-fill" id="theme-icon"></i>
+                    </button>
+                </li>
+
                 {{-- UNTUK USER LOGIN --}}
                 @auth
                     <li class="nav-item ms-lg-2">

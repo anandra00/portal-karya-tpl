@@ -19,6 +19,20 @@
     --bg-light: #F9FAFB;
     --glass-bg: rgba(255, 255, 255, 0.85);
     --glass-border: rgba(255, 255, 255, 0.2);
+    --card-bg: #FFFFFF;
+}
+
+[data-theme="dark"] {
+    --warna-utama: #6366F1;    /* Lighter Indigo for better contrast */
+    --warna-hero: #1E1B4B;     /* Very dark indigo */
+    --warna-highlight: #4F46E5;
+    --warna-secondary: #4338CA;
+    --text-dark: #F9FAFB;      /* Light text */
+    --text-muted: #9CA3AF;     /* Lighter muted text */
+    --bg-light: #111827;       /* Dark background */
+    --glass-bg: rgba(31, 41, 55, 0.85); /* Dark glass */
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --card-bg: #1F2937;        /* Dark card background */
 }
 
 /* ==================== BASE STYLES ==================== */
@@ -159,11 +173,11 @@ body {
 
 /* ==================== PREMIUM CARD ==================== */
 .card {
-    border: 1px solid rgba(0,0,0,0.05);
-    border-radius: 16px;
+    border: none;
+    border-radius: 1rem;
     overflow: hidden;
-    background: white;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    background: var(--card-bg);
+    transition: var(--transisi);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     will-change: transform;
 }
@@ -404,7 +418,7 @@ body {
 .share-section .share-icon:hover i { color: var(--warna-utama); }
 
 /* --- detailkarya.css --- */
-.detail-section .card { border-radius: 16px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); background: white; }
+.detail-section .card { border-radius: 16px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); background: var(--card-bg); }
 .detail-section .card:hover { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); transform: none; }
 .author-card .avatar { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid var(--bg-light); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
 .feedback-card .avatar-sm { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--bg-light); }
@@ -427,7 +441,7 @@ body {
 .accordion-button:focus { box-shadow: none; border-color: rgba(0, 0, 0, .125); background-color: #f8fafc; }
 .accordion-button:not(.collapsed) { background: linear-gradient(135deg, var(--warna-utama), var(--warna-secondary)); color: #ffffff; box-shadow: none; }
 .accordion-button:not(.collapsed)::after { filter: brightness(0) invert(1); }
-.accordion-body { background-color: #ffffff; padding: 1.5rem; color: #4b5563; line-height: 1.7; font-size: 1rem; border-top: 1px solid #f1f5f9; }
+.accordion-body { background-color: var(--card-bg); padding: 1.5rem; color: var(--text-dark); line-height: 1.7; font-size: 1rem; border-top: 1px solid rgba(0,0,0,0.05); }
 .accordion-collapse.show { visibility: visible !important; max-height: fit-content !important; }
 .premium-accordion .premium-card { margin-bottom: 1rem; }
 .premium-accordion .premium-card:hover { transform: translateY(-3px); }
@@ -449,7 +463,7 @@ body {
 .info-box { margin-bottom: 2rem; }
 .info-box-header { background: linear-gradient(135deg, var(--warna-utama), var(--warna-secondary)); padding: 1.25rem 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.05); }
 .info-box-header h3 { color: #ffffff; font-weight: 700; margin: 0; font-size: 1.2rem; }
-.info-box-body { background-color: #ffffff; padding: 1.5rem 2rem; }
+.info-box-body { background-color: var(--card-bg); padding: 1.5rem 2rem; }
 .info-box-body p, .info-box-body li { color: #4b5563; line-height: 1.7; font-size: 1rem; }
 .info-box-body ol { padding-left: 1.5rem; margin-bottom: 0; }
 .info-box-body li { margin-bottom: 0.75rem; }

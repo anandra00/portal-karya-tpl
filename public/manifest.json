@@ -1,0 +1,22 @@
+{
+    "name": "Portal TRPL SV IPB",
+    "short_name": "TRPL IPB",
+    "description": "Portal Resmi Program Studi Teknologi Rekayasa Perangkat Lunak, Sekolah Vokasi, IPB University.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#4F46E5",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "/images/pwa_icon.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/images/pwa_icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
