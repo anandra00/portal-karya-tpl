@@ -12,13 +12,13 @@ class ProfilProdiController extends Controller
     public function index()
     {
         $profil = ProfilProdi::first();
-        return view('admin.pages.info-prodi.index', compact('profil'));
+        return view('admin.info-prodi.index', compact('profil'));
     }
 
     public function edit(string $type)
     {
         $profil = ProfilProdi::first();
-        return view('admin.pages.info-prodi.edit', compact('profil', 'type'));
+        return view('admin.info-prodi.edit', compact('profil', 'type'));
     }
 
     public function editWithType($kodeProdi, $type)
@@ -28,7 +28,7 @@ class ProfilProdiController extends Controller
         if (!$profil) {
             abort(404, 'Data tidak ditemukan');
         }
-        return view('admin.pages.info-prodi.edit', [
+        return view('admin.info-prodi.edit', [
             'profil' => $profil,
             'type' => $type,
         ]);
@@ -69,13 +69,17 @@ class ProfilProdiController extends Controller
         // Update profil
         $profil->update($validated);
 
+        \Illuminate\Support\Facades\Cache::forget('profil_prodi');
+
         return redirect()->route('info-prodi.index')
                         ->with('success', 'Profil prodi berhasil diperbarui!');
     }   
     // HALAMAN USER
     public function showUser()
     {
-        $profil = ProfilProdi::first();
+        $profil = \Illuminate\Support\Facades\Cache::remember('profil_prodi', 3600, function () {
+            return ProfilProdi::first();
+        });
         return view('pages.tentang', compact('profil'));
     }
 }

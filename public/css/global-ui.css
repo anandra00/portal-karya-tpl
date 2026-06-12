@@ -39,10 +39,10 @@ body {
 
 .navbar-custom {
     background: var(--glass-bg) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
     padding: 0.75rem 0;
     transition: all 0.3s ease;
 }
@@ -165,6 +165,7 @@ body {
     background: white;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    will-change: transform;
 }
 
 .card:hover {
@@ -386,4 +387,98 @@ body {
     .card-body {
         padding: 1rem;
     }
+}
+
+/* ============================================================
+   CONSOLIDATED PAGE-SPECIFIC CSS
+   ============================================================ */
+
+/* --- berita.css --- */
+.article-title { font-size: 2rem; font-weight: 700; color: var(--warna-hero); line-height: 1.3; }
+.article-meta { font-size: 0.95rem; color: var(--text-muted); display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.article-image { width: 100%; max-height: 450px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
+.article-content p { line-height: 1.8; margin-bottom: 1.5rem; color: #444; font-size: 1.05rem; }
+.article-content blockquote { border-left: 4px solid var(--warna-utama); padding-left: 1rem; font-style: italic; color: #555; }
+.share-section strong { margin-right: 0.5rem; }
+.share-section .share-icon i { color: var(--text-muted); transition: color 0.2s ease; }
+.share-section .share-icon:hover i { color: var(--warna-utama); }
+
+/* --- detailkarya.css --- */
+.detail-section .card { border-radius: 16px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); background: white; }
+.detail-section .card:hover { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); transform: none; }
+.author-card .avatar { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid var(--bg-light); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+.feedback-card .avatar-sm { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--bg-light); }
+.stars-input i { cursor: pointer; transition: color 0.2s, transform 0.2s; display: inline-block; }
+.stars-input i:hover { transform: scale(1.2); }
+.stars-input i.bi-star-fill, .stars-display i.bi-star-fill, .bi-star-half { color: #F59E0B !important; }
+.project-card img { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border-radius: 12px; }
+
+/* --- dosen.css --- */
+.dosen-img { width: 120px !important; height: 120px !important; object-fit: cover !important; border-radius: 50% !important; border: 3px solid var(--warna-utama); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.premium-card:hover .dosen-img { transform: scale(1.05); box-shadow: 0 8px 16px rgba(79, 70, 229, 0.2); }
+#dosenCarousel .carousel-control-prev, #dosenCarousel .carousel-control-next { width: 40px; height: 40px; background-color: rgba(0, 0, 0, 0.5); border-radius: 50%; top: 50%; transform: translateY(-50%); opacity: 0.6; }
+#dosenCarousel .carousel-control-prev:hover, #dosenCarousel .carousel-control-next:hover { opacity: 0.9; }
+#dosenCarousel .carousel-control-prev { left: -20px; }
+#dosenCarousel .carousel-control-next { right: -20px; }
+
+/* --- faq.css --- */
+.accordion-item { border: none; background: transparent; }
+.accordion-button { background-color: transparent; color: #1e293b; font-weight: 600; font-size: 1.05rem; padding: 1.25rem 1.5rem; transition: all 0.3s ease; }
+.accordion-button:focus { box-shadow: none; border-color: rgba(0, 0, 0, .125); background-color: #f8fafc; }
+.accordion-button:not(.collapsed) { background: linear-gradient(135deg, var(--warna-utama), var(--warna-secondary)); color: #ffffff; box-shadow: none; }
+.accordion-button:not(.collapsed)::after { filter: brightness(0) invert(1); }
+.accordion-body { background-color: #ffffff; padding: 1.5rem; color: #4b5563; line-height: 1.7; font-size: 1rem; border-top: 1px solid #f1f5f9; }
+.accordion-collapse.show { visibility: visible !important; max-height: fit-content !important; }
+.premium-accordion .premium-card { margin-bottom: 1rem; }
+.premium-accordion .premium-card:hover { transform: translateY(-3px); }
+
+/* --- karya.css --- */
+.karya-placeholder { height: 250px; background: linear-gradient(135deg, var(--warna-hero), var(--warna-utama)); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 600; text-align: center; padding: 1rem; }
+.filter-buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+
+/* --- matkul.css --- */
+.semester-card .card-header { background: linear-gradient(135deg, var(--warna-utama), var(--warna-secondary)); color: #ffffff; padding: 1rem 1.5rem; border-bottom: none; }
+.semester-card .card-header h3 { margin-bottom: 0; font-size: 1.25rem; font-weight: 700; }
+.semester-card .table { font-size: 0.95rem; margin-bottom: 0; }
+.semester-card .table thead th { background-color: #f1f5f9; color: #475569; font-weight: 600; padding: 12px 16px; }
+.semester-card .table tbody td { padding: 12px 16px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+.semester-card .table tbody tr:hover td { background-color: #f8fafc; }
+.semester-card .table-total td { font-weight: 700; color: var(--warna-hero); background-color: #f1f5f9 !important; border-bottom: none; }
+
+/* --- tentang.css --- */
+.info-box { margin-bottom: 2rem; }
+.info-box-header { background: linear-gradient(135deg, var(--warna-utama), var(--warna-secondary)); padding: 1.25rem 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.05); }
+.info-box-header h3 { color: #ffffff; font-weight: 700; margin: 0; font-size: 1.2rem; }
+.info-box-body { background-color: #ffffff; padding: 1.5rem 2rem; }
+.info-box-body p, .info-box-body li { color: #4b5563; line-height: 1.7; font-size: 1rem; }
+.info-box-body ol { padding-left: 1.5rem; margin-bottom: 0; }
+.info-box-body li { margin-bottom: 0.75rem; }
+
+/* --- homepages.css --- */
+.berita-bg { background-color: #f8f9fa; border-radius: 12px; }
+
+/* CONSOLIDATED RESPONSIVE OVERRIDES */
+@media (max-width: 767.98px) {
+    .article-title { font-size: 1.5rem; }
+    .article-image { max-height: 280px; }
+    .article-content p { font-size: 0.95rem; }
+    .author-card .avatar { width: 55px; height: 55px; }
+    .author-card .d-flex { flex-wrap: wrap; }
+    .rating-box { width: 100%; text-align: left !important; margin-top: 0.75rem; }
+    .feedback-card .avatar-sm { width: 40px; height: 40px; }
+    .dosen-img { width: 90px !important; height: 90px !important; }
+    #dosenCarousel .carousel-control-prev { left: 5px; }
+    #dosenCarousel .carousel-control-next { right: 5px; }
+    .accordion-button { font-size: 0.95rem; padding: 1rem 1.25rem; }
+    .accordion-body { padding: 1.25rem; font-size: 0.95rem; }
+    .karya-placeholder { height: 180px; font-size: 1rem; }
+    .semester-card .card-header { padding: 0.75rem 1rem; }
+    .semester-card .card-header h3 { font-size: 1.1rem; }
+    .semester-card .table { font-size: 0.85rem; }
+    .semester-card .table thead th, .semester-card .table tbody td { padding: 8px 10px; }
+    .info-box-header { padding: 1rem 1.25rem; }
+    .info-box-header h3 { font-size: 1.05rem; }
+    .info-box-body { padding: 1.25rem 1.5rem; }
+    .info-box-body p, .info-box-body li { font-size: 0.95rem; }
+    .btn-group-responsive .btn { padding: 0.75rem 1.5rem !important; font-size: 0.95rem; }
 }

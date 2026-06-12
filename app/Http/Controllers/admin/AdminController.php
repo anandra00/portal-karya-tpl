@@ -13,13 +13,13 @@ class AdminController extends Controller
     public function index()
     {
         $admins = User::where('role', 'admin')->get();
-        return view('admin.pages.admin.list', compact('admins'));
+        return view('admin.admin-users.list', compact('admins'));
     }
 
     // FORM TAMBAH ADMIN
     public function create()
     {
-        return view('admin.pages.admin.create');
+        return view('admin.admin-users.create');
     }
 
     // SIMPAN ADMIN BARU

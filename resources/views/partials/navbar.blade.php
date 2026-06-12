@@ -69,7 +69,7 @@
                            href="{{ route('login') }}" style="border-radius: 8px; font-weight: 600;">Login</a>
                     </li>
 
-                    <li class="nav-item ms-lg-1">
+                    <li class="nav-item ms-lg-3">
                         <a class="btn btn-tpl w-100 {{ request()->routeIs('register') ? 'active' : '' }}"
                            href="{{ route('register') }}" style="border-radius: 8px; font-weight: 600; padding: 0.375rem 1.25rem;">Register</a>
                     </li>

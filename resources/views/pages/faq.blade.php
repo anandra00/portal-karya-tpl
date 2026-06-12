@@ -2,9 +2,7 @@
 
 @section('title', 'FAQ')
 
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/faq.css') }}">
-@endpush
+
 
 @section('hero')
 @include('partials.hero')

@@ -1,10 +1,16 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Karya')
+@section('title', $karya->judul . ' - Karya Mahasiswa')
 
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/detailkarya.css') }}">
-@endpush
+@section('meta')
+    <meta property="og:title" content="{{ $karya->judul }} - Karya Mahasiswa TRPL IPB">
+    <meta property="og:description" content="{{ Str::limit(strip_tags($karya->deskripsi), 150) }}">
+    <meta property="og:image" content="{{ asset('storage/' . $karya->preview_karya) }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="website">
+@endsection
+
+
 
 @section('hero')
 @include('partials.hero')

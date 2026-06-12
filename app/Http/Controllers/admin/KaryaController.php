@@ -73,7 +73,7 @@ class KaryaController extends Controller
             ->where('status_validasi', 'rejected')
             ->get();
 
-        return view('admin.pages.karya.index', compact('accepted', 'rejected'));
+        return view('admin.karya.index', compact('accepted', 'rejected'));
     }
 
     public function store(Request $request)
@@ -143,20 +143,20 @@ class KaryaController extends Controller
     // Admin - form tambah karya
     public function create()
     {
-        return view('admin.pages.karya.create');
+        return view('admin.karya.create');
     }
 
     // Admin - lihat detail karya
     public function show(string $id)
     {
         $karya = Karya::with(['user', 'reviews.user'])->findOrFail($id);
-        return view('admin.pages.karya.show', compact('karya'));
+        return view('admin.karya.show', compact('karya'));
     }
 
     public function validationForm($id)
     {
         $karya = Karya::with(['user'])->findOrFail($id);
-        return view('admin.pages.karya.validation.show', compact('karya'));
+        return view('admin.karya.validation.show', compact('karya'));
     }
 
     // Admin - update karya
@@ -183,12 +183,8 @@ class KaryaController extends Controller
     {
         $karya = Karya::findOrFail($id);
 
-        if ($karya->file_karya) {
-            Storage::disk('public')->delete($karya->file_karya);
-        }
-        if ($karya->preview_karya) {
-            Storage::disk('public')->delete($karya->preview_karya);
-        }
+        // File tidak dihapus secara fisik karena menggunakan SoftDeletes
+        // Jika butuh hard delete, bisa diimplementasikan di method forceDelete()
 
         $karya->delete();
 
@@ -223,7 +219,7 @@ class KaryaController extends Controller
             ->latest()
             ->get();
 
-        return view('admin.pages.karya.validation.index', compact('karyas'));
+        return view('admin.karya.validation.index', compact('karyas'));
     }
 
     // dan dibawah ini tambahan terbaru ya 

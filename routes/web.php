@@ -79,7 +79,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     
     // Dashboard Admin
     Route::get('dashboard', function () {
-        return view('admin.pages.dashboard');
+        return view('admin.dashboard');
     })->name('dashboard');
     
     // Mail Testing (Admin only)
@@ -124,9 +124,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     // Dosen Management
     Route::get('dosen', function () {
         $dosens = Dosen::all();
-        return view('admin.pages.dosen', compact('dosens'));
+        return view('admin.dosen.index', compact('dosens'));
     })->name('dosen.index');
-    Route::get('dosen/create', function () { return view('admin.pages.tambahdosen'); })->name('dosen.create');
+    Route::get('dosen/create', function () { return view('admin.dosen.create'); })->name('dosen.create');
     Route::post('dosen', [DosenController::class, 'store'])->name('dosen.store');
     Route::get('dosen/{id}', [DosenController::class, 'show'])->name('dosen.show');
     Route::get('dosen/{id}/edit', [DosenController::class, 'edit'])->name('dosen.edit');
@@ -136,19 +136,19 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     // Ajuan Karya & Lihat Karya Pages
     Route::get('ajuankarya', function () {
         $karyas = Karya::where('status_validasi', 'submission')->get();
-        return view('admin.pages.ajuankarya', compact('karyas'));
+        return view('admin.karya.ajuankarya', compact('karyas'));
     })->name('ajuankarya');
 
     Route::get('lihatkarya', function () {
         $karyas = Karya::where('status_validasi', 'accepted')->get();        
-        return view('admin.pages.lihatkarya', compact('karyas'));
+        return view('admin.karya.lihatkarya', compact('karyas'));
     })->name('lihatkarya');
     
 
     // Pengunjung Management
     Route::get('lihat-pengunjung', function () {
         $users = User::get();
-        return view('admin.pages.lihatpengunjung', compact('users'));
+        return view('admin.pengunjung.index', compact('users'));
     })->name('lihatpengunjung');
 
     // Admin List & Management

@@ -2,9 +2,7 @@
 
 @section('title', 'Halaman Utama')
 
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/homepages.css') }}">
-@endpush
+
 
 {{-- BAGIAN HERO --}}
 @section('hero')
@@ -30,14 +28,15 @@
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="ratio ratio-16x9 shadow-lg" style="border-radius: 15px; overflow: hidden; border: 1px solid #ddd;">
-                    <iframe 
-                        src="https://www.youtube.com/embed/ch03himP1XQ?si=guh3EiDAjV6s4CYJ" 
-                        title="YouTube video player" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                        referrerpolicy="strict-origin-when-cross-origin" 
-                        allowfullscreen>
-                    </iframe>
+                        <iframe 
+                            src="https://www.youtube.com/embed/ch03himP1XQ?si=guh3EiDAjV6s4CYJ" 
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            loading="lazy"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            referrerpolicy="strict-origin-when-cross-origin" 
+                            allowfullscreen>
+                        </iframe>
                 </div>
             </div>
         </div>
@@ -148,6 +147,29 @@
         </div>
 
     </div>
+
+    {{-- BAGIAN PMB (Penerimaan Mahasiswa Baru) --}}
+    <div class="container mb-5 fade-in-up">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="premium-card p-5 text-center text-white" style="background: linear-gradient(135deg, var(--warna-hero) 0%, var(--warna-utama) 100%); border-radius: 16px; position: relative; overflow: hidden;">
+                    {{-- Dekorasi background --}}
+                    <div style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                    <div style="position: absolute; bottom: -30px; left: -30px; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                    
+                    <div style="position: relative; z-index: 2;">
+                        <h2 class="fw-bold mb-3">Bergabunglah Bersama TRPL SV IPB</h2>
+                        <p class="mb-4" style="font-size: 1.1rem; opacity: 0.9; max-width: 600px; margin: 0 auto;">
+                            Jadilah bagian dari generasi inovator digital. Dapatkan pendidikan vokasi terbaik di bidang rekayasa perangkat lunak dan ciptakan solusi teknologi untuk masa depan.
+                        </p>
+                        <a href="https://admisi.ipb.ac.id" target="_blank" class="btn btn-light btn-lg fw-bold text-primary px-5 py-3" style="border-radius: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); transition: transform 0.3s ease;">
+                            Informasi Pendaftaran (PMB) <i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 </section>
 @endsection

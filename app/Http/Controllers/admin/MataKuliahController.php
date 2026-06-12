@@ -34,6 +34,8 @@ class MataKuliahController extends Controller
 
         MataKuliah::create($request->all());
 
+        \Illuminate\Support\Facades\Cache::forget('mata_kuliah_user');
+
         return redirect()->route('admin.matakuliah.index')
             ->with('success', 'Mata kuliah berhasil ditambahkan!');
     }
@@ -59,6 +61,8 @@ class MataKuliahController extends Controller
         $matakuliah = MataKuliah::findOrFail($id);
         $matakuliah->update($request->all());
 
+        \Illuminate\Support\Facades\Cache::forget('mata_kuliah_user');
+
         return redirect()->route('admin.matakuliah.index')
             ->with('success', 'Mata kuliah berhasil diupdate!');
     }
@@ -69,31 +73,28 @@ class MataKuliahController extends Controller
         $matakuliah = MataKuliah::findOrFail($id);
         $matakuliah->delete();
 
+        \Illuminate\Support\Facades\Cache::forget('mata_kuliah_user');
+
         return redirect()->route('admin.matakuliah.index')
             ->with('success', 'Mata kuliah berhasil dihapus!');
     }
 
     public function indexUser()
     {
-        // Ambil data dari database, dikelompokkan per semester
-        $semester1 = MataKuliah::where('semester', 1)->get();
-        $semester2 = MataKuliah::where('semester', 2)->get();
-        $semester3 = MataKuliah::where('semester', 3)->get();
-        $semester4 = MataKuliah::where('semester', 4)->get();
-        $semester5 = MataKuliah::where('semester', 5)->get();
-        $semester6 = MataKuliah::where('semester', 6)->get();
-        $semester7 = MataKuliah::where('semester', 7)->get();
-        $semester8 = MataKuliah::where('semester', 8)->get();
+        // Ambil data dari database dan cache selama 1 jam
+        $data = \Illuminate\Support\Facades\Cache::remember('mata_kuliah_user', 3600, function () {
+            return [
+                'semester1' => MataKuliah::where('semester', 1)->get(),
+                'semester2' => MataKuliah::where('semester', 2)->get(),
+                'semester3' => MataKuliah::where('semester', 3)->get(),
+                'semester4' => MataKuliah::where('semester', 4)->get(),
+                'semester5' => MataKuliah::where('semester', 5)->get(),
+                'semester6' => MataKuliah::where('semester', 6)->get(),
+                'semester7' => MataKuliah::where('semester', 7)->get(),
+                'semester8' => MataKuliah::where('semester', 8)->get(),
+            ];
+        });
 
-        return view('pages.matkul', compact(
-            'semester1',
-            'semester2',
-            'semester3',
-            'semester4',
-            'semester5',
-            'semester6',
-            'semester7',
-            'semester8',
-        ));
+        return view('pages.matkul', $data);
     }
 }

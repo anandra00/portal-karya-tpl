@@ -13,12 +13,12 @@ class DosenController extends Controller
     {
         // Perbaiki: variable jadi plural, column name jadi 'nama'
         $dosens = Dosen::orderBy('nama', 'asc')->get();
-        return view('admin.pages.dosen', compact('dosens'));
+        return view('admin.dosen.index', compact('dosens'));
     }
 
     public function create()
     {
-        return view('admin.pages.tambahdosen');
+        return view('admin.dosen.create');
     }
 
     public function store(Request $request)
@@ -45,13 +45,13 @@ class DosenController extends Controller
     {
         $dosen = Dosen::findOrFail($id);
         // Perbaiki: konsisten pakai admin.pages
-        return view('admin.pages.showdosen', compact('dosen'));
+        return view('admin.dosen.show', compact('dosen'));
     }
 
     public function edit(string $id)
     {
         $dosen = Dosen::findOrFail($id);
-        return view('admin.pages.dosen1', compact('dosen'));
+        return view('admin.dosen.edit', compact('dosen'));
     }
 
     public function update(Request $request, string $id)

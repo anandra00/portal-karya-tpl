@@ -1,10 +1,16 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Berita')
+@section('title', $berita->judul . ' - Berita TPL SVIPB')
 
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/berita.css') }}">
-@endpush
+@section('meta')
+    <meta property="og:title" content="{{ $berita->judul }} - Berita TRPL IPB">
+    <meta property="og:description" content="{{ Str::limit(strip_tags($berita->isi), 150) }}">
+    <meta property="og:image" content="{{ asset('storage/' . $berita->gambar) }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="article">
+@endsection
+
+
 
 @section('hero')
 @include('partials.hero')

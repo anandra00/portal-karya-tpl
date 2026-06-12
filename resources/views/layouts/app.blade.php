@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title', config('app.name', 'Portal TPL SVIPB'))</title>
+    @yield('meta')
 
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">

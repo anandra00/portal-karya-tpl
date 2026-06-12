@@ -2,9 +2,7 @@
 
 @section('title', 'Unggah Karya')
 
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/detailkarya.css') }}">
-@endpush
+
 
 @section('hero')
 @include('partials.hero', ['title' => 'Unggah Karya Mahasiswa', 'subtitle' => 'Bagikan Karya Terbaikmu'])

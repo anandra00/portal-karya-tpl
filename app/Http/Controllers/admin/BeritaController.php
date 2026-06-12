@@ -85,9 +85,7 @@ class BeritaController extends Controller
     {
         $berita = Berita::findOrFail($id);
 
-        if ($berita->gambar) {
-            Storage::disk('public')->delete($berita->gambar);
-        }
+        // File gambar tidak dihapus secara fisik karena menggunakan SoftDeletes
 
         $berita->delete();
 

@@ -38,7 +38,7 @@ class ReviewController extends Controller
     public function index()
     {
         $reviews = Review::with(['user', 'karya'])->latest()->get();
-        return view('admin.pages.review.index', compact('reviews'));
+        return view('admin.review.index', compact('reviews'));
     }
 
     // ============================

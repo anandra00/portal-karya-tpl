@@ -24,7 +24,9 @@ class HomeController extends Controller
 
     public function dosen()
     {
-        $dosens = \App\Models\Dosen::all();
+        $dosens = \Illuminate\Support\Facades\Cache::remember('dosen_all', 3600, function () {
+            return \App\Models\Dosen::all();
+        });
         return view('pages.dosen', compact('dosens'));
     }
 

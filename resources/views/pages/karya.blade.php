@@ -2,9 +2,7 @@
 
 @section('title', 'Karya Mahasiswa')
 
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/karya.css') }}">
-@endpush
+
 
 @section('hero')
 @include('partials.hero')
