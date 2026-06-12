@@ -27,18 +27,16 @@
     
     {{-- BAGIAN VIDEO --}}
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 fade-in-up">
-        <div class="relative w-full shadow-2xl rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800" style="padding-top: 56.25%;">
-            <iframe 
-                src="https://www.youtube.com/embed/ch03himP1XQ?si=guh3EiDAjV6s4CYJ" 
-                title="YouTube video player" 
-                frameborder="0" 
-                loading="lazy"
-                class="absolute top-0 left-0 w-full h-full object-cover"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                referrerpolicy="strict-origin-when-cross-origin" 
-                allowfullscreen>
-            </iframe>
-        </div>
+        <iframe 
+            src="https://www.youtube.com/embed/ch03himP1XQ?si=guh3EiDAjV6s4CYJ" 
+            title="YouTube video player" 
+            frameborder="0" 
+            loading="lazy"
+            class="w-full aspect-video shadow-2xl rounded-2xl border border-gray-200 dark:border-gray-800 object-cover"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+        </iframe>
     </div>
             
     {{-- BAGIAN KARYA MAHASISWA --}}
