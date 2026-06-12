@@ -90,9 +90,9 @@
             @endforeach
         </div>
 
-        <div class="mt-12 flex flex-col sm:flex-row justify-center gap-4">
-            <a href="{{ route('karya.public') }}" class="px-8 py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 shadow-md hover:shadow-lg transition-all text-center">Cari Karya Lainnya</a>
-            <a href="{{ route('unggah') }}" class="px-8 py-4 bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 font-bold rounded-xl border border-indigo-200 dark:border-gray-700 hover:border-indigo-600 dark:hover:border-indigo-500 shadow-sm hover:shadow-md transition-all text-center">Unggah Karya</a>
+        <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+            <a href="{{ route('karya.public') }}" class="w-full sm:w-auto px-8 py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 shadow-md transition-all text-center">Cari Karya Lainnya</a>
+            <a href="{{ route('unggah') }}" class="w-full sm:w-auto px-8 py-4 bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 font-bold rounded-xl border-2 border-indigo-200 dark:border-gray-700 hover:border-indigo-600 dark:hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-gray-700 shadow-sm transition-all text-center">Unggah Karya</a>
         </div>
     </div>
     
