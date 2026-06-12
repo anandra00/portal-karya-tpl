@@ -157,6 +157,15 @@
             }
         </script>
 
+        {{-- BFCache Workaround (Force Reload on Back Button) --}}
+        <script>
+            window.addEventListener('pageshow', function (event) {
+                if (event.persisted) {
+                    window.location.reload();
+                }
+            });
+        </script>
+
         @stack('scripts')
 </body>
 
