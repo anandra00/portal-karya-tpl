@@ -9,117 +9,113 @@
 @endsection
 
 @section('content')
-<section class="info-section py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <header class="info-header mb-5 text-center">
-                    <h2 class="fw-bold" style="color: var(--warna-hero);">Kumpulan Karya Mahasiswa TPL SV IPB</h2>
-                    <hr>
-                </header>
-            
-                {{-- Search Bar --}}
-                <div class="row justify-content-center mb-4 fade-in-up">
-                    <div class="col-md-8 col-lg-6">
-                        <form action="{{ route('karya.public') }}" method="GET">
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="bi bi-search"></i></span>
-                                <input type="text" 
-                                       class="form-control" 
-                                       name="judul" 
-                                       placeholder="Cari karya..." 
-                                       value="{{ request('judul') }}">
-                                <button class="btn btn-tpl" type="submit">Cari</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                {{-- Filter Kategori --}}
-                <div class="row justify-content-center mb-4 fade-in-up">
-                    <div class="col-md-10 text-center filter-buttons">
-                        <a href="{{ route('karya.public') }}" 
-                           class="btn btn-sm {{ !request('kategori') ? 'btn-tpl' : 'btn-outline-primary' }} mb-2">
-                            Semua
-                        </a>
-                        @foreach(['Web Development', 'Mobile Apps', 'Data Science', 'IoT', 'Game Development'] as $kat)
-                        <a href="{{ route('karya.public', ['kategori' => $kat]) }}" 
-                           class="btn btn-sm {{ request('kategori') == $kat ? 'btn-tpl' : 'btn-outline-primary' }} mb-2">
-                            {{ $kat }}
-                        </a>
-                        @endforeach
-                    </div>
-                </div>
-                    
-                {{-- Grid Karya --}}
-                <div class="row">
-                    @forelse ($karya as $k)
-                        <div class="col-12 col-md-6 col-lg-4 mb-4 fade-in-up">
-                            <div class="card premium-card h-100 border-0">
-                                @if($k->preview_karya)
-                                    <img src="{{ asset('storage/' . $k->preview_karya) }}" 
-                                         class="card-img-top" 
-                                         alt="{{ $k->judul }}"
-                                         style="height: 250px; object-fit: cover;">
-                                @else
-                                    <div class="karya-placeholder">
-                                        {{ $k->judul }}
-                                    </div>
-                                @endif
-                                
-                                <div class="card-body d-flex flex-column">
-                                    <span class="badge text-white mb-2" style="background-color: var(--warna-utama); align-self: flex-start;">
-                                        {{ $k->kategori }}
-                                    </span>
-                                    <h5 class="card-title">{{ Str::limit($k->judul, 50) }}</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">Oleh: {{ $k->tim_pembuat }}</h6>
-                                    
-                                    <div class="text-warning mb-2">
-                                        @php
-                                            $avgRating = $k->reviews->avg('rating') ?? 0;
-                                            $reviewCount = $k->reviews->count();
-                                        @endphp
-                                        
-                                        @for ($i = 1; $i <= 5; $i++)
-                                            @if ($i <= floor($avgRating))
-                                                <i class="bi bi-star-fill"></i>
-                                            @elseif ($i <= ceil($avgRating) && $avgRating - floor($avgRating) >= 0.5)
-                                                <i class="bi bi-star-half"></i>
-                                            @else
-                                                <i class="bi bi-star"></i>
-                                            @endif
-                                        @endfor
-                                        
-                                        <small class="mt-1 text-muted d-block">
-                                            {{ number_format($avgRating, 1) }} ({{ $reviewCount }} ulasan)
-                                        </small>
-                                    </div>
-                                    
-                                    <a href="{{ route('karya.public.show', $k->id) }}" 
-                                       class="btn btn-tpl btn-sm mt-auto">
-                                        Selengkapnya
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="col-12 text-center">
-                            <div class="alert alert-info">
-                                <i class="bi bi-info-circle"></i> Tidak ada karya yang ditemukan.
-                            </div>
-                        </div>
-                    @endforelse
-                </div>
-
-                {{-- Tombol Kembali --}}
-                <div class="text-center mt-4 mb-4">
-                    <a href="{{ route('home') }}" class="btn btn-secondary btn-lg">
-                        <i class="bi bi-arrow-left me-2"></i>Kembali ke Home
-                    </a>
-                </div>
-
-            </div>
+<section class="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center mb-12">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">Kumpulan Karya Mahasiswa TPL SV IPB</h2>
+            <div class="w-24 h-1.5 bg-gradient-to-r from-indigo-600 to-indigo-400 rounded-full mx-auto mt-6"></div>
         </div>
+        
+        {{-- Search Bar --}}
+        <div class="max-w-2xl mx-auto mb-10 fade-in-up">
+            <form action="{{ route('karya.public') }}" method="GET">
+                <div class="relative flex items-center">
+                    <span class="absolute left-4 text-gray-400 dark:text-gray-500">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text" 
+                           class="w-full pl-12 pr-24 py-4 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm transition-all" 
+                           name="judul" 
+                           placeholder="Cari karya..." 
+                           value="{{ request('judul') }}">
+                    <button class="absolute right-2 top-2 bottom-2 px-6 bg-indigo-600 text-white font-semibold rounded-full hover:bg-indigo-700 transition-colors shadow-sm" type="submit">Cari</button>
+                </div>
+            </form>
+        </div>
+
+        {{-- Filter Kategori --}}
+        <div class="flex flex-wrap justify-center gap-3 mb-16 fade-in-up">
+            <a href="{{ route('karya.public') }}" 
+               class="px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-sm {{ !request('kategori') ? 'bg-indigo-600 text-white' : 'bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-gray-700 hover:border-indigo-500 hover:text-indigo-700 dark:hover:text-indigo-300' }}">
+                Semua
+            </a>
+            @foreach(['Web Development', 'Mobile Apps', 'Data Science', 'IoT', 'Game Development'] as $kat)
+            <a href="{{ route('karya.public', ['kategori' => $kat]) }}" 
+               class="px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-sm {{ request('kategori') == $kat ? 'bg-indigo-600 text-white' : 'bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-gray-700 hover:border-indigo-500 hover:text-indigo-700 dark:hover:text-indigo-300' }}">
+                {{ $kat }}
+            </a>
+            @endforeach
+        </div>
+            
+        {{-- Grid Karya --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @forelse ($karya as $k)
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100 dark:border-gray-700 fade-in-up">
+                    
+                    <div class="relative overflow-hidden h-64 bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+                        @if($k->preview_karya)
+                            <img src="{{ asset('storage/' . $k->preview_karya) }}" 
+                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                                 alt="{{ $k->judul }}">
+                        @else
+                            <span class="text-xl font-bold text-gray-400 dark:text-gray-600">{{ $k->judul }}</span>
+                        @endif
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-indigo-600 text-white text-xs font-bold rounded-full shadow-sm">{{ $k->kategori }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h5 class="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{{ Str::limit($k->judul, 50) }}</h5>
+                        <h6 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">Oleh: {{ $k->tim_pembuat }}</h6>
+                        
+                        <div class="flex items-center text-yellow-400 mb-6">
+                            @php
+                                $avgRating = $k->reviews->avg('rating') ?? 0;
+                                $reviewCount = $k->reviews->count();
+                            @endphp
+                            
+                            @for ($i = 1; $i <= 5; $i++)
+                                @if ($i <= floor($avgRating))
+                                    <i class="bi bi-star-fill"></i>
+                                @elseif ($i <= ceil($avgRating) && $avgRating - floor($avgRating) >= 0.5)
+                                    <i class="bi bi-star-half"></i>
+                                @else
+                                    <i class="bi bi-star text-gray-300 dark:text-gray-600"></i>
+                                @endif
+                            @endfor
+                            
+                            <span class="ml-2 text-sm text-gray-500 dark:text-gray-400 font-medium">
+                                {{ number_format($avgRating, 1) }} ({{ $reviewCount }} ulasan)
+                            </span>
+                        </div>
+                        
+                        <div class="mt-auto">
+                            <a href="{{ route('karya.public.show', $k->id) }}" 
+                               class="inline-flex justify-center w-full px-4 py-2 bg-indigo-50 dark:bg-gray-700 text-indigo-600 dark:text-indigo-300 font-semibold rounded-lg hover:bg-indigo-100 dark:hover:bg-gray-600 transition-colors">
+                                Selengkapnya
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-span-full">
+                    <div class="bg-blue-50 border border-blue-200 text-blue-700 px-6 py-4 rounded-xl flex items-center justify-center">
+                        <i class="bi bi-info-circle mr-3 text-xl"></i>
+                        <span class="font-medium">Tidak ada karya yang ditemukan.</span>
+                    </div>
+                </div>
+            @endforelse
+        </div>
+
+        {{-- Tombol Kembali --}}
+        <div class="text-center mt-12 mb-4">
+            <a href="{{ route('home') }}" class="inline-flex items-center px-6 py-3 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-semibold rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors shadow-sm">
+                <i class="bi bi-arrow-left mr-2"></i>Kembali ke Home
+            </a>
+        </div>
+
     </div>
 </section>
 @endsection

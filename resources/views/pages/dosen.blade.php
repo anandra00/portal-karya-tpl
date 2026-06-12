@@ -9,46 +9,39 @@
 @endsection
 
 @section('content')
-<main class="dosen-section info-section py-5">
-    <div class="container">
+<main class="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">Dosen Teknologi Rekayasa Perangkat Lunak SV IPB</h2>
+            <div class="w-24 h-1.5 bg-gradient-to-r from-indigo-600 to-indigo-400 rounded-full mx-auto mt-6"></div>
+        </div>
 
-                <header class="info-header mb-5 text-center">
-                    <h2 class="fw-bold" style="color: var(--warna-hero);">Dosen Teknologi Rekayasa Perangkat Lunak SV IPB</h2>
-                    <hr>
-                </header>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            @foreach ($dosens as $dosen)
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col items-center p-8 border border-gray-100 dark:border-gray-700 group fade-in-up">
+                    
+                    <div class="relative w-32 h-32 mb-6">
+                        @if ($dosen->foto)
+                            <img src="{{ asset('storage/' . $dosen->foto) }}" 
+                                 class="w-full h-full object-cover rounded-full shadow-md group-hover:scale-105 transition-transform duration-300 ring-4 ring-indigo-50 dark:ring-gray-700"
+                                 alt="Foto {{ $dosen->nama }}">
+                        @else
+                            <img src="{{ asset('images/default-user.png') }}"
+                                 class="w-full h-full object-cover rounded-full shadow-md group-hover:scale-105 transition-transform duration-300 ring-4 ring-indigo-50 dark:ring-gray-700"
+                                 alt="Default Foto">
+                        @endif
+                    </div>
 
-                <div class="row">
-                    @foreach ($dosens as $dosen)
-                        <div class="col-12 col-md-6 col-lg-4 mb-4 fade-in-up">
-                            <div class="card premium-card h-100 border-0 text-center">
-                                <div class="card-body d-flex flex-column align-items-center p-4">
+                    <h5 class="text-xl font-bold text-gray-900 dark:text-white text-center mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{{ $dosen->nama }}</h5>
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400 text-center mb-6">{{ $dosen->prodi }}</p>
 
-                                    @if ($dosen->foto)
-                                        <img src="{{ asset('storage/' . $dosen->foto) }}" 
-                                             class="dosen-img rounded-circle mb-3 premium-shadow"
-                                             alt="Foto {{ $dosen->nama }}">
-                                    @else
-                                        <img src="{{ asset('images/default-user.png') }}"
-                                             class="dosen-img rounded-circle mb-3 premium-shadow"
-                                             alt="Default Foto">
-                                    @endif
-
-                                    <h5 class="card-title fw-bold mb-1" style="color: var(--warna-hero);">{{ $dosen->nama }}</h5>
-                                    <p class="text-muted small mb-3">{{ $dosen->prodi }}</p>
-
-                                    <span class="badge premium-badge mt-auto">
-                                        {{ $dosen->status ?? 'Aktif' }}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                    <span class="mt-auto px-4 py-1.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold uppercase tracking-wider rounded-full">
+                        {{ $dosen->status ?? 'Aktif' }}
+                    </span>
+                    
                 </div>
-
-            </div>
+            @endforeach
         </div>
 
     </div>

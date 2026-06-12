@@ -9,98 +9,94 @@
 @endsection
 
 @section('content')
-<main class="info-section py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <header class="info-header mb-5 text-center">
-                    <h2 class="fw-bold" style="color: var(--warna-hero);">Mata Kuliah Teknologi Rekayasa Perangkat Lunak SV IPB</h2>
-                    <hr>
-                </header>
+<main class="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center mb-16">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">Mata Kuliah Teknologi Rekayasa Perangkat Lunak SV IPB</h2>
+            <div class="w-24 h-1.5 bg-gradient-to-r from-indigo-600 to-indigo-400 rounded-full mx-auto mt-6"></div>
+        </div>
 
-                {{-- Fokus Kurikulum --}}
-                <div class="row mb-5 fade-in-up">
-                    <div class="col-12">
-                        <div class="premium-card p-4 p-md-5" style="background: linear-gradient(135deg, rgba(79, 70, 229, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);">
-                            <h3 class="fw-bold mb-3" style="color: var(--warna-hero);">Fokus Kurikulum Berbasis Proyek</h3>
-                            <p class="text-muted mb-4" style="line-height: 1.8;">
-                                Kurikulum Program Studi Sarjana Terapan (D4) TRPL dirancang untuk menghasilkan talenta digital yang siap terjun ke industri. Menggunakan pendekatan <strong>Project-Based Learning</strong>, mahasiswa tidak hanya belajar teori, tetapi langsung memecahkan masalah riil di bidang pertanian, kelautan, dan biosains tropika.
-                            </p>
-                            
-                            <h5 class="fw-bold mb-3 text-dark">Mata Kuliah Inti (Core Subjects):</h5>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <ul class="list-unstyled text-muted">
-                                        <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color: var(--primary);"></i>Rekayasa Perangkat Lunak</li>
-                                        <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color: var(--primary);"></i>Pengembangan Web & Mobile App</li>
-                                        <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color: var(--primary);"></i>Manajemen Basis Data & Big Data</li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-6">
-                                    <ul class="list-unstyled text-muted">
-                                        <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color: var(--primary);"></i>Jaringan Komputer & Keamanan Siber</li>
-                                        <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color: var(--primary);"></i>Berpikir Komputasional & Algoritma</li>
-                                        <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color: var(--primary);"></i>Techno-Socio-Entrepreneurship</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+        {{-- Fokus Kurikulum --}}
+        <div class="mb-16 fade-in-up">
+            <div class="bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-gray-800 dark:to-gray-800 rounded-3xl p-8 sm:p-12 shadow-sm border border-indigo-100 dark:border-gray-700">
+                <h3 class="text-2xl font-bold text-indigo-900 dark:text-white mb-4">Fokus Kurikulum Berbasis Proyek</h3>
+                <p class="text-lg text-gray-700 dark:text-gray-300 mb-8 leading-relaxed">
+                    Kurikulum Program Studi Sarjana Terapan (D4) TRPL dirancang untuk menghasilkan talenta digital yang siap terjun ke industri. Menggunakan pendekatan <strong>Project-Based Learning</strong>, mahasiswa tidak hanya belajar teori, tetapi langsung memecahkan masalah riil di bidang pertanian, kelautan, dan biosains tropika.
+                </p>
+                
+                <h5 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Mata Kuliah Inti (Core Subjects):</h5>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <ul class="space-y-4 text-gray-700 dark:text-gray-300 font-medium">
+                            <li class="flex items-center"><i class="bi bi-check-circle-fill text-indigo-500 mr-3 text-xl"></i>Rekayasa Perangkat Lunak</li>
+                            <li class="flex items-center"><i class="bi bi-check-circle-fill text-indigo-500 mr-3 text-xl"></i>Pengembangan Web & Mobile App</li>
+                            <li class="flex items-center"><i class="bi bi-check-circle-fill text-indigo-500 mr-3 text-xl"></i>Manajemen Basis Data & Big Data</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul class="space-y-4 text-gray-700 dark:text-gray-300 font-medium">
+                            <li class="flex items-center"><i class="bi bi-check-circle-fill text-indigo-500 mr-3 text-xl"></i>Jaringan Komputer & Keamanan Siber</li>
+                            <li class="flex items-center"><i class="bi bi-check-circle-fill text-indigo-500 mr-3 text-xl"></i>Berpikir Komputasional & Algoritma</li>
+                            <li class="flex items-center"><i class="bi bi-check-circle-fill text-indigo-500 mr-3 text-xl"></i>Techno-Socio-Entrepreneurship</li>
+                        </ul>
                     </div>
                 </div>
-
-                @php
-                    $semesters = [
-                        1 => $semester1, 2 => $semester2, 3 => $semester3, 4 => $semester4,
-                        5 => $semester5, 6 => $semester6, 7 => $semester7, 8 => $semester8,
-                    ];
-                @endphp
-
-                @foreach(array_chunk(range(1, 8), 2) as $pair)
-                <div class="row">
-                    @foreach($pair as $sem)
-                    <div class="col-lg-6 mb-4 fade-in-up">
-                        <div class="card premium-card semester-card">
-                            <div class="card-header">
-                                <h3>Semester {{ $sem }}</h3>
-                            </div>
-                            <div class="card-body p-0">
-                                <div class="table-responsive">
-                                    <table class="table table-striped mb-0">
-                                        <thead>
-                                            <tr><th>Kode</th><th>Mata Kuliah</th><th>SKS</th></tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse($semesters[$sem] as $mk)
-                                            <tr>
-                                                <td>{{ $mk->kode_matkul }}</td>
-                                                <td>{{ $mk->nama_matkul }}</td>
-                                                <td>{{ $mk->sks_teori + $mk->sks_praktik }}({{ $mk->sks_teori }}-{{ $mk->sks_praktik }})</td>
-                                            </tr>
-                                            @empty
-                                            <tr><td colspan="3" class="text-center text-muted">Belum ada data</td></tr>
-                                            @endforelse
-                                            <tr class="table-total">
-                                                <td>Total</td>
-                                                <td></td>
-                                                <td>
-                                                    {{ $semesters[$sem]->sum(function($mk) { 
-                                                        return (int)$mk->sks_teori + (int)$mk->sks_praktik; 
-                                                    }) }}
-                                                    ({{ $semesters[$sem]->sum('sks_teori') }}-{{ $semesters[$sem]->sum('sks_praktik') }})
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-                @endforeach
-
             </div>
         </div>
+
+        @php
+            $semesters = [
+                1 => $semester1, 2 => $semester2, 3 => $semester3, 4 => $semester4,
+                5 => $semester5, 6 => $semester6, 7 => $semester7, 8 => $semester8,
+            ];
+        @endphp
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            @foreach(range(1, 8) as $sem)
+            <div class="fade-in-up">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden h-full flex flex-col">
+                    <div class="bg-indigo-600 dark:bg-indigo-900 px-6 py-4">
+                        <h3 class="text-xl font-bold text-white mb-0">Semester {{ $sem }}</h3>
+                    </div>
+                    <div class="overflow-x-auto flex-grow">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 dark:bg-gray-700/50 text-gray-700 dark:text-gray-300 text-sm uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
+                                    <th class="px-6 py-4 font-semibold">Kode</th>
+                                    <th class="px-6 py-4 font-semibold">Mata Kuliah</th>
+                                    <th class="px-6 py-4 font-semibold text-center whitespace-nowrap">SKS (T-P)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700/50">
+                                @forelse($semesters[$sem] as $mk)
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
+                                    <td class="px-6 py-4 text-gray-900 dark:text-gray-300 font-medium whitespace-nowrap">{{ $mk->kode_matkul }}</td>
+                                    <td class="px-6 py-4 text-gray-700 dark:text-gray-400">{{ $mk->nama_matkul }}</td>
+                                    <td class="px-6 py-4 text-gray-900 dark:text-gray-300 text-center font-medium whitespace-nowrap">{{ $mk->sks_teori + $mk->sks_praktik }} ({{ $mk->sks_teori }}-{{ $mk->sks_praktik }})</td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="3" class="px-6 py-8 text-center text-gray-500 dark:text-gray-400 italic">Belum ada data mata kuliah</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                            <tfoot class="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+                                <tr>
+                                    <td class="px-6 py-4 font-bold text-gray-900 dark:text-white" colspan="2">Total SKS</td>
+                                    <td class="px-6 py-4 font-bold text-indigo-600 dark:text-indigo-400 text-center whitespace-nowrap">
+                                        {{ $semesters[$sem]->sum(function($mk) { return (int)$mk->sks_teori + (int)$mk->sks_praktik; }) }}
+                                        ({{ $semesters[$sem]->sum('sks_teori') }}-{{ $semesters[$sem]->sum('sks_praktik') }})
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+
     </div>
 </main>
 @endsection

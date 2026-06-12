@@ -13,6 +13,9 @@
     <link rel="manifest" href="{{ asset('manifest.json') }}">
     <meta name="theme-color" content="#4F46E5">
 
+    {{-- Bootstrap Icons --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,17 +23,25 @@
     
     <style>
         body { font-family: 'Outfit', sans-serif !important; }
+        
+        /* Custom Fade In Up Animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
-    {{-- Bootstrap --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    {{-- Alpine.js --}}
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-
-    {{-- Laravel default styles --}}
+    {{-- Tailwind via Vite --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    {{-- Global UI (Navbar, Fonts, Typography) --}}
-    <link rel="stylesheet" href="{{ asset('css/global-ui.css') }}">
 
     {{-- Custom CSS (khusus halaman anak) --}}
     @stack('styles')
@@ -38,31 +49,29 @@
     {{-- Dark Mode Init (Prevent Flash) --}}
     <script>
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.setAttribute('data-theme', 'dark');
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
         }
     </script>
 </head>
 
-<body class="font-sans antialiased">
-    <div class="min-h-screen d-flex flex-column">
-        {{-- 🔹 NAVBAR --}}
-        @include('partials.navbar')
+<body class="font-sans antialiased text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900 transition-colors duration-300 flex flex-col min-h-screen">
+    {{-- 🔹 NAVBAR --}}
+    @include('partials.navbar')
 
-        {{-- 🔹 HERO SECTION (kalau ada di halaman anak) --}}
-        @yield('hero')
+    {{-- 🔹 HERO SECTION (kalau ada di halaman anak) --}}
+    @yield('hero')
 
-        {{-- 🔹 MAIN CONTENT --}}
-        <main class="flex-grow-1">
-            @yield('content')
-        </main>
+    {{-- 🔹 MAIN CONTENT --}}
+    <main class="flex-grow">
+        @yield('content')
+    </main>
 
-        {{-- 🔹 FOOTER (opsional, bisa dikosongkan dulu) --}}
-        @include('partials.footer')
+    {{-- 🔹 FOOTER --}}
+    @include('partials.footer')
 
-        {{-- Scripts --}}
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
+
 
         {{-- Scroll Animation (Intersection Observer) --}}
         <script>
@@ -83,8 +92,8 @@
                     rootMargin: '0px 0px -50px 0px'
                 });
 
-                // Observe all .fade-in-up elements NOT inside hero section
-                document.querySelectorAll('.fade-in-up:not(.hero-section .fade-in-up)').forEach(el => {
+                // Observe all .fade-in-up elements
+                document.querySelectorAll('.fade-in-up').forEach(el => {
                     observer.observe(el);
                 });
             });
@@ -93,31 +102,45 @@
         {{-- Dark Mode Toggle Logic --}}
         <script>
             document.addEventListener('DOMContentLoaded', () => {
-                const toggleBtn = document.getElementById('theme-toggle');
-                const icon = document.getElementById('theme-icon');
+                const toggleBtns = [document.getElementById('theme-toggle'), document.getElementById('theme-toggle-mobile')];
+                const icons = [document.getElementById('theme-icon'), document.getElementById('theme-icon-mobile')];
                 
                 // Set initial icon
-                if (document.documentElement.getAttribute('data-theme') === 'dark') {
-                    icon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
-                    icon.classList.add('text-warning');
-                }
-
-                if (toggleBtn) {
-                    toggleBtn.addEventListener('click', () => {
-                        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-                        if (isDark) {
-                            document.documentElement.removeAttribute('data-theme');
-                            localStorage.setItem('theme', 'light');
-                            icon.classList.replace('bi-sun-fill', 'bi-moon-stars-fill');
-                            icon.classList.remove('text-warning');
-                        } else {
-                            document.documentElement.setAttribute('data-theme', 'dark');
-                            localStorage.setItem('theme', 'dark');
+                if (document.documentElement.classList.contains('dark')) {
+                    icons.forEach(icon => {
+                        if(icon) {
                             icon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
-                            icon.classList.add('text-warning');
+                            icon.classList.add('text-yellow-400');
                         }
                     });
                 }
+
+                toggleBtns.forEach(btn => {
+                    if (btn) {
+                        btn.addEventListener('click', () => {
+                            const isDark = document.documentElement.classList.contains('dark');
+                            if (isDark) {
+                                document.documentElement.classList.remove('dark');
+                                localStorage.setItem('theme', 'light');
+                                icons.forEach(icon => {
+                                    if(icon) {
+                                        icon.classList.replace('bi-sun-fill', 'bi-moon-stars-fill');
+                                        icon.classList.remove('text-yellow-400');
+                                    }
+                                });
+                            } else {
+                                document.documentElement.classList.add('dark');
+                                localStorage.setItem('theme', 'dark');
+                                icons.forEach(icon => {
+                                    if(icon) {
+                                        icon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
+                                        icon.classList.add('text-yellow-400');
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
             });
         </script>
 
@@ -135,7 +158,6 @@
         </script>
 
         @stack('scripts')
-    </div>
 </body>
 
 </html>

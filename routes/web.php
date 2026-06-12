@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\DosenController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\KaryaController;
 use App\Http\Controllers\Admin\ProfilProdiController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\MataKuliahController;

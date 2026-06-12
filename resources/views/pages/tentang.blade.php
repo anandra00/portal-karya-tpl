@@ -9,107 +9,97 @@
 @endsection
 
 @section('content')
-<main class="tentang-section py-5">
+<main class="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
 
     {{-- ======================== VIDEO PROFIL ======================== --}}
-    <div class="container mb-5 fade-in-up">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="ratio ratio-16x9 premium-shadow" style="border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.2);">
-                    <video controls autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
-                        
-                        @if (!empty($profil->video))
-                            <source src="{{ asset('storage/' . $profil->video) }}" type="video/mp4">
-                        @else
-                            <source src="{{ asset('videos/TEKNOLOGI REKAYASA PERANGKAT LUNAK - Video Profil 2025 (1).mp4') }}" type="video/mp4">
-                        @endif
-
-                        Browser Anda tidak mendukung tag video.
-                    </video>
-                </div>
-            </div>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 fade-in-up">
+        <div class="aspect-w-16 aspect-h-9 shadow-2xl rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800">
+            <video controls autoplay muted loop class="w-full h-full object-cover">
+                @if (!empty($profil->video))
+                    <source src="{{ asset('storage/' . $profil->video) }}" type="video/mp4">
+                @else
+                    <source src="{{ asset('videos/TEKNOLOGI REKAYASA PERANGKAT LUNAK - Video Profil 2025 (1).mp4') }}" type="video/mp4">
+                @endif
+                Browser Anda tidak mendukung tag video.
+            </video>
         </div>
     </div>
 
     {{-- ======================== VISI, MISI, CAPAIAN ======================== --}}
-    <div class="container py-3">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <div class="space-y-8">
 
-                {{-- VISI --}}
-                <div class="info-box premium-card fade-in-up">
-                    <div class="info-box-header">
-                        <h3>Visi</h3>
-                    </div>
-                    <div class="info-box-body">
-                        <p>{{ $profil->visi ?? 'Belum ada data visi.' }}</p>
-                    </div>
+            {{-- VISI --}}
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden fade-in-up">
+                <div class="bg-indigo-600 dark:bg-indigo-900 px-6 py-4">
+                    <h3 class="text-xl font-bold text-white mb-0">Visi</h3>
                 </div>
+                <div class="p-6 md:p-8">
+                    <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed font-medium">{{ $profil->visi ?? 'Belum ada data visi.' }}</p>
+                </div>
+            </div>
 
-                {{-- MISI --}}
-                <div class="info-box premium-card fade-in-up">
-                    <div class="info-box-header">
-                        <h3>Misi</h3>
-                    </div>
-                    <div class="info-box-body">
+            {{-- MISI --}}
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden fade-in-up">
+                <div class="bg-indigo-600 dark:bg-indigo-900 px-6 py-4">
+                    <h3 class="text-xl font-bold text-white mb-0">Misi</h3>
+                </div>
+                <div class="p-6 md:p-8">
+                    <div class="prose prose-lg dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
                         {!! nl2br(e($profil->misi ?? 'Belum ada data misi.')) !!}
                     </div>
                 </div>
+            </div>
 
-                {{-- CAPAIAN --}}
-                <div class="info-box premium-card fade-in-up">
-                    <div class="info-box-header">
-                        <h3>Capaian</h3>
-                    </div>
-                    <div class="info-box-body">
+            {{-- CAPAIAN --}}
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden fade-in-up">
+                <div class="bg-indigo-600 dark:bg-indigo-900 px-6 py-4">
+                    <h3 class="text-xl font-bold text-white mb-0">Capaian</h3>
+                </div>
+                <div class="p-6 md:p-8">
+                    <div class="prose prose-lg dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
                         {!! nl2br(e($profil->capaian ?? 'Belum ada data capaian.')) !!}
                     </div>
                 </div>
-
             </div>
+
         </div>
     </div>
 
     {{-- ======================== FASILITAS & KEUNGGULAN ======================== --}}
-    <div class="container py-5 mt-4">
-        <header class="info-header mb-5 fade-in-up">
-            <h2>Fasilitas & Ekosistem Pembelajaran</h2>
-            <hr>
-            <p class="text-muted text-center" style="max-width: 600px; margin: 0 auto;">Program Studi TRPL dilengkapi dengan lingkungan akademis yang sangat berorientasi pada praktik dan standar industri teknologi terkini.</p>
-        </header>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        <div class="text-center mb-16 fade-in-up">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-4">Fasilitas & Ekosistem Pembelajaran</h2>
+            <div class="w-24 h-1.5 bg-gradient-to-r from-indigo-600 to-indigo-400 rounded-full mx-auto mb-6"></div>
+            <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Program Studi TRPL dilengkapi dengan lingkungan akademis yang sangat berorientasi pada praktik dan standar industri teknologi terkini.</p>
+        </div>
 
-        <div class="row g-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             {{-- Laboratorium --}}
-            <div class="col-md-4 fade-in-up" style="animation-delay: 0.1s;">
-                <div class="premium-card h-100 text-center p-4">
-                    <div class="icon-wrapper mb-3" style="width: 70px; height: 70px; margin: 0 auto; background: rgba(79, 70, 229, 0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                        <i class="bi bi-pc-display" style="font-size: 30px;"></i>
-                    </div>
-                    <h4 class="fw-bold mb-3">Laboratorium Komputer</h4>
-                    <p class="text-muted" style="font-size: 0.95rem;">Tersedia laboratorium dengan perangkat modern yang mumpuni untuk pengembangan web, mobile, serta analisis data besar. Praktikum dijamin lancar.</p>
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 text-center shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 fade-in-up" style="animation-delay: 0.1s;">
+                <div class="w-20 h-20 mx-auto bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full flex items-center justify-center mb-6">
+                    <i class="bi bi-pc-display text-4xl"></i>
                 </div>
+                <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Laboratorium Komputer</h4>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">Tersedia laboratorium dengan perangkat modern yang mumpuni untuk pengembangan web, mobile, serta analisis data besar. Praktikum dijamin lancar.</p>
             </div>
 
             {{-- Dosen Praktisi --}}
-            <div class="col-md-4 fade-in-up" style="animation-delay: 0.2s;">
-                <div class="premium-card h-100 text-center p-4">
-                    <div class="icon-wrapper mb-3" style="width: 70px; height: 70px; margin: 0 auto; background: rgba(16, 185, 129, 0.1); color: #10B981; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                        <i class="bi bi-people" style="font-size: 30px;"></i>
-                    </div>
-                    <h4 class="fw-bold mb-3">Kolaborasi DUDI</h4>
-                    <p class="text-muted" style="font-size: 0.95rem;">Pembelajaran tidak sekadar teori, namun langsung berkolaborasi dengan Dunia Usaha dan Dunia Industri (DUDI) melalui dosen praktisi berpengalaman.</p>
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 text-center shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 fade-in-up" style="animation-delay: 0.2s;">
+                <div class="w-20 h-20 mx-auto bg-green-50 dark:bg-green-900/30 text-green-500 rounded-full flex items-center justify-center mb-6">
+                    <i class="bi bi-people text-4xl"></i>
                 </div>
+                <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Kolaborasi DUDI</h4>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">Pembelajaran tidak sekadar teori, namun langsung berkolaborasi dengan Dunia Usaha dan Dunia Industri (DUDI) melalui dosen praktisi berpengalaman.</p>
             </div>
 
             {{-- Ekosistem Vokasi --}}
-            <div class="col-md-4 fade-in-up" style="animation-delay: 0.3s;">
-                <div class="premium-card h-100 text-center p-4">
-                    <div class="icon-wrapper mb-3" style="width: 70px; height: 70px; margin: 0 auto; background: rgba(245, 158, 11, 0.1); color: #F59E0B; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                        <i class="bi bi-building" style="font-size: 30px;"></i>
-                    </div>
-                    <h4 class="fw-bold mb-3">Ekosistem Vokasi IPB</h4>
-                    <p class="text-muted" style="font-size: 0.95rem;">Tergabung dalam Sekolah Vokasi IPB, mahasiswa bebas mengakses fasilitas penunjang seperti perpustakaan pusat, dan UKM untuk soft-skill.</p>
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 text-center shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 fade-in-up" style="animation-delay: 0.3s;">
+                <div class="w-20 h-20 mx-auto bg-yellow-50 dark:bg-yellow-900/30 text-yellow-500 rounded-full flex items-center justify-center mb-6">
+                    <i class="bi bi-building text-4xl"></i>
                 </div>
+                <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Ekosistem Vokasi IPB</h4>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">Tergabung dalam Sekolah Vokasi IPB, mahasiswa bebas mengakses fasilitas penunjang seperti perpustakaan pusat, dan UKM untuk soft-skill.</p>
             </div>
         </div>
     </div>

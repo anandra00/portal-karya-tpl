@@ -13,160 +13,146 @@
 
 {{-- NOTIFIKASI: Hanya muncul jika session 'show_welcome' ada --}}
 @if (session('show_welcome') && Auth::check())
-<div class="container mt-3">
-    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+    <div x-data="{ show: true }" x-show="show" class="relative bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded text-center mb-6" role="alert">
         Selamat datang, <strong>{{ Auth::user()->name }}!</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button @click="show = false" type="button" class="absolute top-0 bottom-0 right-0 px-4 py-3">
+            <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+        </button>
     </div>
 </div>
 @endif
 
-<section class="info-section">
+<section class="py-12 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
     
     {{-- BAGIAN VIDEO --}}
-    <div class="container mt-4 mb-5 fade-in-up">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="ratio ratio-16x9 shadow-lg" style="border-radius: 15px; overflow: hidden; border: 1px solid #ddd;">
-                        <iframe 
-                            src="https://www.youtube.com/embed/ch03himP1XQ?si=guh3EiDAjV6s4CYJ" 
-                            title="YouTube video player" 
-                            frameborder="0" 
-                            loading="lazy"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                            referrerpolicy="strict-origin-when-cross-origin" 
-                            allowfullscreen>
-                        </iframe>
-                </div>
-            </div>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 fade-in-up">
+        <div class="aspect-w-16 aspect-h-9 shadow-2xl rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800">
+            <iframe 
+                src="https://www.youtube.com/embed/ch03himP1XQ?si=guh3EiDAjV6s4CYJ" 
+                title="YouTube video player" 
+                frameborder="0" 
+                loading="lazy"
+                class="w-full h-full object-cover"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" 
+                allowfullscreen>
+            </iframe>
         </div>
     </div>
             
-    <div class="container">
-        {{-- BAGIAN KARYA MAHASISWA --}}
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <header class="info-header">
-                    <h2>Kumpulan Karya Mahasiswa Teknologi Rekayasa Perangkat Lunak SV IPB</h2>
-                    <hr>
-                </header>
-                <div class="row">
-                    @foreach ($karyas as $karya)
-                    <div class="col-12 col-md-6 col-lg-4 mb-4 fade-in-up">
-                        <div class="card h-100 shadow-sm border-0">
-                            <img src="{{ $karya->preview_karya ? asset('storage/' . $karya->preview_karya) : 'https://placehold.co/600x400/333/white?text=Aplikasi+1' }}" 
-                                 class="card-img-top" 
-                                 alt="Karya Mahasiswa"
-                                 style="height: 220px; object-fit: cover; width: 100%;">
-                            
-                            <div class="card-body d-flex flex-column">
-                                <span class="badge text-white mb-2" style="background-color: var(--warna-utama); align-self: flex-start;">{{ $karya->kategori }}</span>
-                                <h5 class="card-title">{{ $karya->judul }}</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">{{ $karya->tim_pembuat }}</h6>
-                                
-                                <div class="text-warning mb-2">
-                                    @php
-                                        $avgRating = $karya->reviews->avg('rating') ?? 0;
-                                        $reviewCount = $karya->reviews->count();
-                                    @endphp
-                                    
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        @if ($i <= floor($avgRating))
-                                            <i class="bi bi-star-fill"></i>
-                                        @elseif ($i <= ceil($avgRating) && $avgRating - floor($avgRating) >= 0.5)
-                                            <i class="bi bi-star-half"></i>
-                                        @else
-                                            <i class="bi bi-star"></i>
-                                        @endif
-                                    @endfor
-                                    
-                                    <small class="mt-1 text-muted d-block">
-                                        {{ number_format($avgRating, 1) }} ({{ $reviewCount }} ulasan)
-                                    </small>
-                                </div>
-                                
-                                <a href="{{ route('karya.public.show', $karya->id) }}" class="btn btn-tpl btn-sm mt-auto align-self-end">Selengkapnya</a>
-                            </div>
-                        </div>
+    {{-- BAGIAN KARYA MAHASISWA --}}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">Kumpulan Karya Mahasiswa<br/>Teknologi Rekayasa Perangkat Lunak SV IPB</h2>
+            <div class="w-24 h-1.5 bg-gradient-to-r from-indigo-600 to-indigo-400 rounded-full mx-auto mt-4"></div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @foreach ($karyas as $karya)
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100 dark:border-gray-700 fade-in-up">
+                <div class="relative overflow-hidden h-56">
+                    <img src="{{ $karya->preview_karya ? asset('storage/' . $karya->preview_karya) : 'https://placehold.co/600x400/333/white?text=Aplikasi+1' }}" 
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                         alt="Karya Mahasiswa">
+                    <div class="absolute top-4 left-4">
+                        <span class="px-3 py-1 bg-indigo-600 text-white text-xs font-bold rounded-full shadow-sm">{{ $karya->kategori }}</span>
                     </div>
-                    @endforeach
                 </div>
-
-                <div class="text-center mt-3 btn-group-responsive">
-                    <a href="{{ route('karya.public') }}" class="btn btn-tpl btn-lg px-4 py-3">Cari Karya Lainnya</a>
-                    <a href="{{ route('unggah') }}" class="btn btn-tpl btn-lg px-4 py-3">Unggah Karya</a>
+                
+                <div class="p-6 flex flex-col flex-grow">
+                    <h5 class="text-xl font-bold text-gray-900 dark:text-white mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{{ $karya->judul }}</h5>
+                    <h6 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">{{ $karya->tim_pembuat }}</h6>
+                    
+                    <div class="flex items-center text-yellow-400 mb-6">
+                        @php
+                            $avgRating = $karya->reviews->avg('rating') ?? 0;
+                            $reviewCount = $karya->reviews->count();
+                        @endphp
+                        
+                        @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <= floor($avgRating))
+                                <i class="bi bi-star-fill"></i>
+                            @elseif ($i <= ceil($avgRating) && $avgRating - floor($avgRating) >= 0.5)
+                                <i class="bi bi-star-half"></i>
+                            @else
+                                <i class="bi bi-star"></i>
+                            @endif
+                        @endfor
+                        <span class="ml-2 text-sm text-gray-500 dark:text-gray-400 font-medium">
+                            {{ number_format($avgRating, 1) }} ({{ $reviewCount }} ulasan)
+                        </span>
+                    </div>
+                    
+                    <div class="mt-auto">
+                        <a href="{{ route('karya.public.show', $karya->id) }}" class="inline-flex justify-center w-full px-4 py-2 bg-indigo-50 dark:bg-gray-700 text-indigo-600 dark:text-indigo-300 font-semibold rounded-lg hover:bg-indigo-100 dark:hover:bg-gray-600 transition-colors">Selengkapnya</a>
+                    </div>
                 </div>
             </div>
+            @endforeach
         </div>
+
+        <div class="mt-12 flex flex-col sm:flex-row justify-center gap-4">
+            <a href="{{ route('karya.public') }}" class="px-8 py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 shadow-md hover:shadow-lg transition-all text-center">Cari Karya Lainnya</a>
+            <a href="{{ route('unggah') }}" class="px-8 py-4 bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 font-bold rounded-xl border border-indigo-200 dark:border-gray-700 hover:border-indigo-600 dark:hover:border-indigo-500 shadow-sm hover:shadow-md transition-all text-center">Unggah Karya</a>
+        </div>
+    </div>
     
     {{-- BAGIAN BERITA --}}
-    <div class="container my-5 py-4" style="background-color: #f8f9fa; border-radius: 12px;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl p-8 sm:p-12 shadow-sm border border-gray-100 dark:border-gray-700">
+            <h2 class="text-3xl font-extrabold text-center text-gray-900 dark:text-white mb-10">Berita TPL SV IPB</h2>
 
-        <h2 class="text-center mb-4 fw-bold" style="font-size: 32px;">
-            Berita TPL SV IPB
-        </h2>
-
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
+            <div class="max-w-4xl mx-auto space-y-6">
                 @foreach ($beritas as $berita)
-                <div class="card mb-4 shadow-sm text-dark border-0 fade-in-up">
-                    <div class="row g-0 align-items-center">
-                        <div class="col-md-4">
-                            <a href="{{ route('berita.show', $berita->id) }}">
+                <div class="bg-gray-50 dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 dark:border-gray-800 fade-in-up">
+                    <div class="flex flex-col sm:flex-row">
+                        <div class="sm:w-1/3">
+                            <a href="{{ route('berita.show', $berita->id) }}" class="block h-full">
                                 <img src="{{ asset('storage/' . $berita->gambar ) }}" 
-                                     class="img-fluid rounded-start" 
-                                     alt="{{ $berita->judul }}"
-                                     style="width: 100%; height: 220px; object-fit: cover;">
+                                     class="w-full h-48 sm:h-full object-cover" 
+                                     alt="{{ $berita->judul }}">
                             </a>
                         </div>
 
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold">
-                                    <a href="{{ route('berita.show', $berita->id) }}" class="text-decoration-none text-dark">
-                                        {{ $berita->judul }}
-                                    </a>
-                                </h5>
+                        <div class="sm:w-2/3 p-6 sm:p-8 flex flex-col justify-center">
+                            <h5 class="text-xl font-bold text-gray-900 dark:text-white mb-3 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                                <a href="{{ route('berita.show', $berita->id) }}">
+                                    {{ $berita->judul }}
+                                </a>
+                            </h5>
 
-                                <p class="card-text text-muted">
-                                    {{ Str::limit($berita->isi, 120) }}
-                                </p>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">
+                                {{ Str::limit($berita->isi, 120) }}
+                            </p>
 
-                                <p class="card-text d-flex justify-content-between align-items-center">
-                                    <small class="text-muted">
-                                        {{ \Carbon\Carbon::parse($berita->created_at)->translatedFormat('d F Y') }}
-                                    </small>
-                                </p>
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-500 font-medium">
+                                <i class="bi bi-calendar3 mr-2"></i>
+                                {{ \Carbon\Carbon::parse($berita->created_at)->translatedFormat('d F Y') }}
                             </div>
                         </div>
-
                     </div>
                 </div>
                 @endforeach
             </div>
         </div>
-
     </div>
 
     {{-- BAGIAN PMB (Penerimaan Mahasiswa Baru) --}}
-    <div class="container mb-5 fade-in-up">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="premium-card p-5 text-center text-white" style="background: linear-gradient(135deg, var(--warna-hero) 0%, var(--warna-utama) 100%); border-radius: 16px; position: relative; overflow: hidden;">
-                    {{-- Dekorasi background --}}
-                    <div style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
-                    <div style="position: absolute; bottom: -30px; left: -30px; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
-                    
-                    <div style="position: relative; z-index: 2;">
-                        <h2 class="fw-bold mb-3">Bergabunglah Bersama TRPL SV IPB</h2>
-                        <p class="mb-4" style="font-size: 1.1rem; opacity: 0.9; max-width: 600px; margin: 0 auto;">
-                            Jadilah bagian dari generasi inovator digital. Dapatkan pendidikan vokasi terbaik di bidang rekayasa perangkat lunak dan ciptakan solusi teknologi untuk masa depan.
-                        </p>
-                        <a href="https://admisi.ipb.ac.id" target="_blank" class="btn btn-light btn-lg fw-bold text-primary px-5 py-3" style="border-radius: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); transition: transform 0.3s ease;">
-                            Informasi Pendaftaran (PMB) <i class="bi bi-arrow-right ms-2"></i>
-                        </a>
-                    </div>
-                </div>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 fade-in-up">
+        <div class="relative rounded-3xl overflow-hidden bg-gradient-to-br from-indigo-900 to-indigo-600 p-10 sm:p-16 text-center text-white shadow-2xl">
+            <!-- Decorative Elements -->
+            <div class="absolute -top-24 -right-24 w-64 h-64 bg-white opacity-10 rounded-full blur-2xl"></div>
+            <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-white opacity-10 rounded-full blur-2xl"></div>
+            
+            <div class="relative z-10 max-w-2xl mx-auto">
+                <h2 class="text-3xl sm:text-4xl font-extrabold mb-4">Bergabunglah Bersama TRPL SV IPB</h2>
+                <p class="text-lg sm:text-xl text-indigo-100 mb-8 leading-relaxed">
+                    Jadilah bagian dari generasi inovator digital. Dapatkan pendidikan vokasi terbaik di bidang rekayasa perangkat lunak dan ciptakan solusi teknologi untuk masa depan.
+                </p>
+                <a href="https://admisi.ipb.ac.id" target="_blank" class="inline-flex items-center justify-center px-8 py-4 bg-white text-indigo-600 font-extrabold rounded-full hover:bg-gray-50 hover:scale-105 transition-all shadow-lg text-lg">
+                    Informasi Pendaftaran (PMB) <i class="bi bi-arrow-right ml-2 text-xl"></i>
+                </a>
             </div>
         </div>
     </div>

@@ -40,6 +40,8 @@ body {
     font-family: 'Outfit', sans-serif !important;
     background-color: var(--bg-light);
     color: var(--text-dark);
+    --bs-body-bg: var(--bg-light);
+    --bs-body-color: var(--text-dark);
     padding-top: 80px;
     font-size: 1rem;
     overflow-x: hidden;
