@@ -27,7 +27,7 @@
     
     {{-- BAGIAN VIDEO --}}
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 fade-in-up">
-        <div class="aspect-w-16 aspect-h-9 shadow-2xl rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800">
+        <div class="aspect-video shadow-2xl rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800">
             <iframe 
                 src="https://www.youtube.com/embed/ch03himP1XQ?si=guh3EiDAjV6s4CYJ" 
                 title="YouTube video player" 
