@@ -11,7 +11,7 @@
 </div>
 
 <div class="dashboard-card" style="display: block; overflow-x: auto;">
-    <table style="width: 100%; border-collapse: collapse; min-width: 800px;">
+    <table style="width: 100%; border-collapse: collapse;">
         <thead>
             <tr style="border-bottom: 2px solid var(--border-color); color: var(--text-muted); text-align: left;">
                 <th style="padding: 1rem;">Tipe</th>
