@@ -22,9 +22,10 @@ class KaryaController extends Controller
         $query = Karya::where('status_validasi', 'accepted')
                       ->with('reviews');
 
+        $search = $request->input('search') ?? $request->input('judul');
+
         // Filter berdasarkan search
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
+        if (!is_null($search) && $search !== '') {
             $query->where(function($q) use ($search) {
                 $q->where('judul', 'like', '%' . $search . '%')
                   ->orWhere('tim_pembuat', 'like', '%' . $search . '%')
