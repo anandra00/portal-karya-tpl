@@ -12,7 +12,7 @@
 
             <!-- Desktop Menu -->
             <div class="hidden lg:flex lg:items-center lg:space-x-8">
-                <a href="{{ route('home') }}" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('home') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">Home</a>
+                <a href="{{ route('home') }}" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('home') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">Beranda</a>
                 <a href="{{ route('tentang') }}" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('tentang') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">Tentang</a>
                 <a href="{{ route('homepage.dosen') }}" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('homepage.dosen') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">Dosen</a>
                 <a href="{{ route('matakuliah.user') }}" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('matakuliah.user') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">Mata Kuliah</a>
@@ -48,14 +48,14 @@
                         </span>
                     @endif
                     <a href="{{ route('logout') }}" class="text-red-500 hover:text-red-700 font-semibold transition flex items-center" onclick="event.preventDefault(); document.getElementById('public-logout-form').submit();">
-                        <i class="bi bi-box-arrow-right mr-1"></i>Logout
+                        <i class="bi bi-box-arrow-right mr-1"></i>Keluar
                     </a>
                     <form id="public-logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="px-5 py-2 text-indigo-600 border border-indigo-600 font-semibold rounded-lg hover:bg-indigo-50 transition">Login</a>
-                    <a href="{{ route('register') }}" class="px-5 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 shadow-md transition">Register</a>
+                    <a href="{{ route('login') }}" class="px-5 py-2 text-indigo-600 border border-indigo-600 font-semibold rounded-lg hover:bg-indigo-50 transition">Masuk</a>
+                    <a href="{{ route('register') }}" class="px-5 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 shadow-md transition">Daftar</a>
                 @endauth
             </div>
 
@@ -77,7 +77,7 @@
     <!-- Mobile Menu -->
     <div x-show="mobileMenuOpen" class="lg:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 shadow-lg" style="display: none;">
         <div class="px-4 pt-2 pb-6 space-y-2">
-            <a href="{{ route('home') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">Home</a>
+            <a href="{{ route('home') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">Beranda</a>
             <a href="{{ route('tentang') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">Tentang</a>
             <a href="{{ route('homepage.dosen') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">Dosen</a>
             <a href="{{ route('matakuliah.user') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">Mata Kuliah</a>
@@ -102,13 +102,13 @@
                     @else
                         <span class="block px-3 py-2 text-base font-bold text-gray-900 dark:text-white"><i class="bi bi-person-circle mr-2"></i>{{ Auth::user()->name }}</span>
                     @endif
-                    <a href="{{ route('logout') }}" class="block px-3 py-2 text-base font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md" onclick="event.preventDefault(); document.getElementById('public-logout-form-mobile').submit();">Logout</a>
+                    <a href="{{ route('logout') }}" class="block px-3 py-2 text-base font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md" onclick="event.preventDefault(); document.getElementById('public-logout-form-mobile').submit();">Keluar</a>
                     <form id="public-logout-form-mobile" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="block w-full text-center px-4 py-2 border border-indigo-600 text-indigo-600 font-medium rounded-md mb-2">Login</a>
-                    <a href="{{ route('register') }}" class="block w-full text-center px-4 py-2 bg-indigo-600 text-white font-medium rounded-md">Register</a>
+                    <a href="{{ route('login') }}" class="block w-full text-center px-4 py-2 border border-indigo-600 text-indigo-600 font-medium rounded-md mb-2">Masuk</a>
+                    <a href="{{ route('register') }}" class="block w-full text-center px-4 py-2 bg-indigo-600 text-white font-medium rounded-md">Daftar</a>
                 @endauth
             </div>
         </div>
