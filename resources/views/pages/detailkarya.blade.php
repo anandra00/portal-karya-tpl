@@ -91,11 +91,11 @@
                             
                             <div class="flex justify-between items-center mb-4 bg-gray-50 dark:bg-gray-900 p-3 rounded-lg border border-gray-200 dark:border-gray-700">
                                 <div class="stars-input text-2xl text-gray-300 dark:text-gray-600 flex gap-1 cursor-pointer">
-                                    <i class="bi bi-star hover:text-yellow-400 transition-colors" data-value="1"></i>
-                                    <i class="bi bi-star hover:text-yellow-400 transition-colors" data-value="2"></i>
-                                    <i class="bi bi-star hover:text-yellow-400 transition-colors" data-value="3"></i>
-                                    <i class="bi bi-star hover:text-yellow-400 transition-colors" data-value="4"></i>
-                                    <i class="bi bi-star hover:text-yellow-400 transition-colors" data-value="5"></i>
+                                    <i class="bi bi-star transition-all duration-200" data-value="1"></i>
+                                    <i class="bi bi-star transition-all duration-200" data-value="2"></i>
+                                    <i class="bi bi-star transition-all duration-200" data-value="3"></i>
+                                    <i class="bi bi-star transition-all duration-200" data-value="4"></i>
+                                    <i class="bi bi-star transition-all duration-200" data-value="5"></i>
                                 </div>
                                 <span class="font-bold text-indigo-600 dark:text-indigo-400" id="rating-display">N/A</span>
                             </div>
@@ -108,6 +108,38 @@
                             
                             <button class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-colors" type="submit">Kirim Umpan Balik</button>
                         </form>
+                    </div>
+
+                    {{-- Bagikan Karya Card --}}
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 transition-all hover:shadow-md">
+                        <h5 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Bagikan Karya</h5>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Bagikan karya inovatif ini ke rekan-rekan Anda melalui media sosial atau salin tautan langsung.</p>
+                        
+                        <div class="space-y-3">
+                            <!-- Copy Link Button -->
+                            <button id="btn-copy-link" data-url="{{ url()->current() }}"
+                                class="flex items-center justify-between w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 font-semibold transition-all">
+                                <span class="flex items-center text-sm">
+                                    <i class="bi bi-link-45deg text-lg mr-2 text-indigo-600 dark:text-indigo-400"></i>
+                                    <span id="copy-text">Salin Tautan</span>
+                                </span>
+                                <i id="copy-icon" class="bi bi-clipboard text-gray-400"></i>
+                            </button>
+
+                            <!-- Social Shares Group -->
+                            <div class="grid grid-cols-2 gap-3">
+                                <a href="https://api.whatsapp.com/send?text={{ rawurlencode('Yuk lihat karya keren ini: ' . $karya->judul . ' - ' . url()->current()) }}"
+                                    target="_blank"
+                                    class="flex items-center justify-center gap-2 px-4 py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl font-bold text-sm shadow-sm transition-all">
+                                    <i class="bi bi-whatsapp"></i> WhatsApp
+                                </a>
+                                <a href="https://t.me/share/url?url={{ urlencode(url()->current()) }}&text={{ urlencode('Yuk lihat karya keren ini: ' . $karya->judul) }}"
+                                    target="_blank"
+                                    class="flex items-center justify-center gap-2 px-4 py-3 bg-sky-500 hover:bg-sky-600 text-white rounded-xl font-bold text-sm shadow-sm transition-all">
+                                    <i class="bi bi-telegram"></i> Telegram
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
                     {{-- Review List --}}
@@ -151,31 +183,80 @@
     </main>
     @push('scripts')
         <script>
-            document.querySelectorAll('.stars-input i').forEach(star => {
+            document.addEventListener('DOMContentLoaded', function() {
+                const starsInput = document.querySelector('.stars-input');
+                const stars = document.querySelectorAll('.stars-input i');
+                const ratingValInput = document.getElementById('rating-value');
+                const ratingDisplay = document.getElementById('rating-display');
 
-                star.addEventListener('click', function () {
+                function updateStars(value) {
+                    stars.forEach((s, idx) => {
+                        if (idx < value) {
+                            s.classList.add('bi-star-fill', 'text-yellow-400');
+                            s.classList.remove('bi-star', 'text-gray-300', 'dark:text-gray-600');
+                        } else {
+                            s.classList.remove('bi-star-fill', 'text-yellow-400');
+                            s.classList.add('bi-star');
+                        }
+                    });
+                }
 
-                    const value = this.getAttribute('data-value');
-
-                    // isi hidden rating
-                    document.getElementById('rating-value').value = value;
-                    document.getElementById('rating-display').textContent = value + '.0';
-
-                    // reset semua bintang
-                    document.querySelectorAll('.stars-input i').forEach(s => {
-                        s.classList.remove('bi-star-fill');
-                        s.classList.add('bi-star');
+                stars.forEach(star => {
+                    star.addEventListener('click', function() {
+                        const value = parseInt(this.getAttribute('data-value'));
+                        ratingValInput.value = value;
+                        ratingDisplay.textContent = value + '.0';
+                        updateStars(value);
                     });
 
-                    // isi bintang sampai value
-                    for (let i = 1; i <= value; i++) {
-                        let target = document.querySelector(`.stars-input i[data-value="${i}"]`);
-                        if (target) {
-                            target.classList.add('bi-star-fill');
-                            target.classList.remove('bi-star');
-                        }
-                    }
+                    star.addEventListener('mouseenter', function() {
+                        const value = parseInt(this.getAttribute('data-value'));
+                        updateStars(value);
+                    });
                 });
+
+                if (starsInput) {
+                    starsInput.addEventListener('mouseleave', function() {
+                        const currentValue = parseInt(ratingValInput.value) || 0;
+                        if (currentValue === 0) {
+                            // Reset to default grey state
+                            stars.forEach(s => {
+                                s.classList.remove('bi-star-fill', 'text-yellow-400');
+                                s.classList.add('bi-star');
+                            });
+                            ratingDisplay.textContent = 'N/A';
+                        } else {
+                            updateStars(currentValue);
+                            ratingDisplay.textContent = currentValue + '.0';
+                        }
+                    });
+                }
+
+                // Clipboard Copy Functionality
+                const btnCopyLink = document.getElementById('btn-copy-link');
+                if (btnCopyLink) {
+                    btnCopyLink.addEventListener('click', function() {
+                        const url = this.getAttribute('data-url');
+                        navigator.clipboard.writeText(url).then(() => {
+                            const copyText = document.getElementById('copy-text');
+                            const copyIcon = document.getElementById('copy-icon');
+                            
+                            // Change state to Success
+                            copyText.textContent = 'Disalin!';
+                            copyText.classList.add('text-green-600', 'dark:text-green-400');
+                            copyIcon.className = 'bi bi-check-lg text-green-600 dark:text-green-400';
+                            
+                            // Reset after 2 seconds
+                            setTimeout(() => {
+                                copyText.textContent = 'Salin Tautan';
+                                copyText.classList.remove('text-green-600', 'dark:text-green-400');
+                                copyIcon.className = 'bi bi-clipboard text-gray-400';
+                            }, 2000);
+                        }).catch(err => {
+                            console.error('Gagal menyalin tautan: ', err);
+                        });
+                    });
+                }
             });
         </script>
     @endpush

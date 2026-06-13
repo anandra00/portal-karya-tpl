@@ -50,12 +50,52 @@ class DashboardController extends Controller
             return $chartData;
         });
 
+        $visitor_devices = \Illuminate\Support\Facades\Cache::remember('dashboard_visitor_devices', 600, function() {
+            $visitors = \Modules\Core\Models\Visitor::all();
+            
+            $browsers = [
+                'Chrome' => 0,
+                'Safari' => 0,
+                'Firefox' => 0,
+                'Edge' => 0,
+                'Opera' => 0,
+                'Lainnya' => 0
+            ];
+
+            $devices = [
+                'Desktop' => 0,
+                'Mobile' => 0,
+                'Tablet' => 0
+            ];
+
+            foreach ($visitors as $v) {
+                $browser = $v->browser;
+                $device = $v->device;
+
+                if (isset($browsers[$browser])) {
+                    $browsers[$browser]++;
+                } else {
+                    $browsers['Lainnya']++;
+                }
+
+                if (isset($devices[$device])) {
+                    $devices[$device]++;
+                }
+            }
+
+            return [
+                'browsers' => array_filter($browsers, fn($count) => $count > 0),
+                'devices' => array_filter($devices, fn($count) => $count > 0)
+            ];
+        });
+
         return view('admin.dashboard', compact(
             'ajuan_karya', 
             'karya_terunggah', 
             'pengunjung',
             'karya_by_kategori',
-            'kunjungan_harian'
+            'kunjungan_harian',
+            'visitor_devices'
         ));
     }
 

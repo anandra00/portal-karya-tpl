@@ -55,6 +55,7 @@ class DatabaseSeeder extends Seeder
             // KategoriSeeder::class,
             // KaryaSeeder::class,
             ProdiSeeder::class,
+            VisitorSeeder::class,
         ]);
     }
 }

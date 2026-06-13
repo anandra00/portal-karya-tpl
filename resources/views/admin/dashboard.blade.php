@@ -51,7 +51,7 @@
 </div>
 
 <!-- Interactive Charts Section -->
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
     <!-- Chart 1: Visitor Traffic -->
     <div class="dashboard-card" style="display: block; min-height: auto; padding-bottom: 1.5rem; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
         <h3 style="font-size: 1.15rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
@@ -71,6 +71,17 @@
         </h3>
         <div style="width: 100%; height: 280px; position: relative; display: flex; align-items: center; justify-content: center;">
             <canvas id="categoryChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Chart 3: Device / Browser Distribution -->
+    <div class="dashboard-card" style="display: block; min-height: auto; padding-bottom: 1.5rem; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+        <h3 style="font-size: 1.15rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
+            <i data-feather="smartphone" style="width: 20px; height: 20px; color: var(--warning);"></i>
+            Browser Pengunjung
+        </h3>
+        <div style="width: 100%; height: 280px; position: relative; display: flex; align-items: center; justify-content: center;">
+            <canvas id="deviceChart"></canvas>
         </div>
     </div>
 </div>
@@ -188,6 +199,79 @@
                             '#3B82F6', // Blue
                             '#EC4899', // Pink
                             '#8B5CF6'  // Purple
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                boxWidth: 12,
+                                font: {
+                                    family: 'Outfit',
+                                    size: 12
+                                },
+                                color: '#4B5563'
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+
+        // Browser/Device Chart (Doughnut Chart)
+        const deviceData = @json($visitor_devices['browsers'] ?? []);
+        const deviceLabels = Object.keys(deviceData);
+        const deviceCounts = Object.values(deviceData);
+
+        const ctxDevice = document.getElementById('deviceChart').getContext('2d');
+        if (deviceCounts.length === 0) {
+            new Chart(ctxDevice, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Belum ada data'],
+                    datasets: [{
+                        data: [1],
+                        backgroundColor: ['#E5E7EB'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                font: {
+                                    family: 'Outfit'
+                                }
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        } else {
+            new Chart(ctxDevice, {
+                type: 'doughnut',
+                data: {
+                    labels: deviceLabels,
+                    datasets: [{
+                        data: deviceCounts,
+                        backgroundColor: [
+                            '#8B5CF6', // Violet / Purple
+                            '#3B82F6', // Blue
+                            '#EC4899', // Pink
+                            '#F59E0B', // Amber / Orange
+                            '#10B981', // Emerald
+                            '#6B7280'  // Grey
                         ],
                         borderWidth: 2,
                         borderColor: '#fff'

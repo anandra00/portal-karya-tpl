@@ -27,10 +27,24 @@ class Visitor extends Model
 
     public function getBrowserAttribute()
     {
-        if (str_contains($this->user_agent, 'Chrome')) return 'Chrome';
-        if (str_contains($this->user_agent, 'Firefox')) return 'Firefox';
-        if (str_contains($this->user_agent, 'Safari')) return 'Safari';
-        if (str_contains($this->user_agent, 'Edge')) return 'Edge';
-        return 'Unknown';
+        $ua = $this->user_agent ?? '';
+        if (str_contains($ua, 'Edge') || str_contains($ua, 'Edg')) return 'Edge';
+        if (str_contains($ua, 'OPR') || str_contains($ua, 'Opera')) return 'Opera';
+        if (str_contains($ua, 'Firefox')) return 'Firefox';
+        if (str_contains($ua, 'Chrome')) return 'Chrome';
+        if (str_contains($ua, 'Safari')) return 'Safari';
+        return 'Lainnya';
+    }
+
+    public function getDeviceAttribute()
+    {
+        $ua = $this->user_agent ?? '';
+        if (preg_match('/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i', $ua)) {
+            return 'Tablet';
+        }
+        if (preg_match('/(mobi|ipod|iphone|blackberry|opera mini|opera mobi)/i', $ua)) {
+            return 'Mobile';
+        }
+        return 'Desktop';
     }
 }
