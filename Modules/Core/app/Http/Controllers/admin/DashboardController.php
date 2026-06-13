@@ -89,13 +89,23 @@ class DashboardController extends Controller
             ];
         });
 
+        $latest_karyas = \Illuminate\Support\Facades\Cache::remember('dashboard_latest_karyas', 60, function() {
+            return \Modules\Karya\Models\Karya::orderBy('created_at', 'desc')->limit(5)->get();
+        });
+
+        $latest_activities = \Illuminate\Support\Facades\Cache::remember('dashboard_latest_activities', 60, function() {
+            return \Modules\Core\Models\ActivityLog::orderBy('created_at', 'desc')->limit(5)->get();
+        });
+
         return view('admin.dashboard', compact(
             'ajuan_karya', 
             'karya_terunggah', 
             'pengunjung',
             'karya_by_kategori',
             'kunjungan_harian',
-            'visitor_devices'
+            'visitor_devices',
+            'latest_karyas',
+            'latest_activities'
         ));
     }
 
