@@ -25,18 +25,36 @@
 
 <section class="py-12 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
     
-    {{-- BAGIAN VIDEO --}}
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 fade-in-up">
-        <iframe 
-            src="https://www.youtube.com/embed/ch03himP1XQ?si=guh3EiDAjV6s4CYJ" 
-            title="YouTube video player" 
-            frameborder="0" 
-            loading="lazy"
-            class="w-full aspect-video shadow-2xl rounded-2xl border border-gray-200 dark:border-gray-800 object-cover"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            referrerpolicy="strict-origin-when-cross-origin" 
-            allowfullscreen>
-        </iframe>
+    {{-- BAGIAN HIGHLIGHT PORTAL --}}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 fade-in-up">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-lg border border-gray-100 dark:border-gray-700 hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden">
+                <div class="absolute -right-6 -top-6 w-24 h-24 bg-indigo-50 dark:bg-gray-700 rounded-full opacity-50"></div>
+                <div class="w-14 h-14 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mb-6 relative z-10">
+                    <i class="bi bi-rocket-takeoff text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 relative z-10">Inovasi Berkelanjutan</h3>
+                <p class="text-gray-600 dark:text-gray-400 relative z-10">Portal ini menjadi wadah utama bagi mahasiswa TRPL untuk memamerkan solusi teknologi yang relevan dengan kebutuhan industri masa kini.</p>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-lg border border-gray-100 dark:border-gray-700 hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden">
+                <div class="absolute -right-6 -top-6 w-24 h-24 bg-green-50 dark:bg-gray-700 rounded-full opacity-50"></div>
+                <div class="w-14 h-14 bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 rounded-2xl flex items-center justify-center mb-6 relative z-10">
+                    <i class="bi bi-people text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 relative z-10">Kolaborasi Tim</h3>
+                <p class="text-gray-600 dark:text-gray-400 relative z-10">Setiap karya merupakan hasil kerja keras tim mahasiswa yang mengedepankan kolaborasi, komunikasi, dan manajemen proyek yang baik.</p>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-lg border border-gray-100 dark:border-gray-700 hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden">
+                <div class="absolute -right-6 -top-6 w-24 h-24 bg-yellow-50 dark:bg-gray-700 rounded-full opacity-50"></div>
+                <div class="w-14 h-14 bg-yellow-100 dark:bg-yellow-900/50 text-yellow-600 dark:text-yellow-400 rounded-2xl flex items-center justify-center mb-6 relative z-10">
+                    <i class="bi bi-star text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 relative z-10">Standar Industri</h3>
+                <p class="text-gray-600 dark:text-gray-400 relative z-10">Aplikasi yang dikembangkan berpedoman pada standar industri teknologi, mulai dari UI/UX, keamanan, hingga efisiensi sistem.</p>
+            </div>
+        </div>
     </div>
             
     {{-- BAGIAN KARYA MAHASISWA --}}

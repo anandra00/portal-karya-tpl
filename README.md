@@ -1,177 +1,134 @@
-# Portal TPL SV IPB (PJBL-EUYY)
+<div align="center">
 
-Portal ini adalah sistem informasi berbasis web untuk Program Studi Teknologi Rekayasa Perangkat Lunak (TPL) Sekolah Vokasi IPB. Aplikasi ini berfungsi sebagai wadah untuk menampilkan karya mahasiswa, profil dosen, berita prodi, mata kuliah, dan informasi akademik lainnya.
+# 🎓 Portal Karya TRPL SV IPB (PJBL-EUYY)
+**Sistem Informasi Terpadu & Galeri Karya Mahasiswa Berbasis Modular Monolith**
 
-> **Tagline:** "Syntax Error? Compile Lagi!"
+[![Laravel](https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
 
-## 🌟 Fitur Utama
+> *"Sebuah platform galeri karya mahasiswa, ulasan ulasan, manajemen berita prodi, dan konten akademik Sekolah Vokasi IPB University dengan arsitektur modern standar industri."*
 
-### 👥 Halaman Pengunjung (Public)
-* **Beranda:** Menampilkan video profil, highlight karya mahasiswa, dan berita terbaru.
-* **Tentang Kami:** Visi, Misi, Tujuan, dan Capaian Program Studi.
-* **Dosen:** Daftar profil dosen pengajar.
-* **Mata Kuliah:** Informasi kurikulum dan mata kuliah.
-* **Karya Mahasiswa:** Galeri hasil karya/proyek mahasiswa dengan fitur filter kategori.
-* **Detail Karya:** Informasi detail proyek, tim pembuat, dan ulasan/rating.
-* **Berita:** Kabar terbaru seputar prodi TPL.
-* **FAQ:** Pertanyaan yang sering diajukan.
+</div>
 
-### 🔐 Panel Admin (Dashboard)
-* **Dashboard:** Ringkasan statistik sistem.
-* **Kelola Karya:** Validasi ajuan karya mahasiswa (Submission, Accepted, Rejected).
-* **Kelola Berita:** CRUD (Create, Read, Update, Delete) untuk artikel berita.
-* **Kelola Dosen:** Manajemen data dosen.
-* **Kelola Mata Kuliah:** Manajemen data mata kuliah.
-* **Kelola Info Prodi:** Edit visi, misi, dan video profil.
-* **Manajemen Admin:** Kelola akun administrator.
-* **Validasi Konten:** Memeriksa dan menyetujui konten sebelum dipublikasi.
+---
 
-## 🛠️ Teknologi yang Digunakan
+## 🏛️ Arsitektur Sistem: Modular Monolith
 
-* **Framework:** [Laravel 11.x](https://laravel.com)
-* **Bahasa:** PHP 8.2+
-* **Database:** MySQL
-* **Frontend:**
-    * Blade Templating Engine
-    * Bootstrap 5 (Layouting utama)
-    * Tailwind CSS (Konfigurasi terdeteksi)
-    * Custom CSS (`public/css/`)
-* **Icons:** Feather Icons, Bootstrap Icons
-* **Authentication:** Laravel Breeze / Built-in Auth
+Aplikasi ini menggunakan pola arsitektur **Modular Monolith** menggunakan package `nwidart/laravel-modules`. Pendekatan ini memisahkan sistem menjadi domain-domain independen (*modules*) untuk mempermudah pemeliharaan jangka panjang, skalabilitas tim, dan transisi ke microservices di masa mendatang jika diperlukan.
 
-## 📋 Prasyarat Sistem
+```mermaid
+graph TD
+    subgraph Core
+        App[Root App]
+    end
+    subgraph Modules
+        Auth[Modul Auth]
+        Karya[Modul Karya]
+        Akademik[Modul Akademik]
+        CoreModule[Modul Core]
+    end
+    App --> Modules
+    Karya --> Auth
+    Akademik --> CoreModule
+```
 
-Sebelum menjalankan proyek ini, pastikan komputer Anda memiliki:
-* PHP >= 8.2
-* Composer
-* MySQL / MariaDB
-* Node.js & NPM (untuk compile asset)
+### 📦 Batasan Domain (Domain Boundaries)
 
-## 🚀 Cara Instalasi
+1. **`Modules/Core`**: Mengelola halaman utama (*Home*), data profil program studi (*About*), FAQ, penjejakan pengunjung (*Visitor Logging*), *Activity Log*, serta halaman utama Dashboard Admin.
+2. **`Modules/Auth`**: Mengelola otentikasi penuh sistem (Login, Register, Logout, Alur Reset Password via Email).
+3. **`Modules/Karya`**: Mengatur pengajuan karya mahasiswa, ulasan & rating bintang, sistem validasi (moderasi accepted/rejected oleh admin), dan ekspor laporan.
+4. **`Modules/Akademik`**: Mengelola data akademik seperti profil Dosen, kurikulum Mata Kuliah, dan artikel Berita/Kegiatan prodi.
 
-Ikuti langkah-langkah berikut untuk menjalankan proyek di komputer lokal Anda:
+---
 
-1.  **Clone Repositori**
-    ```bash
-    git clone [https://github.com/username/pjbl-euyy.git](https://github.com/username/pjbl-euyy.git)
-    cd pjbl-euyy
-    ```
+## ✨ Fitur Utama & Keunggulan Teknikal
 
-2.  **Install Dependensi PHP**
-    ```bash
-    composer install
-    ```
+### 💎 Desain UI/UX Premium & Dark Mode
+- Antarmuka interaktif menggunakan **Outfit & Inter** Google Fonts.
+- Penerapan **Glassmorphism** dan **Micro-Animations** berbasis Tailwind CSS & Alpine.js.
+- Fitur **Dark Mode** instan tanpa efek flash saat memuat halaman (*anti-flash script* di header).
+- Integrasi PWA (Progressive Web App) dengan service worker (`sw.js`).
 
-3.  **Install Dependensi Frontend**
-    ```bash
-    npm install
-    ```
+### 📊 Ekspor Laporan Excel Premium (PhpSpreadsheet)
+- Modul Karya dan Visitor dilengkapi dengan fitur ekspor data otomatis ke Excel (.xlsx).
+- Hasil ekspor dirancang secara premium: memiliki header institusi resmi, penyesuaian lebar kolom otomatis, pewarnaan status dinamis (*color-coded statuses*), dan baris bergantian warna (*zebra striping*).
 
-4.  **Konfigurasi Environment**
-    * Salin file `.env.example` menjadi `.env`:
-        ```bash
-        cp .env.example .env
-        ```
-    * Buka file `.env` dan sesuaikan konfigurasi database Anda:
-        ```env
-        DB_CONNECTION=mysql
-        DB_HOST=127.0.0.1
-        DB_PORT=3306
-        DB_DATABASE=nama_database_anda
-        DB_USERNAME=root
-        DB_PASSWORD=
-        ```
+### 🚀 Optimasi Performa Tingkat Lanjut
+1. **Eager Loading (Pencegahan N+1 Query)**: Semua pemanggilan ulasan dan relasi model dioptimalkan menggunakan metode `with()` (contoh: pemuatan karya beserta ulasan dan data penggunanya pada Home dan Galeri).
+2. **Query Caching**: Menggunakan `Cache::remember` dengan durasi caching dinamis untuk data statis seperti data Dosen, statistik karya, dan total statistik dashboard admin.
+3. **Database Indexing**: Kolom pencarian kritis seperti `status_validasi`, `kategori`, dan `tahun` pada tabel `karyas` dioptimalkan dengan indeks database demi pencarian secepat kilat.
+4. **Robust FormRequest Validation**: Seluruh aturan validasi dipisahkan dari Controller ke file Request khusus (seperti `StoreKaryaRequest`) untuk menjaga kebersihan logika controller.
 
-5.  **Generate App Key**
-    ```bash
-    php artisan key:generate
-    ```
+---
 
-6.  **Migrasi Database & Seeder**
-    Jalankan perintah ini untuk membuat tabel dan mengisi data awal (akun admin default, kategori, prodi, dll):
-    ```bash
-    php artisan migrate --seed
-    ```
+## 🚀 Cara Instalasi & Menjalankan Lokal
 
-7.  **Jalankan Aplikasi**
-    Buka dua terminal terpisah:
-    * Terminal 1 (Server PHP):
-        ```bash
-        php artisan serve
-        ```
-    * Terminal 2 (Compile Assets - Optional jika pakai Vite/Tailwind):
-        ```bash
-        npm run dev
-        ```
+Pastikan Anda memiliki **PHP >= 8.2**, **Composer >= 2.x**, **Node.js >= 18.x**, dan **MySQL** terinstal.
 
-8.  **Akses Aplikasi**
-    Buka browser dan kunjungi: `http://localhost:8000`
+1. **Clone Repositori**
+   ```bash
+   git clone https://github.com/username/pjbl-euyy.git
+   cd pjbl-euyy
+   ```
 
-## 📂 Struktur Folder Penting
+2. **Instal Dependensi Backend & Frontend**
+   ```bash
+   composer install
+   npm install
+   ```
 
-* `app/Models` - Definisi struktur data (Karya, Dosen, Berita, dll).
-* `app/Http/Controllers/admin` - Logika untuk halaman dashboard admin.
-* `resources/views/pages` - Tampilan halaman depan (Public).
-* `resources/views/admin` - Tampilan halaman dashboard admin.
-* `public/css` - File CSS kustom untuk styling spesifik per halaman.
-* `database/seeders` - Data awal untuk pengujian.
+3. **Konfigurasi Environment**
+   Salin file konfigurasi env dan atur kredensial database Anda:
+   ```bash
+   cp .env.example .env
+   ```
+   Buka file `.env` dan pastikan konfigurasi database sesuai:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=portaltpl
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
 
-## 🤝 Kontribusi
+4. **Generate App Key & Migrasi Data**
+   Jalankan migrasi database beserta penambahan indeks performa dan seed data awal:
+   ```bash
+   php artisan key:generate
+   php artisan migrate --seed
+   ```
+   *(Penyedia data / Seeder akan otomatis membuatkan akun admin bawaan beserta contoh data dosen, kategori karya, dll).*
 
-Tim Pengembang:
-* **Radithtzy0890** (Owner)
-* *Tambahkan nama anggota tim lain di sini*
+5. **Jalankan Server Lokal**
+   Buka dua jendela terminal terpisah:
+   ```bash
+   # Terminal 1 (PHP Server)
+   php artisan serve
 
-## 📝 Lisensi
+   # Terminal 2 (Vite Server untuk CSS/JS)
+   npm run dev
+   ```
+   Akses di browser Anda: `http://localhost:8000`
 
-Proyek ini dibuat untuk keperluan tugas Project Based Learning (PBL) Sekolah Vokasi IPB.
+---
 
-## 🌟 Fitur Aplikasi
+## 🧪 Pengujian Otomatis (Testing)
 
-Aplikasi ini dibagi menjadi dua modul utama: Halaman Publik (untuk Pengunjung/Mahasiswa) dan Panel Admin (untuk Pengelola).
+Proyek ini dilengkapi dengan suite pengujian otomatis tingkat fitur (Feature Tests) untuk memastikan integritas kode dan rute aman dari celah otorisasi:
+```bash
+php artisan test
+```
 
-### 👥 Halaman Publik (User & Visitor)
-Fitur yang dapat diakses oleh mahasiswa atau pengunjung umum:
+Fitur yang diuji meliputi:
+- Pembebanan halaman publik (Home, Dosen, Mata Kuliah, Galeri Karya).
+- Hak akses berbasis peran (*Role-Based Access Control* / RBAC).
+- Alur pengajuan karya dan validasi admin.
+- Validasi fungsionalitas unduhan Laporan Excel (.xlsx).
 
-* **Otentikasi Pengguna**
-    * Login, Register, dan Lupa Password (Reset Password).
-    * Verifikasi Email.
-* **Beranda (Home)**
-    * Menampilkan video profil program studi.
-    * *Highlight* karya mahasiswa terbaru dan berita terkini.
-* **Profil Program Studi (Tentang Kami)**
-    * Informasi Visi, Misi, Tujuan, dan Capaian Pembelajaran Lulusan.
-    * Video profil interaktif.
-* **Direktori Dosen**
-    * Daftar profil lengkap dosen pengajar di TPL SV IPB.
-* **Informasi Akademik**
-    * Daftar Mata Kuliah dan kurikulum yang diajarkan.
-* **Portal Karya Mahasiswa**
-    * **Galeri Karya:** Menampilkan daftar proyek/karya mahasiswa dengan filter kategori.
-    * **Detail Karya:** Halaman khusus untuk setiap karya yang memuat deskripsi, tim pembuat, dan pratinjau (gambar/dokumen).
-    * **Unggah Karya:** Fitur bagi mahasiswa untuk mengajukan karya mereka (memerlukan login).
-    * **Ulasan & Rating:** Pengguna yang login dapat memberikan bintang dan komentar pada karya.
-* **Berita & Pengumuman**
-    * Artikel berita terbaru seputar kegiatan prodi.
-* **FAQ**
-    * Daftar pertanyaan yang sering diajukan beserta jawabannya.
-
-### 🛠️ Panel Admin (Dashboard)
-Fitur manajemen untuk administrator prodi:
-
-* **Dashboard Statistik**
-    * Ringkasan jumlah karya, berita, dosen, dan aktivitas pengunjung.
-* **Manajemen Karya (Validation Flow)**
-    * **Validasi:** Memeriksa karya yang baru diunggah mahasiswa (Status: *Submission*, *Accepted*, *Rejected*).
-    * **Kelola Data:** Edit atau hapus data karya yang sudah ada.
-* **Manajemen Konten Website**
-    * **Kelola Berita:** Tambah, edit, dan hapus artikel berita.
-    * **Kelola Dosen:** Manajemen data profil dosen (Nama, NIDN, Foto, Bidang Keahlian).
-    * **Kelola Mata Kuliah:** Manajemen data mata kuliah (Nama, SKS, Semester, Deskripsi).
-    * **Kelola Info Prodi:** Edit teks Visi, Misi, Capaian, dan link Video Profil tanpa coding.
-    * **Kelola Kontak/Pesan:** Melihat pesan masuk dari pengunjung.
-* **Manajemen Pengguna**
-    * **Kelola Admin:** Menambah atau menghapus akun administrator.
-    * **Daftar Pengunjung:** Melihat log aktivitas atau statistik pengunjung (*Activity Logs*).
-* **Manajemen Ulasan**
-    * Moderasi ulasan yang masuk pada karya mahasiswa.
+---
+<div align="center">
+  <i>Dikembangkan dengan standar arsitektur bersih dan performa prima untuk Sekolah Vokasi IPB University.</i>
+</div>

@@ -1,0 +1,11 @@
+{
+    "name": "Karya",
+    "alias": "karya",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Karya\\Providers\\KaryaServiceProvider"
+    ],
+    "files": []
+}

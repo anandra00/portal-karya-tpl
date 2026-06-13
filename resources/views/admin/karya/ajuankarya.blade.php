@@ -19,10 +19,10 @@
             </div>
             
             <div style="display: flex; gap: 0.75rem; width: 100%; margin-top: 0.5rem;">
-                <form action="{{ route('karya.destroy', $karya->id) }}" method="post" style="margin: 0; flex: 1;">
+                <form action="{{ route('karya.destroy', $karya->id) }}" method="post" class="delete-form" data-name="{{ $karya->judul }}" style="margin: 0; flex: 1;">
                     @csrf
                     @method("delete")
-                    <button type="submit" class="btn btn-danger" style="width: 100%; justify-content: center;" onclick="return confirm('Apakah Anda yakin ingin menghapus ajuan ini?');">
+                    <button type="submit" class="btn btn-danger" style="width: 100%; justify-content: center;">
                         <i data-feather="trash-2" style="width: 16px; height: 16px;"></i>
                         Hapus
                     </button>

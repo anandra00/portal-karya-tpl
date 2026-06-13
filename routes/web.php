@@ -9,19 +9,20 @@ use App\Models\User;
 
 use App\Mail\SendEmail;
 
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\BeritaUserController;
+use Modules\Auth\Http\Controllers\AuthController;
+use Modules\Core\Http\Controllers\HomeController;
+use Modules\Core\Http\Controllers\ProfileController;
+use Modules\Akademik\Http\Controllers\BeritaUserController;
 
-use App\Http\Controllers\Admin\DosenController;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\KaryaController;
-use App\Http\Controllers\Admin\ProfilProdiController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\ReviewController;
-use App\Http\Controllers\Admin\BeritaController;
-use App\Http\Controllers\Admin\MataKuliahController;
+use Modules\Akademik\Http\Controllers\admin\DosenController;
+use Modules\Akademik\Http\Controllers\admin\MataKuliahController;
+use Modules\Akademik\Http\Controllers\admin\BeritaController;
+use Modules\Core\Http\Controllers\admin\ProfilProdiController;
+use Modules\Core\Http\Controllers\admin\DashboardController;
+use Modules\Karya\Http\Controllers\admin\ReviewController;
+use Modules\Core\Http\Controllers\admin\AdminController;
+use Modules\Karya\Http\Controllers\admin\KaryaController;
+use Modules\Core\Http\Controllers\admin\KontakController;
 
 // ============================================
 // PUBLIC ROUTES (No Auth Required)
@@ -47,7 +48,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.su
 
 Route::get('/login', function () { return view('auth.login'); })->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/forgot-password', function () { return view('auth.forgot-password'); })->name('forgot-password');
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password.submit');
@@ -79,9 +80,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     
     // Dashboard Admin
-    Route::get('dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     // Mail Testing (Admin only)
     Route::get('/mail/send', function () {
@@ -119,21 +118,15 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('karya/validasi/{id}', [KaryaController::class, 'validationForm'])->name("karya.form");
     Route::resource('karya', KaryaController::class);
 
-    // Admin - Info Prodi
-    Route::resource('info-prodi', \App\Http\Controllers\Admin\ProfilProdiController::class)->except(['create', 'store', 'show', 'destroy']);
-
     // Admin - Activity Log
-    Route::get('/activity-logs', [\App\Http\Controllers\admin\ActivityController::class, 'index'])->name('activity-logs.index');
+    Route::get('/activity-logs', [\Modules\Core\Http\Controllers\admin\ActivityController::class, 'index'])->name('activity-logs.index');
 
-    // Info Prodi
+    // Admin - Info Prodi
     Route::resource('info-prodi', ProfilProdiController::class);
     Route::get('/info-prodi/{kodeProdi}/edit/{type}', [ProfilProdiController::class, 'editWithType'])->name('info-prodi.editType');
 
     // Dosen Management
-    Route::get('dosen', function () {
-        $dosens = Dosen::all();
-        return view('admin.dosen.index', compact('dosens'));
-    })->name('dosen.index');
+    Route::get('dosen', [DosenController::class, 'index'])->name('dosen.index');
     Route::get('dosen/create', function () { return view('admin.dosen.create'); })->name('dosen.create');
     Route::post('dosen', [DosenController::class, 'store'])->name('dosen.store');
     Route::get('dosen/{id}', [DosenController::class, 'show'])->name('dosen.show');
@@ -142,44 +135,14 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::delete('dosen/{id}', [DosenController::class, 'destroy'])->name('dosen.destroy');
 
     // Ajuan Karya & Lihat Karya Pages
-    Route::get('ajuankarya', function () {
-        $karyas = Karya::where('status_validasi', 'submission')->get();
-        return view('admin.karya.ajuankarya', compact('karyas'));
-    })->name('ajuankarya');
+    Route::get('ajuankarya', [KaryaController::class, 'ajuanKarya'])->name('ajuankarya');
 
-    Route::get('lihatkarya', function () {
-        $karyas = Karya::where('status_validasi', 'accepted')->get();        
-        return view('admin.karya.lihatkarya', compact('karyas'));
-    })->name('lihatkarya');
+    Route::get('lihatkarya', [KaryaController::class, 'lihatKarya'])->name('lihatkarya');
     
 
     // Pengunjung Management
-    Route::get('lihat-pengunjung', function () {
-        $users = App\Models\User::where('role', 'user')->get();
-        return view('admin.pengunjung.index', compact('users'));
-    })->name('lihatpengunjung');
-
-    Route::get('export-pengunjung', function () {
-        $users = App\Models\User::where('role', 'user')->get();
-        $filename = "laporan_pengunjung_" . date('Y-m-d_H-i-s') . ".csv";
-        $headers = [
-            "Content-type"        => "text/csv",
-            "Content-Disposition" => "attachment; filename=$filename",
-            "Pragma"              => "no-cache",
-            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
-            "Expires"             => "0"
-        ];
-        $columns = ['ID', 'Nama', 'Email', 'Role', 'Tanggal Mendaftar'];
-        $callback = function() use($users, $columns) {
-            $file = fopen('php://output', 'w');
-            fputcsv($file, $columns);
-            foreach ($users as $user) {
-                fputcsv($file, [$user->id, $user->name, $user->email, $user->role, $user->created_at]);
-            }
-            fclose($file);
-        };
-        return response()->stream($callback, 200, $headers);
-    })->name('pengunjung.export');
+    Route::get('lihat-pengunjung', [AdminController::class, 'lihatPengunjung'])->name('lihatpengunjung');
+    Route::get('export-pengunjung', [AdminController::class, 'exportPengunjung'])->name('pengunjung.export');
 
     // Admin List & Management
     Route::get('/list', [AdminController::class, 'index'])->name('admin.list');

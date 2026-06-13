@@ -34,7 +34,7 @@
             <h3 style="font-size: 1.25rem; font-weight: 600; margin: 0; color: var(--text-main);">Visi & Misi</h3>
         </div>
         <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem;">Sesuaikan teks visi dan misi dari program studi TRPL.</p>
-        <a href="{{ route('info-prodi.editType', ['kodeProdi' => $profil->kode_prodi ?? 'TRPL', 'type' => 'visi-misi']) }}" class="btn btn-success" style="width: 100%; justify-content: center; background: var(--success); border-color: var(--success);">
+        <a href="{{ route('info-prodi.editType', ['kodeProdi' => $profil->kode_prodi ?? 'TRPL', 'type' => 'visi-misi']) }}" class="btn btn-success" style="width: 100%; justify-content: center; background: var(--success); border-color: var(--success); color: white;">
             <i data-feather="edit-2"></i> Edit Visi Misi
         </a>
     </div>

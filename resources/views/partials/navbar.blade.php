@@ -23,6 +23,20 @@
                     <i class="bi bi-moon-stars-fill text-lg" id="theme-icon"></i>
                 </button>
 
+                <!-- Google Translate Hidden Engine -->
+                <div id="google_translate_element"></div>
+
+                <!-- Custom Language Switcher -->
+                <div class="relative ml-2 flex items-center">
+                    <div class="flex items-center gap-1 bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800 rounded-full px-2 py-1 cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition shadow-sm">
+                        <i class="bi bi-translate text-indigo-600 dark:text-indigo-400 text-sm pl-1"></i>
+                        <select class="custom-language-selector bg-transparent border-none text-xs font-bold text-indigo-700 dark:text-indigo-300 focus:ring-0 cursor-pointer outline-none pl-1 pr-5 appearance-none" style="background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%234F46E5%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3e%3cpolyline points=%226 9 12 15 18 9%22%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right center; background-size: 12px;">
+                            <option value="id">ID</option>
+                            <option value="en">EN</option>
+                        </select>
+                    </div>
+                </div>
+
                 @auth
                     @if(Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
                         <a href="{{ route('dashboard') }}" class="font-bold text-gray-900 dark:text-white flex items-center hover:text-indigo-600 transition">
@@ -33,9 +47,12 @@
                             <i class="bi bi-person-circle mr-2"></i>{{ Auth::user()->name }}
                         </span>
                     @endif
-                    <a href="{{ route('logout') }}" class="text-red-500 hover:text-red-700 font-semibold transition flex items-center">
+                    <a href="{{ route('logout') }}" class="text-red-500 hover:text-red-700 font-semibold transition flex items-center" onclick="event.preventDefault(); document.getElementById('public-logout-form').submit();">
                         <i class="bi bi-box-arrow-right mr-1"></i>Logout
                     </a>
+                    <form id="public-logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
                 @else
                     <a href="{{ route('login') }}" class="px-5 py-2 text-indigo-600 border border-indigo-600 font-semibold rounded-lg hover:bg-indigo-50 transition">Login</a>
                     <a href="{{ route('register') }}" class="px-5 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 shadow-md transition">Register</a>
@@ -66,6 +83,18 @@
             <a href="{{ route('matakuliah.user') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">Mata Kuliah</a>
             <a href="{{ route('faq') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">FAQ</a>
 
+            <div class="px-3 py-2 flex items-center gap-3">
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Bahasa:</span>
+                <div id="google_translate_element_mobile"></div>
+                <div class="flex items-center gap-1 bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800 rounded-full px-2 py-1 cursor-pointer">
+                    <i class="bi bi-translate text-indigo-600 dark:text-indigo-400 text-sm pl-1"></i>
+                    <select class="custom-language-selector bg-transparent border-none text-xs font-bold text-indigo-700 dark:text-indigo-300 focus:ring-0 cursor-pointer outline-none pl-1 pr-5 appearance-none" style="background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%234F46E5%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3e%3cpolyline points=%226 9 12 15 18 9%22%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right center; background-size: 12px;">
+                        <option value="id">ID</option>
+                        <option value="en">EN</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="border-t border-gray-200 dark:border-gray-700 pt-4 pb-2">
                 @auth
                     @if(Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
@@ -73,7 +102,10 @@
                     @else
                         <span class="block px-3 py-2 text-base font-bold text-gray-900 dark:text-white"><i class="bi bi-person-circle mr-2"></i>{{ Auth::user()->name }}</span>
                     @endif
-                    <a href="{{ route('logout') }}" class="block px-3 py-2 text-base font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md">Logout</a>
+                    <a href="{{ route('logout') }}" class="block px-3 py-2 text-base font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md" onclick="event.preventDefault(); document.getElementById('public-logout-form-mobile').submit();">Logout</a>
+                    <form id="public-logout-form-mobile" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
                 @else
                     <a href="{{ route('login') }}" class="block w-full text-center px-4 py-2 border border-indigo-600 text-indigo-600 font-medium rounded-md mb-2">Login</a>
                     <a href="{{ route('register') }}" class="block w-full text-center px-4 py-2 bg-indigo-600 text-white font-medium rounded-md">Register</a>

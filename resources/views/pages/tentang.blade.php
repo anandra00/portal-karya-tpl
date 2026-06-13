@@ -11,16 +11,30 @@
 @section('content')
 <main class="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
 
-    {{-- ======================== VIDEO PROFIL ======================== --}}
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 fade-in-up">
-        <video controls autoplay muted loop class="w-full aspect-video shadow-2xl rounded-2xl border border-gray-200 dark:border-gray-800 object-cover">
-            @if (!empty($profil->video))
-                <source src="{{ asset('storage/' . $profil->video) }}" type="video/mp4">
-            @else
-                <source src="{{ asset('videos/TEKNOLOGI REKAYASA PERANGKAT LUNAK - Video Profil 2025 (1).mp4') }}" type="video/mp4">
-            @endif
-            Browser Anda tidak mendukung tag video.
-        </video>
+    {{-- ======================== SAMBUTAN / PROFIL SINGKAT ======================== --}}
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 fade-in-up">
+        <div class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-blue-900 rounded-3xl shadow-2xl overflow-hidden relative">
+            <!-- Decorative circles -->
+            <div class="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-white opacity-5 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-72 h-72 bg-blue-400 opacity-10 rounded-full blur-2xl"></div>
+            
+            <div class="p-10 md:p-14 relative z-10 flex flex-col md:flex-row items-center gap-10">
+                <div class="w-full md:w-1/3 flex justify-center">
+                    <div class="w-48 h-48 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 shadow-[0_0_40px_rgba(255,255,255,0.1)] hover:scale-105 transition-transform duration-300">
+                        <i class="bi bi-laptop text-7xl text-white"></i>
+                    </div>
+                </div>
+                <div class="w-full md:w-2/3 text-center md:text-left">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4 leading-tight">Mencetak Talenta Digital Masa Depan</h2>
+                    <p class="text-indigo-100 text-lg leading-relaxed mb-6">
+                        Program Studi Teknologi Rekayasa Perangkat Lunak (TRPL) Sekolah Vokasi IPB didedikasikan untuk menghasilkan lulusan yang tidak hanya menguasai teori, tetapi sangat mahir dalam praktik pengembangan perangkat lunak sesuai standar industri terkemuka.
+                    </p>
+                    <div class="inline-flex items-center gap-2 text-white font-medium bg-white/10 px-5 py-2.5 rounded-full backdrop-blur-sm border border-white/10 shadow-sm">
+                        <i class="bi bi-check-circle-fill text-green-400"></i> Terakreditasi Unggul
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     {{-- ======================== VISI, MISI, CAPAIAN ======================== --}}

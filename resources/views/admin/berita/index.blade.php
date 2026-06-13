@@ -48,7 +48,7 @@
                         Edit
                     </a>
                     
-                    <form action="{{ route('admin.berita.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus berita ini?');" style="margin: 0;">
+                    <form action="{{ route('admin.berita.destroy', $item->id) }}" method="POST" class="delete-form" data-name="{{ $item->judul }}" style="margin: 0;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger" style="padding: 0.4rem 1rem; font-size: 0.85rem;">

@@ -102,7 +102,7 @@
         <h1 class="page-title">Mata Kuliah</h1>
         <p class="page-subtitle">Kelola kurikulum mata kuliah per semester</p>
     </div>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">
+    <button type="button" class="btn btn-primary" onclick="openModalTambah()">
         <i data-feather="plus-circle"></i> Tambah Mata Kuliah
     </button>
 </div>
@@ -156,11 +156,11 @@
                     <td>{{ $mk->sks_teori }} Teori - {{ $mk->sks_praktik }} Praktik</td>
                     <td>
                         <div class="action-group">
-                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalEdit{{ $mk->id }}" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+                            <button type="button" class="btn btn-secondary" onclick="openModalEdit({{ json_encode($mk) }})" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
                                 Edit
                             </button>
                             
-                            <form action="{{ route('admin.matakuliah.destroy', $mk->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus mata kuliah ini?');" style="margin: 0;">
+                            <form action="{{ route('admin.matakuliah.destroy', $mk->id) }}" method="POST" class="delete-form" data-name="{{ $mk->nama_matkul }}" style="margin: 0;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
@@ -184,110 +184,54 @@
 </div>
 @endfor
 
-<!-- Modal Tambah -->
-<div class="modal fade" id="modalTambah" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="border: none; border-radius: 12px; box-shadow: var(--shadow-lg);">
-            <div class="modal-header" style="border-bottom: 1px solid var(--border-color); background: var(--bg-main);">
-                <h5 class="modal-title" style="font-weight: 600;">Tambah Mata Kuliah</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <form action="{{ route('admin.matakuliah.store') }}" method="POST">
-                @csrf
-                <div class="modal-body" style="padding: 1.5rem;">
-                    <div class="mb-3">
-                        <label class="form-label" style="font-weight: 500;">Kode Mata Kuliah <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="kode_matkul" placeholder="Contoh: TPL1101" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label" style="font-weight: 500;">Nama Mata Kuliah <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="nama_matkul" placeholder="Contoh: Berpikir Komputasional" required>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label" style="font-weight: 500;">SKS Teori <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" name="sks_teori" placeholder="Contoh: 2" min="0" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label" style="font-weight: 500;">SKS Praktik <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" name="sks_praktik" placeholder="Contoh: 1" min="0" required>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label" style="font-weight: 500;">Semester <span class="text-danger">*</span></label>
-                        <select class="form-select" name="semester" required>
-                            <option value="">-- Pilih Semester --</option>
-                            @for($i = 1; $i <= 8; $i++)
-                                <option value="{{ $i }}">Semester {{ $i }}</option>
-                            @endfor
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer" style="border-top: 1px solid var(--border-color);">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-            </form>
+<!-- Modal Tambah/Edit Mata Kuliah -->
+<div class="modal-overlay" id="modalMatkul">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modalMatkulTitle">Tambah Mata Kuliah</h3>
+            <button class="close-modal" onclick="closeModalMatkul()">
+                <i data-feather="x"></i>
+            </button>
         </div>
+        <form id="formMatkul" method="POST">
+            @csrf
+            <input type="hidden" name="_method" id="formMatkulMethod" value="POST">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Kode Mata Kuliah *</label>
+                    <input type="text" name="kode_matkul" id="mk_kode" class="form-control" placeholder="Contoh: TPL1101" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nama Mata Kuliah *</label>
+                    <input type="text" name="nama_matkul" id="mk_nama" class="form-control" placeholder="Contoh: Berpikir Komputasional" required>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-bottom: 1.25rem;">
+                    <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                        <label class="form-label">SKS Teori *</label>
+                        <input type="number" name="sks_teori" id="mk_teori" class="form-control" placeholder="Contoh: 2" min="0" required>
+                    </div>
+                    <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                        <label class="form-label">SKS Praktik *</label>
+                        <input type="number" name="sks_praktik" id="mk_praktik" class="form-control" placeholder="Contoh: 1" min="0" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Semester *</label>
+                    <select name="semester" id="mk_semester" class="form-control" required style="appearance: auto; height: 42px;">
+                        <option value="">-- Pilih Semester --</option>
+                        @for($i = 1; $i <= 8; $i++)
+                            <option value="{{ $i }}">Semester {{ $i }}</option>
+                        @endfor
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModalMatkul()">Batal</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+        </form>
     </div>
 </div>
-
-<!-- Modal Edit -->
-@foreach($matakuliahs as $mk)
-<div class="modal fade" id="modalEdit{{ $mk->id }}" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="border: none; border-radius: 12px; box-shadow: var(--shadow-lg);">
-            <div class="modal-header" style="border-bottom: 1px solid var(--border-color); background: var(--bg-main);">
-                <h5 class="modal-title" style="font-weight: 600;">Edit Mata Kuliah</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <form action="{{ route('admin.matakuliah.update', $mk->id) }}" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="modal-body" style="padding: 1.5rem;">
-                    <div class="mb-3">
-                        <label class="form-label" style="font-weight: 500;">Kode Mata Kuliah <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="kode_matkul" value="{{ $mk->kode_matkul }}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label" style="font-weight: 500;">Nama Mata Kuliah <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="nama_matkul" value="{{ $mk->nama_matkul }}" required>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label" style="font-weight: 500;">SKS Teori <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" name="sks_teori" value="{{ $mk->sks_teori }}" min="0" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label" style="font-weight: 500;">SKS Praktik <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" name="sks_praktik" value="{{ $mk->sks_praktik }}" min="0" required>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label" style="font-weight: 500;">Semester <span class="text-danger">*</span></label>
-                        <select class="form-select" name="semester" required>
-                            @for($i = 1; $i <= 8; $i++)
-                                <option value="{{ $i }}" {{ $mk->semester == $i ? 'selected' : '' }}>Semester {{ $i }}</option>
-                            @endfor
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer" style="border-top: 1px solid var(--border-color);">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary" style="background-color: var(--warning); color: white;">Update</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-@endforeach
-
 @endsection
 
 @push('scripts')
@@ -330,5 +274,37 @@
 
     // Initialize
     updateSliderPosition();
+
+    // Modal logic
+    const modalMatkul = document.getElementById('modalMatkul');
+    const formMatkul = document.getElementById('formMatkul');
+    const modalTitle = document.getElementById('modalMatkulTitle');
+    const methodInput = document.getElementById('formMatkulMethod');
+    
+    function openModalTambah() {
+        modalTitle.textContent = 'Tambah Mata Kuliah';
+        formMatkul.action = `{{ route('admin.matakuliah.store') }}`;
+        methodInput.value = 'POST';
+        formMatkul.reset();
+        modalMatkul.classList.add('show');
+    }
+
+    function openModalEdit(mk) {
+        modalTitle.textContent = 'Edit Mata Kuliah';
+        formMatkul.action = `/admin/matakuliah/${mk.id}`;
+        methodInput.value = 'PUT';
+        
+        document.getElementById('mk_kode').value = mk.kode_matkul;
+        document.getElementById('mk_nama').value = mk.nama_matkul;
+        document.getElementById('mk_teori').value = mk.sks_teori;
+        document.getElementById('mk_praktik').value = mk.sks_praktik;
+        document.getElementById('mk_semester').value = mk.semester;
+        
+        modalMatkul.classList.add('show');
+    }
+
+    function closeModalMatkul() {
+        modalMatkul.classList.remove('show');
+    }
 </script>
 @endpush

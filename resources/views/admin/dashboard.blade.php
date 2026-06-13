@@ -19,7 +19,7 @@
     <div class="dashboard-card" style="position: relative;">
         <div class="card-info">
             <h3>Ajuan Karya</h3>
-            <p>0</p>
+            <p>{{ $ajuan_karya }}</p>
         </div>
         <div class="card-icon">
             <i data-feather="file-text"></i>
@@ -30,7 +30,7 @@
     <div class="dashboard-card" style="position: relative;">
         <div class="card-info">
             <h3>Karya Terunggah</h3>
-            <p>0</p>
+            <p>{{ $karya_terunggah }}</p>
         </div>
         <div class="card-icon">
             <i data-feather="upload-cloud"></i>
@@ -41,7 +41,7 @@
     <div class="dashboard-card" style="position: relative;">
         <div class="card-info">
             <h3>Pengunjung</h3>
-            <p>0</p>
+            <p>{{ $pengunjung }}</p>
         </div>
         <div class="card-icon">
             <i data-feather="users"></i>

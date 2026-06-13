@@ -76,9 +76,9 @@
         <h1 class="page-title">Kelola Dosen</h1>
         <p class="page-subtitle">Daftar dosen di program studi Rekayasa Perangkat Lunak SV IPB</p>
     </div>
-    <a href="{{ route('dosen.create') }}" class="btn btn-primary">
+    <button type="button" class="btn btn-primary" onclick="openModalDosen()">
         <i data-feather="plus-circle"></i> Tambah Dosen
-    </a>
+    </button>
 </div>
 
 <div class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));">
@@ -99,14 +99,14 @@
             </div>
 
             <div class="dosen-actions">
-                <a href="{{ route('dosen.edit', $dosen->id) }}" class="btn btn-secondary" style="padding: 0.4rem 1rem; font-size: 0.85rem; width: 100%; justify-content: center;">
+                <button type="button" class="btn btn-secondary" onclick="openModalDosen({{ json_encode($dosen) }})" style="padding: 0.4rem 1rem; font-size: 0.85rem; width: 100%; justify-content: center;">
                     Edit
-                </a>
+                </button>
                 
-                <form action="{{ route('dosen.destroy', $dosen->id) }}" method="POST" style="margin: 0; width: 100%;">
+                <form action="{{ route('dosen.destroy', $dosen->id) }}" method="POST" class="delete-form" data-name="{{ $dosen->nama }}" style="margin: 0; width: 100%;">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger" style="padding: 0.4rem 1rem; font-size: 0.85rem; width: 100%; justify-content: center;" onsubmit="return confirm('Yakin ingin menghapus dosen {{ $dosen->nama }}?');">
+                    <button type="submit" class="btn btn-danger" style="padding: 0.4rem 1rem; font-size: 0.85rem; width: 100%; justify-content: center;">
                         Hapus
                     </button>
                 </form>
@@ -122,4 +122,85 @@
         </div>
     @endforelse
 </div>
+
+<!-- Modal Form Dosen -->
+<div class="modal-overlay" id="modalDosen">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modalDosenTitle">Tambah Dosen</h3>
+            <button class="close-modal" onclick="closeModalDosen()">
+                <i data-feather="x"></i>
+            </button>
+        </div>
+        <form id="formDosen" method="POST" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="_method" id="formDosenMethod" value="POST">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Nama Dosen *</label>
+                    <input type="text" name="nama" id="dosen_nama" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Program Studi *</label>
+                    <input type="text" name="prodi" id="dosen_prodi" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">NIP</label>
+                    <input type="text" name="nip" id="dosen_nip" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" id="dosen_email" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Bidang Riset (Research Interest)</label>
+                    <input type="text" name="research_interest" id="dosen_research_interest" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Foto Dosen</label>
+                    <input type="file" name="foto" id="dosen_foto" class="form-control" accept="image/*">
+                    <small style="color: var(--text-muted); display: block; margin-top: 4px;">Biarkan kosong jika tidak ingin mengubah foto.</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModalDosen()">Batal</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+    const modalDosen = document.getElementById('modalDosen');
+    const formDosen = document.getElementById('formDosen');
+    const modalTitle = document.getElementById('modalDosenTitle');
+    const methodInput = document.getElementById('formDosenMethod');
+    
+    function openModalDosen(dosen = null) {
+        if (dosen) {
+            modalTitle.textContent = 'Edit Dosen';
+            formDosen.action = `/admin/dosen/${dosen.id}`;
+            methodInput.value = 'PUT';
+            
+            document.getElementById('dosen_nama').value = dosen.nama || '';
+            document.getElementById('dosen_prodi').value = dosen.prodi || '';
+            document.getElementById('dosen_nip').value = dosen.nip || '';
+            document.getElementById('dosen_email').value = dosen.email || '';
+            document.getElementById('dosen_research_interest').value = dosen.research_interest || '';
+        } else {
+            modalTitle.textContent = 'Tambah Dosen';
+            formDosen.action = `{{ route('dosen.store') }}`;
+            methodInput.value = 'POST';
+            formDosen.reset();
+        }
+        
+        modalDosen.classList.add('show');
+    }
+    
+    function closeModalDosen() {
+        modalDosen.classList.remove('show');
+    }
+</script>
+@endpush
 @endsection

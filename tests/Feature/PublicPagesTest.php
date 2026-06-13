@@ -4,8 +4,6 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\Karya;
-use App\Models\Berita;
 
 class PublicPagesTest extends TestCase
 {
