@@ -20,7 +20,43 @@ class DashboardController extends Controller
             return \Modules\Core\Models\Visitor::count();
         });
 
-        return view('admin.dashboard', compact('ajuan_karya', 'karya_terunggah', 'pengunjung'));
+        // Data chart karya per kategori (Doughnut Chart)
+        $karya_by_kategori = \Illuminate\Support\Facades\Cache::remember('dashboard_chart_kategori', 600, function() {
+            return \Modules\Karya\Models\Karya::selectRaw('kategori, count(*) as count')
+                ->where('status_validasi', 'accepted')
+                ->groupBy('kategori')
+                ->get()
+                ->toArray();
+        });
+
+        // Data chart kunjungan harian 7 hari terakhir (Line Chart)
+        $kunjungan_harian = \Illuminate\Support\Facades\Cache::remember('dashboard_chart_kunjungan', 600, function() {
+            $data = \Modules\Core\Models\Visitor::selectRaw('DATE(visited_at) as date, count(*) as count')
+                ->where('visited_at', '>=', now()->subDays(6))
+                ->groupBy('date')
+                ->orderBy('date')
+                ->get();
+            
+            $chartData = [];
+            for ($i = 6; $i >= 0; $i--) {
+                $dateStr = now()->subDays($i)->format('Y-m-d');
+                $formattedDate = now()->subDays($i)->translatedFormat('d M');
+                $match = $data->firstWhere('date', $dateStr);
+                $chartData[] = [
+                    'label' => $formattedDate,
+                    'count' => $match ? $match->count : 0
+                ];
+            }
+            return $chartData;
+        });
+
+        return view('admin.dashboard', compact(
+            'ajuan_karya', 
+            'karya_terunggah', 
+            'pengunjung',
+            'karya_by_kategori',
+            'kunjungan_harian'
+        ));
     }
 
     public function backupDatabase()
