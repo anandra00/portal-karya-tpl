@@ -81,12 +81,12 @@
                class="px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-sm">
                 Semua
             </a>
-            @foreach(['Web Development', 'Mobile Apps', 'Data Science', 'IoT', 'Game Development'] as $kat)
+            @foreach($categories as $kat)
             <a href="#" 
-               @click.prevent="selectedCategory = '{{ $kat }}'"
-               :class="selectedCategory === '{{ $kat }}' ? 'bg-indigo-600 text-white' : 'bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-gray-700 hover:border-indigo-500 hover:text-indigo-700 dark:hover:text-indigo-300'"
+               @click.prevent="selectedCategory = '{{ $kat->name }}'"
+               :class="selectedCategory === '{{ $kat->name }}' ? 'bg-indigo-600 text-white' : 'bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-gray-700 hover:border-indigo-500 hover:text-indigo-700 dark:hover:text-indigo-300'"
                class="px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-sm">
-                {{ $kat }}
+                {{ $kat->name }}
             </a>
             @endforeach
         </div>

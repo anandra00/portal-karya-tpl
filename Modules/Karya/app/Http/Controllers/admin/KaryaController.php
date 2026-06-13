@@ -43,7 +43,8 @@ class KaryaController extends Controller
 
         // Using variable name $karya as that was used in the previous closure
         $karya = $karyas;
-        return view('pages.karya', compact('karya'));
+        $categories = \Modules\Karya\Models\Kategori::all();
+        return view('pages.karya', compact('karya', 'categories'));
     }
 
     // Detail karya
@@ -111,7 +112,8 @@ class KaryaController extends Controller
     // Admin - form tambah karya
     public function create()
     {
-        return view('admin.karya.create');
+        $categories = \Modules\Karya\Models\Kategori::all();
+        return view('admin.karya.create', compact('categories'));
     }
 
     // Admin - lihat detail karya

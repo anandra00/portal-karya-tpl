@@ -67,7 +67,10 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
     // Unggah Karya (User)
-    Route::get('/unggah-karya', function () { return view('pages.unggah'); })->name('unggah');
+    Route::get('/unggah-karya', function () {
+        $categories = \Modules\Karya\Models\Kategori::all();
+        return view('pages.unggah', compact('categories'));
+    })->name('unggah');
     // Route::post('karya', [KaryaController::class, 'store'])->name('karya.store');
     
     // Rating & Review (User)

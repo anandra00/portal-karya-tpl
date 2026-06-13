@@ -41,12 +41,9 @@
             <label for="kategori" style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Kategori <span style="color: var(--danger);">*</span></label>
             <select id="kategori" name="kategori" required class="form-control">
                 <option value="">Pilih Kategori</option>
-                <option value="Web Development" {{ old('kategori') == 'Web Development' ? 'selected' : '' }}>Web Development</option>
-                <option value="Mobile Apps" {{ old('kategori') == 'Mobile Apps' ? 'selected' : '' }}>Mobile Apps</option>
-                <option value="Data Science" {{ old('kategori') == 'Data Science' ? 'selected' : '' }}>Data Science</option>
-                <option value="IoT" {{ old('kategori') == 'IoT' ? 'selected' : '' }}>Internet of Things</option>
-                <option value="Game Development" {{ old('kategori') == 'Game Development' ? 'selected' : '' }}>Game Development</option>
-                <option value="Lainnya" {{ old('kategori') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                @foreach($categories as $kat)
+                    <option value="{{ $kat->name }}" {{ old('kategori') == $kat->name ? 'selected' : '' }}>{{ $kat->name }}</option>
+                @endforeach
             </select>
         </div>
 

@@ -64,8 +64,8 @@
                                 name="kategori" 
                                 required>
                             <option value="">Pilih Kategori</option>
-                            @foreach(['Web Development', 'Mobile Apps', 'Data Science', 'IoT', 'Game Development', 'Lainnya'] as $kat)
-                                <option value="{{ $kat }}" {{ old('kategori') == $kat ? 'selected' : '' }}>{{ $kat == 'IoT' ? 'Internet of Things' : $kat }}</option>
+                            @foreach($categories as $kat)
+                                <option value="{{ $kat->name }}" {{ old('kategori') == $kat->name ? 'selected' : '' }}>{{ $kat->name }}</option>
                             @endforeach
                         </select>
                         @error('kategori')
