@@ -6,7 +6,7 @@
 <div class="page-header d-flex justify-content-between align-items-center">
     <div>
         <h1 class="page-title">Dashboard</h1>
-        <p class="page-subtitle">Selamat datang di Portal Karya Teknologi Rekayasa Perangkat Lunak SV IPB</p>
+        <p class="page-subtitle">Selamat datang di Portal Karya Teknologi Rekayasa Perangkat Lunak Sekolah Vokasi IPB University</p>
     </div>
     @if (Auth::check() && Auth::user()->role == 'superadmin')
     <a href="{{ route('admin.backup') }}" class="btn btn-danger" style="padding: 0.5rem 1rem; border-radius: 8px;">

@@ -6,7 +6,7 @@
 <div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
     <div>
         <h1 class="page-title">Profil Program Studi</h1>
-        <p class="page-subtitle">Kelola informasi mengenai TRPL SV IPB</p>
+        <p class="page-subtitle">Kelola informasi mengenai TRPL Sekolah Vokasi IPB University</p>
     </div>
 </div>
 

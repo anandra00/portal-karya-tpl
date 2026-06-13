@@ -6,7 +6,7 @@
     
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight fade-in-up" style="animation-delay: 0.1s;">
-            {{ $title ?? 'Selamat Datang Di Portal Teknologi Rekayasa Perangkat Lunak SV IPB' }}
+            {{ $title ?? 'Selamat Datang Di Portal Teknologi Rekayasa Perangkat Lunak Sekolah Vokasi IPB University' }}
         </h1>
         <p class="mt-6 text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto font-medium text-indigo-100 dark:text-gray-300 fade-in-up" style="animation-delay: 0.2s;">
             {{ $subtitle ?? 'Syntax Error Compile Lagi' }}

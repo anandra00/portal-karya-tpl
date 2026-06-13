@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Tentang TPL SV IPB')
+@section('title', 'Tentang TPL Sekolah Vokasi IPB University')
 
 
 

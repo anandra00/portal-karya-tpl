@@ -60,7 +60,7 @@
     {{-- BAGIAN KARYA MAHASISWA --}}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
         <div class="text-center mb-12">
-            <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">Kumpulan Karya Mahasiswa<br/>Teknologi Rekayasa Perangkat Lunak SV IPB</h2>
+            <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">Kumpulan Karya Mahasiswa<br/>Teknologi Rekayasa Perangkat Lunak Sekolah Vokasi IPB University</h2>
             <div class="w-24 h-1.5 bg-gradient-to-r from-indigo-600 to-indigo-400 rounded-full mx-auto mt-4"></div>
         </div>
         
@@ -117,7 +117,7 @@
     {{-- BAGIAN BERITA --}}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
         <div class="bg-white dark:bg-gray-800 rounded-3xl p-8 sm:p-12 shadow-sm border border-gray-100 dark:border-gray-700">
-            <h2 class="text-3xl font-extrabold text-center text-gray-900 dark:text-white mb-10">Berita TPL SV IPB</h2>
+            <h2 class="text-3xl font-extrabold text-center text-gray-900 dark:text-white mb-10">Berita TPL Sekolah Vokasi IPB University</h2>
 
             <div class="max-w-4xl mx-auto space-y-6">
                 @foreach ($beritas as $berita)
@@ -162,7 +162,7 @@
             <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-white opacity-10 rounded-full blur-2xl"></div>
             
             <div class="relative z-10 max-w-2xl mx-auto">
-                <h2 class="text-3xl sm:text-4xl font-extrabold mb-4">Bergabunglah Bersama TRPL SV IPB</h2>
+                <h2 class="text-3xl sm:text-4xl font-extrabold mb-4">Bergabunglah Bersama TRPL Sekolah Vokasi IPB University</h2>
                 <p class="text-lg sm:text-xl text-indigo-100 mb-8 leading-relaxed">
                     Jadilah bagian dari generasi inovator digital. Dapatkan pendidikan vokasi terbaik di bidang rekayasa perangkat lunak dan ciptakan solusi teknologi untuk masa depan.
                 </p>

@@ -74,7 +74,7 @@
 <div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
     <div>
         <h1 class="page-title">Kelola Dosen</h1>
-        <p class="page-subtitle">Daftar dosen di program studi Rekayasa Perangkat Lunak SV IPB</p>
+        <p class="page-subtitle">Daftar dosen di program studi Rekayasa Perangkat Lunak Sekolah Vokasi IPB University</p>
     </div>
     <button type="button" class="btn btn-primary" onclick="openModalDosen()">
         <i data-feather="plus-circle"></i> Tambah Dosen
