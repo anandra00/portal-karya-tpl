@@ -76,18 +76,18 @@
 </head>
 
 <body class="font-sans antialiased text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900 transition-colors duration-300 flex flex-col min-h-screen">
-    {{-- 🔹 NAVBAR --}}
+    {{-- NAVBAR --}}
     @include('partials.navbar')
 
-    {{-- 🔹 HERO SECTION (kalau ada di halaman anak) --}}
+    {{-- HERO SECTION (kalau ada di halaman anak) --}}
     @yield('hero')
 
-    {{-- 🔹 MAIN CONTENT --}}
+    {{-- MAIN CONTENT --}}
     <main class="flex-grow">
         @yield('content')
     </main>
 
-    {{-- 🔹 FOOTER --}}
+    {{-- FOOTER --}}
     @include('partials.footer')
 
 
