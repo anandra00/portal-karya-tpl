@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin Panel') - Portal TPL SV IPB</title>
     
+    {{-- Favicon TPL --}}
+    <link rel="icon" type="image/png" href="{{ asset('images/logo_TPL.png') }}">
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -9,6 +9,9 @@
     <title>@yield('title', config('app.name', 'Portal TPL SVIPB'))</title>
     @yield('meta')
     
+    {{-- Favicon TPL --}}
+    <link rel="icon" type="image/png" href="{{ asset('images/logo_TPL.png') }}">
+    
     {{-- PWA Manifest & Theme Color --}}
     <link rel="manifest" href="{{ asset('manifest.json') }}">
     <meta name="theme-color" content="#4F46E5">
