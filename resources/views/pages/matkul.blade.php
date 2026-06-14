@@ -72,7 +72,12 @@
                                 @forelse($semesters[$sem] as $mk)
                                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
                                     <td class="px-6 py-4 text-gray-900 dark:text-gray-300 font-medium whitespace-nowrap">{{ $mk->kode_matkul }}</td>
-                                    <td class="px-6 py-4 text-gray-700 dark:text-gray-400">{{ $mk->nama_matkul }}</td>
+                                    <td class="px-6 py-4 text-gray-700 dark:text-gray-400">
+                                        {{ $mk->nama_matkul }}
+                                        @if(in_array($mk->kode_matkul, ['SV1002', 'SV1003', 'SV1004', 'SV1005', 'SV1006', 'SV1106']))
+                                            <span class="ml-2 px-2.5 py-0.5 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 text-xs font-bold rounded-full border border-indigo-100 dark:border-indigo-900/30">Pilih Salah Satu</span>
+                                        @endif
+                                    </td>
                                     <td class="px-6 py-4 text-gray-900 dark:text-gray-300 text-center font-medium whitespace-nowrap">{{ $mk->sks_teori + $mk->sks_praktik }} ({{ $mk->sks_teori }}-{{ $mk->sks_praktik }})</td>
                                 </tr>
                                 @empty
@@ -85,8 +90,29 @@
                                 <tr>
                                     <td class="px-6 py-4 font-bold text-gray-900 dark:text-white" colspan="2">Total SKS</td>
                                     <td class="px-6 py-4 font-bold text-indigo-600 dark:text-indigo-400 text-center whitespace-nowrap">
-                                        {{ $semesters[$sem]->sum(function($mk) { return (int)$mk->sks_teori + (int)$mk->sks_praktik; }) }}
-                                        ({{ $semesters[$sem]->sum('sks_teori') }}-{{ $semesters[$sem]->sum('sks_praktik') }})
+                                        @php
+                                            $totalSks = 0;
+                                            $totalTeori = 0;
+                                            $totalPraktik = 0;
+                                            $hasReligion = false;
+                                            
+                                            foreach($semesters[$sem] as $mk) {
+                                                $isReligion = in_array($mk->kode_matkul, ['SV1002', 'SV1003', 'SV1004', 'SV1005', 'SV1006', 'SV1106']);
+                                                if ($isReligion) {
+                                                    if (!$hasReligion) {
+                                                        $totalSks += (int)$mk->sks_teori + (int)$mk->sks_praktik;
+                                                        $totalTeori += (int)$mk->sks_teori;
+                                                        $totalPraktik += (int)$mk->sks_praktik;
+                                                        $hasReligion = true;
+                                                    }
+                                                } else {
+                                                    $totalSks += (int)$mk->sks_teori + (int)$mk->sks_praktik;
+                                                    $totalTeori += (int)$mk->sks_teori;
+                                                    $totalPraktik += (int)$mk->sks_praktik;
+                                                }
+                                            }
+                                        @endphp
+                                        {{ $totalSks }} ({{ $totalTeori }}-{{ $totalPraktik }})
                                     </td>
                                 </tr>
                             </tfoot>
