@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Modules\Akademik\Models\Dosen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Modules\Akademik\Http\Requests\StoreDosenRequest;
 use Modules\Akademik\Http\Requests\UpdateDosenRequest;
 
@@ -28,7 +29,7 @@ class DosenController extends Controller
         $validated = $request->validated();
 
         if ($request->hasFile('foto')) {
-            $validated['foto'] = $request->file('foto')->store('dosen', 'public');
+            $validated['foto'] = $this->compressAndStoreImage($request->file('foto'), 'dosen');
         }
 
         Dosen::create($validated);
@@ -63,7 +64,7 @@ class DosenController extends Controller
                 Storage::disk('public')->delete($dosen->foto);
             }
 
-            $validated['foto'] = $request->file('foto')->store('dosen', 'public');
+            $validated['foto'] = $this->compressAndStoreImage($request->file('foto'), 'dosen');
         }
 
         $dosen->update($validated);
@@ -86,5 +87,47 @@ class DosenController extends Controller
         // Perbaiki: route name yang benar
         return redirect()->route('dosen.index')
                         ->with('success', 'Data dosen berhasil dihapus!');
+    }
+
+    private function compressAndStoreImage($uploadedFile, $folder, $quality = 75)
+    {
+        $extension = $uploadedFile->getClientOriginalExtension();
+        $fileName = time() . '_' . Str::random(10) . '.' . $extension;
+        $tempPath = $uploadedFile->getRealPath();
+        
+        $destinationFolder = 'public/' . $folder;
+        if (!Storage::exists($destinationFolder)) {
+            Storage::makeDirectory($destinationFolder);
+        }
+        
+        $destinationPath = storage_path('app/' . $destinationFolder . '/' . $fileName);
+        
+        try {
+            $info = getimagesize($tempPath);
+            $mime = $info['mime'] ?? '';
+            
+            if ($mime === 'image/jpeg' || $mime === 'image/jpg') {
+                $image = imagecreatefromjpeg($tempPath);
+                if ($image) {
+                    imagejpeg($image, $destinationPath, $quality);
+                    imagedestroy($image);
+                    return $folder . '/' . $fileName;
+                }
+            } elseif ($mime === 'image/png') {
+                $image = imagecreatefrompng($tempPath);
+                if ($image) {
+                    imagealphablending($image, false);
+                    imagesavealpha($image, true);
+                    $pngQuality = 9 - round(($quality / 100) * 9);
+                    imagepng($image, $destinationPath, $pngQuality);
+                    imagedestroy($image);
+                    return $folder . '/' . $fileName;
+                }
+            }
+        } catch (\Exception $e) {
+            // Fallback if compression fails
+        }
+        
+        return $uploadedFile->store($folder, 'public');
     }
 }

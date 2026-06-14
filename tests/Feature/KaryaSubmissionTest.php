@@ -89,6 +89,7 @@ class KaryaSubmissionTest extends TestCase
 
         // Mock upload file
         $file = \Illuminate\Http\UploadedFile::fake()->image('preview.jpg');
+        $pdf = \Illuminate\Http\UploadedFile::fake()->create('report.pdf', 150, 'application/pdf');
 
         $response = $this->actingAs($user)->post(route('karya.store'), [
             'judul' => 'Karya IPB',
@@ -97,6 +98,7 @@ class KaryaSubmissionTest extends TestCase
             'tim_pembuat' => 'Tim IPB',
             'email' => 'mahasiswa@apps.ipb.ac.id',
             'preview_karya' => $file,
+            'file_karya' => $pdf,
             'tahun' => 2026,
             'link' => 'https://github.com'
         ]);
@@ -106,5 +108,10 @@ class KaryaSubmissionTest extends TestCase
             'judul' => 'Karya IPB',
             'user_id' => $user->id
         ]);
+
+        // Verifikasi file PDF tersimpan di DB
+        $karya = Karya::where('judul', 'Karya IPB')->first();
+        $this->assertNotNull($karya->file_karya);
+        $this->assertStringContainsString('karya_files/', $karya->file_karya);
     }
 }

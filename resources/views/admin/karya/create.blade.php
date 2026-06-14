@@ -83,6 +83,12 @@
             </div>
         </div>
 
+        <div style="margin-bottom: 1.5rem;">
+            <label for="file_karya" style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Dokumen Laporan/Poster (PDF) <span style="color: var(--text-muted); font-weight: normal;">(Opsional)</span></label>
+            <input type="file" id="file_karya" name="file_karya" accept="application/pdf" class="form-control">
+            <small style="color: var(--text-muted); display: block; margin-top: 0.25rem;">Format: PDF, max 10MB</small>
+        </div>
+
         <div style="margin-bottom: 2rem;">
             <label for="preview_karya" style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Screenshot/Gambar Karya</label>
             <input type="file" id="preview_karya" name="preview_karya" accept="image/*" class="form-control">

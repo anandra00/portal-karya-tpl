@@ -41,8 +41,8 @@
                     </div>
                 </div>
 
-                <div style="margin-bottom: 2rem;">
-                    <label style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Pengumpulan (Link/PDF)</label>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Pengumpulan (Link)</label>
                     @if($karya->link_pengumpulan)
                         <div style="display: flex; gap: 10px;">
                             <input type="text" name="link_pengumpulan" value="{{ $karya->link_pengumpulan }}" class="form-control" readonly>
@@ -52,6 +52,20 @@
                         </div>
                     @else
                         <input type="text" value="Tidak ada link disertakan" class="form-control" readonly>
+                    @endif
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <label style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-main);">Dokumen Karya (PDF)</label>
+                    @if($karya->file_karya)
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" value="{{ basename($karya->file_karya) }}" class="form-control" readonly>
+                            <a href="{{ asset('storage/' . $karya->file_karya) }}" target="_blank" class="btn btn-secondary" style="white-space: nowrap; display: flex; align-items: center;">
+                                <i data-feather="file-text" style="width: 16px; height: 16px; margin-right: 4px;"></i> Lihat PDF
+                            </a>
+                        </div>
+                    @else
+                        <input type="text" value="Tidak ada berkas PDF diunggah" class="form-control" readonly>
                     @endif
                 </div>
 

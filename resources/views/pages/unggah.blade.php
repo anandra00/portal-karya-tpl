@@ -175,6 +175,20 @@
                         @enderror
                     </div>
 
+                    {{-- 7b. Upload PDF Laporan/Poster --}}
+                    <div>
+                        <label for="file_karya" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Dokumen Laporan/Poster (PDF) <span class="text-sm font-normal text-gray-500">(Opsional)</span></label>
+                        <input type="file" 
+                               class="w-full px-4 py-2.5 rounded-xl border {{ $errors->has('file_karya') ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500' }} bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors mb-1" 
+                               id="file_karya" 
+                               name="file_karya" 
+                               accept="application/pdf">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Unggah berkas laporan atau poster dalam format PDF (Maks. 10MB)</p>
+                        @error('file_karya')
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     {{-- 8. Upload Gambar --}}
                     <div>
                         <label for="gambar" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Screenshot/Gambar Karya <span class="text-red-500">*</span></label>

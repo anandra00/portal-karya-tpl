@@ -71,12 +71,21 @@
                             {{ $karya->deskripsi }}
                         </div>
 
-                        @if ($karya->link_pengumpulan)
-                            <a href="{{ $karya->link_pengumpulan }}" target="_blank"
-                                class="flex items-center justify-center w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md hover:shadow-lg transition-all text-lg">
-                                <i class="bi bi-box-arrow-up-right mr-3"></i> Kunjungi Karya Ini
-                            </a>
-                        @endif
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            @if ($karya->link_pengumpulan)
+                                <a href="{{ $karya->link_pengumpulan }}" target="_blank"
+                                    class="flex-1 flex items-center justify-center py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md hover:shadow-lg transition-all text-lg">
+                                    <i class="bi bi-box-arrow-up-right mr-3"></i> Kunjungi Karya Ini
+                                </a>
+                            @endif
+
+                            @if ($karya->file_karya)
+                                <a href="{{ asset('storage/' . $karya->file_karya) }}" target="_blank"
+                                    class="flex-1 flex items-center justify-center py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md hover:shadow-lg transition-all text-lg">
+                                    <i class="bi bi-file-earmark-pdf mr-3"></i> Unduh PDF Dokumen
+                                </a>
+                            @endif
+                        </div>
                     </div>
                 </div>
 
