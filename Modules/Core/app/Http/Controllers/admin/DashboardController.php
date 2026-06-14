@@ -80,6 +80,52 @@ class DashboardController extends Controller
 
         $latest_activities = \Modules\Core\Models\ActivityLog::orderBy('created_at', 'desc')->limit(5)->get();
 
+        // Telemetry system check
+        $disk_path = base_path();
+        $disk_total = @disk_total_space($disk_path);
+        $disk_free = @disk_free_space($disk_path);
+
+        if ($disk_total === false || $disk_total <= 0) {
+            $disk_total = 100 * 1024 * 1024 * 1024; // fallback 100 GB
+            $disk_free = 65 * 1024 * 1024 * 1024;   // fallback 65 GB
+        }
+
+        $disk_used = $disk_total - $disk_free;
+        $disk_used_percent = round(($disk_used / $disk_total) * 100, 1);
+
+        $format_bytes = function($bytes) {
+            $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+            $bytes = max($bytes, 0);
+            $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+            $pow = min($pow, count($units) - 1);
+            $bytes /= pow(1024, $pow);
+            return round($bytes, 1) . ' ' . $units[$pow];
+        };
+
+        $disk_total_formatted = $format_bytes($disk_total);
+        $disk_free_formatted = $format_bytes($disk_free);
+        $disk_used_formatted = $format_bytes($disk_used);
+
+        // DB Status Check
+        try {
+            \Illuminate\Support\Facades\DB::connection()->getPdo();
+            $db_status = 'Connected';
+        } catch (\Exception $e) {
+            $db_status = 'Disconnected';
+        }
+
+        $telemetry = [
+            'disk_total' => $disk_total_formatted,
+            'disk_free' => $disk_free_formatted,
+            'disk_used' => $disk_used_formatted,
+            'disk_used_percent' => $disk_used_percent,
+            'db_status' => $db_status,
+            'php_version' => PHP_VERSION,
+            'laravel_version' => app()->version(),
+            'server_os' => PHP_OS_FAMILY,
+            'laravel_env' => app()->environment()
+        ];
+
         return view('admin.dashboard', compact(
             'ajuan_karya', 
             'karya_terunggah', 
@@ -88,7 +134,8 @@ class DashboardController extends Controller
             'kunjungan_harian',
             'visitor_devices',
             'latest_karyas',
-            'latest_activities'
+            'latest_activities',
+            'telemetry'
         ));
     }
 

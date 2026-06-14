@@ -56,6 +56,99 @@
             </div>
         </div>
     </div>
+
+    {{-- BAGIAN STATISTIK PORTAL --}}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 fade-in-up"
+         x-data="{
+             countKarya: 0,
+             countDosen: 0,
+             countReview: 0,
+             countMatkul: 0,
+             targetKarya: {{ $karyas_count }},
+             targetDosen: {{ $dosens_count }},
+             targetReview: {{ $reviews_count }},
+             targetMatkul: {{ $matkuls_count }},
+             animated: false,
+             animate() {
+                 if (this.animated) return;
+                 this.animated = true;
+                 const duration = 1200; // ms
+                 const steps = 40;
+                 const stepTime = duration / steps;
+                 let step = 0;
+                 const timer = setInterval(() => {
+                     step++;
+                     this.countKarya = Math.round((this.targetKarya / steps) * step);
+                     this.countDosen = Math.round((this.targetDosen / steps) * step);
+                     this.countReview = Math.round((this.targetReview / steps) * step);
+                     this.countMatkul = Math.round((this.targetMatkul / steps) * step);
+                     
+                     if (step >= steps) {
+                         this.countKarya = this.targetKarya;
+                         this.countDosen = this.targetDosen;
+                         this.countReview = this.targetReview;
+                         this.countMatkul = this.targetMatkul;
+                         clearInterval(timer);
+                     }
+                 }, stepTime);
+             }
+         }"
+         x-init="
+             const observer = new IntersectionObserver((entries) => {
+                 if (entries[0].isIntersecting) {
+                     animate();
+                 }
+             }, { threshold: 0.1 });
+             observer.observe($el);
+         ">
+        <div class="bg-gradient-to-br from-indigo-50 to-white dark:from-gray-800 dark:to-gray-900 rounded-3xl shadow-lg border border-indigo-100/50 dark:border-gray-700/50 p-8 sm:p-10 transition-colors duration-300">
+            <div class="text-center mb-10">
+                <span class="inline-block text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest bg-indigo-50 dark:bg-indigo-950/40 px-3 py-1 rounded-full border border-indigo-100 dark:border-indigo-900/30">
+                    Aktivitas Sistem
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight mt-3">Portal dalam Angka</h2>
+                <div class="w-12 h-1 bg-gradient-to-r from-indigo-600 to-indigo-400 rounded-full mx-auto mt-3"></div>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                <!-- Stat 1 -->
+                <div class="text-center p-6 bg-white/60 dark:bg-gray-800/40 rounded-2xl border border-gray-100/40 dark:border-gray-700/40 hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i class="bi bi-file-earmark-code text-xl"></i>
+                    </div>
+                    <div class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight" x-text="countKarya">0</div>
+                    <div class="text-sm font-semibold text-gray-500 dark:text-gray-400 mt-2">Karya Terpublikasi</div>
+                </div>
+
+                <!-- Stat 2 -->
+                <div class="text-center p-6 bg-white/60 dark:bg-gray-800/40 rounded-2xl border border-gray-100/40 dark:border-gray-700/40 hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i class="bi bi-person-badge text-xl"></i>
+                    </div>
+                    <div class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight" x-text="countDosen">0</div>
+                    <div class="text-sm font-semibold text-gray-500 dark:text-gray-400 mt-2">Dosen Pembimbing</div>
+                </div>
+
+                <!-- Stat 3 -->
+                <div class="text-center p-6 bg-white/60 dark:bg-gray-800/40 rounded-2xl border border-gray-100/40 dark:border-gray-700/40 hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/40 text-yellow-600 dark:text-yellow-400 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i class="bi bi-chat-left-heart text-xl"></i>
+                    </div>
+                    <div class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight" x-text="countReview">0</div>
+                    <div class="text-sm font-semibold text-gray-500 dark:text-gray-400 mt-2">Ulasan Pengguna</div>
+                </div>
+
+                <!-- Stat 4 -->
+                <div class="text-center p-6 bg-white/60 dark:bg-gray-800/40 rounded-2xl border border-gray-100/40 dark:border-gray-700/40 hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-pink-100 dark:bg-pink-900/40 text-pink-600 dark:text-pink-400 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i class="bi bi-journal-code text-xl"></i>
+                    </div>
+                    <div class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight" x-text="countMatkul">0</div>
+                    <div class="text-sm font-semibold text-gray-500 dark:text-gray-400 mt-2">Mata Kuliah TRPL</div>
+                </div>
+            </div>
+        </div>
+    </div>
             
     {{-- BAGIAN KARYA MAHASISWA --}}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">

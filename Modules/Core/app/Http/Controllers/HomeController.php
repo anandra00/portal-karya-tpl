@@ -19,8 +19,12 @@ class HomeController extends Controller
                       ->get();
         
         $beritas = Berita::latest()->get();
+        $karyas_count = Karya::where('status_validasi', 'accepted')->count();
+        $dosens_count = \Modules\Akademik\Models\Dosen::count();
+        $reviews_count = \Modules\Karya\Models\Review::count();
+        $matkuls_count = \Modules\Akademik\Models\MataKuliah::count();
         
-        return view('pages.homepages', compact('karyas','beritas'));
+        return view('pages.homepages', compact('karyas', 'beritas', 'karyas_count', 'dosens_count', 'reviews_count', 'matkuls_count'));
     }
 
     public function dosen()

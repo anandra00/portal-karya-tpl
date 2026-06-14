@@ -50,6 +50,89 @@
     </div>
 </div>
 
+<!-- System Telemetry Section -->
+<div class="dashboard-card" style="display: block; min-height: auto; margin-top: 2rem; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); padding: 1.5rem;">
+    <h3 style="font-size: 1.15rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
+        <i data-feather="server" style="width: 20px; height: 20px; color: var(--primary);"></i>
+        Kesehatan & Telemetri Sistem
+    </h3>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 1.5rem;">
+        <!-- Disk Usage -->
+        <div style="background: rgba(79, 70, 229, 0.03); padding: 1rem; border-radius: 12px; border: 1px solid var(--border-color);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">Penyimpanan Disk</span>
+                <span style="font-size: 0.85rem; font-weight: bold; color: var(--primary);">{{ $telemetry['disk_used_percent'] }}%</span>
+            </div>
+            <!-- Progress Bar -->
+            <div style="width: 100%; height: 8px; background: rgba(0,0,0,0.05); border-radius: 999px; overflow: hidden; margin-bottom: 0.5rem;">
+                <div style="width: {{ $telemetry['disk_used_percent'] }}%; height: 100%; background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%); border-radius: 999px;"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--text-muted);">
+                <span>Terpakai: {{ $telemetry['disk_used'] }}</span>
+                <span>Total: {{ $telemetry['disk_total'] }}</span>
+            </div>
+        </div>
+
+        <!-- Database Status -->
+        <div style="background: rgba(16, 185, 129, 0.03); padding: 1rem; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: space-between;">
+            <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem; display: block;">Status Database</span>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.25rem;">
+                @if($telemetry['db_status'] === 'Connected')
+                    <span style="position: relative; display: flex; height: 10px; width: 10px;">
+                        <span style="animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite; position: absolute; inline-flex: true; height: 100%; width: 100%; border-radius: 999px; background-color: var(--success); opacity: 0.75;"></span>
+                        <span style="position: relative; inline-flex: true; border-radius: 999px; height: 10px; width: 10px; background-color: var(--success);"></span>
+                    </span>
+                    <span style="font-size: 1.1rem; font-weight: bold; color: var(--success);">Terhubung</span>
+                @else
+                    <span style="height: 10px; width: 10px; border-radius: 999px; background-color: var(--danger); display: inline-block;"></span>
+                    <span style="font-size: 1.1rem; font-weight: bold; color: var(--danger);">Terputus</span>
+                @endif
+            </div>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">Koneksi: MySQL (Active PDO)</span>
+        </div>
+
+        <!-- Software Tech Stack -->
+        <div style="background: rgba(245, 158, 11, 0.03); padding: 1rem; border-radius: 12px; border: 1px solid var(--border-color);">
+            <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem; display: block;">Spesifikasi Software</span>
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+                    <span style="color: var(--text-muted);">Laravel:</span>
+                    <span style="font-weight: bold; color: var(--text-main);">v{{ $telemetry['laravel_version'] }}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+                    <span style="color: var(--text-muted);">PHP:</span>
+                    <span style="font-weight: bold; color: var(--text-main);">v{{ $telemetry['php_version'] }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Server Environment -->
+        <div style="background: rgba(59, 130, 246, 0.03); padding: 1rem; border-radius: 12px; border: 1px solid var(--border-color);">
+            <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem; display: block;">Lingkungan Host</span>
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+                    <span style="color: var(--text-muted);">Sistem Operasi:</span>
+                    <span style="font-weight: bold; color: var(--text-main);">{{ $telemetry['server_os'] }}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+                    <span style="color: var(--text-muted);">Environment:</span>
+                    <span style="font-weight: bold; color: var(--text-main); text-transform: uppercase;">{{ $telemetry['laravel_env'] }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes ping {
+    75%, 100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+</style>
+
 <!-- Interactive Charts Section -->
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 1.5rem; margin-top: 2rem;">
     <!-- Chart 1: Visitor Traffic -->

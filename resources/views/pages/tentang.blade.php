@@ -116,5 +116,55 @@
         </div>
     </div>
 
+    {{-- ======================== TIM PENGEMBANG PORTAL ======================== --}}
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-20 pt-10 border-t border-gray-200 dark:border-gray-800">
+        <div class="text-center mb-12 fade-in-up">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-3">Tim Pengembang Portal</h2>
+            <div class="w-16 h-1 bg-gradient-to-r from-indigo-600 to-indigo-400 rounded-full mx-auto mb-4"></div>
+            <p class="text-gray-600 dark:text-gray-400">Di balik terciptanya Portal Karya terintegrasi ini.</p>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 p-8 md:p-10 hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row items-center gap-8 fade-in-up">
+            <div class="w-full md:w-1/3 flex justify-center">
+                <div class="relative group">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-indigo-600 to-pink-500 rounded-full blur-md opacity-30 group-hover:opacity-60 transition-opacity"></div>
+                    <img src="https://ui-avatars.com/api/?name=Ananda+Radithya&background=4f46e5&color=fff&size=180" alt="Ananda Radithya" class="relative w-40 h-40 rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-lg group-hover:scale-105 transition-transform duration-300">
+                </div>
+            </div>
+            <div class="w-full md:w-2/3 text-center md:text-left">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 mb-3 border border-indigo-100 dark:border-indigo-800">
+                    Lead Full-Stack Developer
+                </span>
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Ananda Radithya</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 font-medium">Mahasiswa Teknologi Rekayasa Perangkat Lunak SV IPB</p>
+                <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
+                    Merancang dan mengembangkan Portal Karya ini dengan arsitektur Modular Monolith, mengoptimalkan database, menyelaraskan mode gelap premium, serta membangun REST API publik untuk menyediakan integrasi yang andal dan aman bagi program studi.
+                </p>
+                
+                {{-- Badges Keahlian --}}
+                <div class="flex flex-wrap gap-2 mb-6 justify-center md:justify-start">
+                    <span class="px-3 py-1 text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg">Laravel 11</span>
+                    <span class="px-3 py-1 text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg">PHP 8.2+</span>
+                    <span class="px-3 py-1 text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg">Tailwind CSS</span>
+                    <span class="px-3 py-1 text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg">Alpine.js</span>
+                    <span class="px-3 py-1 text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg">MySQL</span>
+                </div>
+
+                {{-- Jejaring Sosial --}}
+                <div class="flex gap-4 justify-center md:justify-start">
+                    <a href="https://github.com/radithtzy0890" target="_blank" class="text-gray-400 hover:text-gray-955 dark:hover:text-white text-xl transition-colors">
+                        <i class="bi bi-github"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-blue-600 text-xl transition-colors">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+                    <a href="mailto:radithya@apps.ipb.ac.id" class="text-gray-400 hover:text-red-500 text-xl transition-colors">
+                        <i class="bi bi-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </main>
 @endsection
