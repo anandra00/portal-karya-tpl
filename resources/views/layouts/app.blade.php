@@ -88,6 +88,9 @@
     {{-- MAIN CONTENT --}}
     <main class="flex-grow">
         @yield('content')
+        @isset($slot)
+            {{ $slot }}
+        @endisset
     </main>
 
     {{-- FOOTER --}}
