@@ -44,6 +44,17 @@
           </div>
         @endif
 
+        @if($errors->any())
+          <div class="modern-alert alert-error">
+            <svg class="alert-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <ul style="margin: 0; padding-left: 1rem; text-align: left; font-size: 0.85rem; list-style-type: disc;">
+              @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+        @endif
+
         <h2>Masuk</h2>
         <p>Masuk untuk dapat mengeksplorasi karya!</p>
         <form action="{{ route('login.submit') }}" method="POST">

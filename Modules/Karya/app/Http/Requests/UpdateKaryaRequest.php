@@ -17,7 +17,7 @@ class UpdateKaryaRequest extends FormRequest
             'tahun' => 'required|integer|min:2000|max:' . (date('Y') + 1),
             'tim_pembuat' => 'required|string',
             'preview_karya' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'status_validasi' => 'required',
+            'status_validasi' => 'required|in:submission,accepted,rejected',
         ];
     }
 

@@ -67,5 +67,18 @@
       });
   </script>
   @endif
+
+  @if(session('error'))
+  <script>
+      Swal.fire({
+          icon: 'error',
+          title: 'Gagal!',
+          text: '{{ session("error") }}',
+          confirmButtonColor: '#4F46E5',
+          background: 'rgba(255, 255, 255, 0.95)',
+          backdrop: `rgba(0,0,0,0.4)`
+      });
+  </script>
+  @endif
 </body>
 </html>

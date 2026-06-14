@@ -65,5 +65,20 @@
       });
   </script>
   @endif
+
+  @if($errors->any())
+  <script>
+      Swal.fire({
+          icon: 'error',
+          title: 'Validasi Gagal',
+          html: `<ul style="text-align: left; margin: 0; padding-left: 1rem; font-size: 0.9rem;">
+              @foreach($errors->all() as $error)
+                  <li>{{ $error }}</li>
+              @endforeach
+          </ul>`,
+          confirmButtonColor: '#263C92'
+      });
+  </script>
+  @endif
 </body>
 </html>
