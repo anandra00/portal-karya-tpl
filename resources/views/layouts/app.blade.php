@@ -22,13 +22,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
         body { font-family: 'Outfit', sans-serif !important; }
         
         /* Custom Fade In Up Animation */
         .fade-in-up {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transform: translateY(15px);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
         .fade-in-up.visible {
@@ -96,19 +99,15 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const observer = new IntersectionObserver((entries) => {
-                    entries.forEach((entry, index) => {
+                    entries.forEach((entry) => {
                         if (entry.isIntersecting) {
-                            // Stagger animation delay based on order
-                            const delay = index * 100;
-                            setTimeout(() => {
-                                entry.target.classList.add('visible');
-                            }, delay);
+                            entry.target.classList.add('visible');
                             observer.unobserve(entry.target);
                         }
                     });
                 }, {
-                    threshold: 0.1,
-                    rootMargin: '0px 0px -50px 0px'
+                    threshold: 0.05,
+                    rootMargin: '0px 0px -20px 0px'
                 });
 
                 // Observe all .fade-in-up elements
