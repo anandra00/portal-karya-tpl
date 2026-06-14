@@ -23,7 +23,7 @@ class MataKuliahSeeder extends Seeder
             [
                 'kode_matkul' => 'SV1001',
                 'nama_matkul' => 'Bahasa Inggris',
-                'sks_teori' => '2',
+                'sks_teori' => '1',
                 'sks_praktik' => '1',
                 'semester' => 1,
             ],
@@ -86,7 +86,7 @@ class MataKuliahSeeder extends Seeder
             [
                 'kode_matkul' => 'SV1109',
                 'nama_matkul' => 'Bahasa Indonesia',
-                'sks_teori' => '2',
+                'sks_teori' => '1',
                 'sks_praktik' => '1',
                 'semester' => 1,
             ],
