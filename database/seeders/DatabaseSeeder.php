@@ -53,6 +53,7 @@ class DatabaseSeeder extends Seeder
             KaryaSeeder::class,
             ProdiSeeder::class,
             VisitorSeeder::class,
+            DosenSeeder::class,
         ]);
     }
 }
