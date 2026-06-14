@@ -27,7 +27,10 @@
 
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full bg-gray-100 dark:bg-gray-700/50 cursor-not-allowed text-gray-500 dark:text-gray-400" :value="old('email', $user->email)" required autocomplete="username" disabled />
+            <span class="text-xs text-gray-400 dark:text-gray-500 mt-1.5 block">
+                <i class="bi bi-info-circle mr-1"></i>Email akademik dikunci untuk menjaga keamanan hak akses unggah karya.
+            </span>
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail() && Route::has('verification.send'))
