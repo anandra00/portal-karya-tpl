@@ -51,6 +51,16 @@ graph TD
 - Fitur **Dark Mode** instan tanpa efek flash saat memuat halaman (*anti-flash script* di header).
 - Integrasi PWA (Progressive Web App) dengan service worker (`sw.js`).
 
+### 🔍 Pencarian Instan FAQ (Alpine.js - Client-Side)
+- Pencarian pertanyaan dan jawaban secara langsung (*zero-latency text filtering*) menggunakan Alpine.js.
+- Mempertahankan HTML statis ter-render dari server untuk menjamin **SEO indexing** tetap prima, berbeda dengan SPA konvensional.
+- Dilengkapi dengan *empty state* / pesan "Tidak ada hasil ditemukan" yang interaktif.
+
+### 🛡️ Manajemen Karya & Jejak Audit (SoftDeletes & Logs)
+- Modul Admin dilengkapi dengan fitur penanganan data aman menggunakan **SoftDeletes** (Tab Trash/Sampah).
+- Admin dapat memulihkan (*Restore*) data karya atau berita yang terhapus secara tidak sengaja, atau menghapusnya secara permanen.
+- Sistem Jejak Audit (*Audit Trace Logs*) mencatat aktivitas penting admin lengkap dengan fitur tombol **Bersihkan Log** sekali klik untuk memudahkan pemeliharaan database.
+
 ### 📊 Ekspor Laporan Excel Premium (PhpSpreadsheet)
 - Modul Karya dan Visitor dilengkapi dengan fitur ekspor data otomatis ke Excel (.xlsx).
 - Hasil ekspor dirancang secara premium: memiliki header institusi resmi, penyesuaian lebar kolom otomatis, pewarnaan status dinamis (*color-coded statuses*), dan baris bergantian warna (*zebra striping*).
@@ -60,6 +70,113 @@ graph TD
 2. **Query Caching**: Menggunakan `Cache::remember` dengan durasi caching dinamis untuk data statis seperti data Dosen, statistik karya, dan total statistik dashboard admin.
 3. **Database Indexing**: Kolom pencarian kritis seperti `status_validasi`, `kategori`, dan `tahun` pada tabel `karyas` dioptimalkan dengan indeks database demi pencarian secepat kilat.
 4. **Robust FormRequest Validation**: Seluruh aturan validasi dipisahkan dari Controller ke file Request khusus (seperti `StoreKaryaRequest`) untuk menjaga kebersihan logika controller.
+
+---
+
+## 🔌 API Reference (REST API v1)
+
+Platform ini menyediakan API publik yang *read-only* (GET) untuk integrasi dengan sistem lain atau pengembangan client-side pihak ketiga.
+
+### 1. Dapatkan Daftar Karya Terbit
+Mendapatkan semua karya mahasiswa yang berstatus `accepted` (tervalidasi).
+- **URL**: `/api/v1/karyas`
+- **Method**: `GET`
+- **Headers**: `Accept: application/json`
+- **Response Contoh (200 OK)**:
+```json
+{
+  "success": true,
+  "message": "List of accepted works retrieved successfully",
+  "data": [
+    {
+      "id": 1,
+      "judul": "E-Learning SV IPB",
+      "deskripsi": "Aplikasi e-learning interaktif",
+      "kategori": "Web Application",
+      "tahun": 2026,
+      "file_karya": "uploads/karya/e_learning.pdf",
+      "preview_karya": "uploads/karya/previews/e_learning.png",
+      "link_pengumpulan": "https://github.com/example/elearning",
+      "tim_pembuat": "Budi, Susi",
+      "tanggal_upload": "2026-06-14 00:00:00",
+      "uploader": {
+        "id": 5,
+        "name": "Budi Setiawan"
+      }
+    }
+  ]
+}
+```
+
+### 2. Dapatkan Detail Karya + Ulasan
+Mendapatkan detail lengkap satu karya beserta riwayat ulasan & rating bintang.
+- **URL**: `/api/v1/karyas/{id}`
+- **Method**: `GET`
+- **Headers**: `Accept: application/json`
+- **Response Contoh (200 OK)**:
+```json
+{
+  "success": true,
+  "message": "Karya detail retrieved successfully",
+  "data": {
+    "id": 1,
+    "judul": "E-Learning SV IPB",
+    "deskripsi": "Aplikasi e-learning interaktif",
+    "kategori": "Web Application",
+    "tahun": 2026,
+    "file_karya": "uploads/karya/e_learning.pdf",
+    "preview_karya": "uploads/karya/previews/e_learning.png",
+    "link_pengumpulan": "https://github.com/example/elearning",
+    "tim_pembuat": "Budi, Susi",
+    "tanggal_upload": "2026-06-14 00:00:00",
+    "uploader": {
+      "id": 5,
+      "name": "Budi Setiawan"
+    },
+    "reviews": [
+      {
+        "id": 12,
+        "rating": 5,
+        "comment": "Antarmuka sangat bersih dan responsif!",
+        "created_at": "2026-06-14T07:15:00.000000Z",
+        "user": {
+          "id": 8,
+          "name": "Dr. Ir. Dosen Penguji"
+        }
+      }
+    ]
+  }
+}
+```
+- **Response Contoh (404 Not Found)**:
+```json
+{
+  "success": false,
+  "message": "Karya not found or not accepted"
+}
+```
+
+### 3. Dapatkan Daftar Dosen
+Mendapatkan daftar profil dosen beserta minat riset (*research interest*).
+- **URL**: `/api/v1/dosens`
+- **Method**: `GET`
+- **Headers**: `Accept: application/json`
+- **Response Contoh (200 OK)**:
+```json
+{
+  "success": true,
+  "message": "List of lecturers retrieved successfully",
+  "data": [
+    {
+      "id": 2,
+      "nama": "Prof. Dr. Ahmad",
+      "research_interest": "Machine Learning, Data Science",
+      "prodi": "Teknologi Rekayasa Perangkat Lunak",
+      "foto": "uploads/dosen/dosen_ahmad.jpg"
+    }
+  ]
+}
+```
 
 ---
 
@@ -127,6 +244,29 @@ Fitur yang diuji meliputi:
 - Hak akses berbasis peran (*Role-Based Access Control* / RBAC).
 - Alur pengajuan karya dan validasi admin.
 - Validasi fungsionalitas unduhan Laporan Excel (.xlsx).
+
+---
+
+## 🔮 Rencana Pengembangan Masa Depan (Future Roadmap)
+
+Untuk meningkatkan kapabilitas sistem ke taraf yang lebih tinggi di masa mendatang, berikut adalah rencana pengembangan yang dirancang secara matang:
+
+### 1. 🔄 Transisi ke Arsitektur Microservices
+- **Decomposition**: Mengekstrak modul-modul independen (seperti `Modules/Karya` atau `Modules/Auth`) menjadi service mandiri yang berjalan terpisah (misalnya menggunakan Go atau Node.js) dengan database terpisah untuk efisiensi skalabilitas.
+- **API Gateway**: Mengimplementasikan API Gateway (seperti Kong atau Envoy) untuk merutekan request dan menangani cross-cutting concerns (rate limiting, global auth).
+
+### 2. 🔌 Integrasi Single Sign-On (SSO) IPB IAM
+- **OAuth2 / OIDC**: Menghubungkan modul otentikasi dengan sistem Identity & Access Management (IAM) milik IPB University menggunakan protokol OpenID Connect (OIDC) sehingga mahasiswa dapat langsung login menggunakan akun resmi IPB tanpa registrasi manual.
+
+### 3. ☁️ Cloud Asset Storage & CDN (Content Delivery Network)
+- **Object Storage**: Migrasi dari penyimpanan file lokal ke Cloud Object Storage (seperti AWS S3 atau Google Cloud Storage) untuk menjaga keutuhan file.
+- **Edge Caching**: Integrasi Cloudflare CDN untuk pengiriman aset gambar preview karya mahasiswa secara cepat di seluruh wilayah dengan latensi rendah.
+
+### 4. 💬 Notifikasi Real-time & WebSockets
+- **Pusher / Laravel Reverb**: Menambahkan sistem notifikasi push real-time untuk memberi tahu mahasiswa ketika karya mereka telah disetujui/ditolak oleh admin, atau ketika karya mereka mendapatkan review baru dari dosen.
+
+### 5. 🧠 Moderasi Karya Berbasis Machine Learning
+- **AI Filtering**: Integrasi API Computer Vision / Natural Language Processing (NLP) untuk menyaring secara otomatis deskripsi dan gambar preview karya yang diunggah guna mencegah konten tidak pantas (NSFW) secara otomatis sebelum masuk antrean validasi admin.
 
 ---
 <div align="center">

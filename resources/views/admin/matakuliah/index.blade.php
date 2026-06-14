@@ -132,54 +132,56 @@
 @for($semester = 1; $semester <= 8; $semester++)
 <div class="semester-content {{ $semester == 1 ? 'active' : '' }}" id="semester{{ $semester }}">
     <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 5%;">No</th>
-                    <th style="width: 15%;">Kode</th>
-                    <th style="width: 40%;">Mata Kuliah</th>
-                    <th style="width: 15%;">SKS (T-P)</th>
-                    <th style="width: 25%;">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-                    $semesterData = $matakuliahs->where('semester', $semester);
-                    $no = 1;
-                @endphp
-                
-                @forelse($semesterData as $mk)
-                <tr>
-                    <td>{{ $no++ }}</td>
-                    <td><strong>{{ $mk->kode_matkul }}</strong></td>
-                    <td>{{ $mk->nama_matkul }}</td>
-                    <td>{{ $mk->sks_teori }} Teori - {{ $mk->sks_praktik }} Praktik</td>
-                    <td>
-                        <div class="action-group">
-                            <button type="button" class="btn btn-secondary" onclick="openModalEdit({{ json_encode($mk) }})" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
-                                Edit
-                            </button>
-                            
-                            <form action="{{ route('admin.matakuliah.destroy', $mk->id) }}" method="POST" class="delete-form" data-name="{{ $mk->nama_matkul }}" style="margin: 0;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
-                                    Hapus
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">No</th>
+                        <th style="width: 15%;">Kode</th>
+                        <th style="width: 40%;">Mata Kuliah</th>
+                        <th style="width: 15%;">SKS (T-P)</th>
+                        <th style="width: 25%;">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                        $semesterData = $matakuliahs->where('semester', $semester);
+                        $no = 1;
+                    @endphp
+                    
+                    @forelse($semesterData as $mk)
+                    <tr>
+                        <td>{{ $no++ }}</td>
+                        <td><strong>{{ $mk->kode_matkul }}</strong></td>
+                        <td>{{ $mk->nama_matkul }}</td>
+                        <td>{{ $mk->sks_teori }} Teori - {{ $mk->sks_praktik }} Praktik</td>
+                        <td>
+                            <div class="action-group">
+                                <button type="button" class="btn btn-secondary" onclick="openModalEdit({{ json_encode($mk) }})" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+                                    Edit
                                 </button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="5" style="text-align: center; padding: 3rem;">
-                        <i data-feather="book" style="width: 48px; height: 48px; color: var(--text-muted); margin-bottom: 1rem;"></i>
-                        <p style="color: var(--text-muted); font-size: 1rem;">Belum ada mata kuliah di Semester {{ $semester }}</p>
-                    </td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
+                                
+                                <form action="{{ route('admin.matakuliah.destroy', $mk->id) }}" method="POST" class="delete-form" data-name="{{ $mk->nama_matkul }}" style="margin: 0;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+                                        Hapus
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 3rem;">
+                            <i data-feather="book" style="width: 48px; height: 48px; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                            <p style="color: var(--text-muted); font-size: 1rem;">Belum ada mata kuliah di Semester {{ $semester }}</p>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 @endfor

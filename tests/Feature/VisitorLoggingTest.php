@@ -55,4 +55,39 @@ class VisitorLoggingTest extends TestCase
         $response->assertStatus(200);
         $this->assertEquals(0, Visitor::count());
     }
+
+    /**
+     * Test that admin can clear visitor logs.
+     */
+    public function test_admin_can_clear_visitor_logs(): void
+    {
+        // Create an admin user
+        $admin = \App\Models\User::create([
+            'name' => 'Admin Test',
+            'email' => 'admin_test@tpl.svipb.ac.id',
+            'password' => bcrypt('password123'),
+            'role' => 'admin'
+        ]);
+
+        // Seed a visitor log
+        Visitor::create([
+            'nama' => 'Tamu',
+            'email' => 'guest@tpl.svipb.ac.id',
+            'ip_address' => '127.0.0.1',
+            'user_agent' => 'Mozilla/5.0 Chrome/120.0.0.0',
+            'page_visited' => 'http://127.0.0.1:8000/',
+            'visited_at' => now(),
+        ]);
+
+        $this->assertEquals(1, Visitor::count());
+
+        // Perform clear request logged in as admin
+        $response = $this->actingAs($admin)
+                         ->post('/admin/lihat-pengunjung/clear');
+
+        $response->assertRedirect(route('lihatpengunjung'));
+        $response->assertSessionHas('success', 'Semua log kunjungan berhasil dihapus!');
+        
+        $this->assertEquals(0, Visitor::count());
+    }
 }

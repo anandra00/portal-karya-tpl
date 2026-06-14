@@ -13,9 +13,9 @@
 <div class="dashboard-card" style="display: block;">
     <div style="display: flex; flex-direction: column; gap: 1rem;">
         @forelse ($karyas as $karya)
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-main); transition: transform 0.2s, box-shadow 0.2s;">
-                <div style="display: flex; align-items: center; gap: 1.5rem;">
-                    <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(37, 99, 235, 0.1); color: var(--primary); display: flex; align-items: center; justify-content: center;">
+            <div class="flex-responsive" style="padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-main); transition: transform 0.2s, box-shadow 0.2s;">
+                <div style="display: flex; align-items: center; gap: 1.5rem;" class="word-break-all">
+                    <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(37, 99, 235, 0.1); color: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                         <i data-feather="file-text" style="width: 24px; height: 24px;"></i>
                     </div>
                     <div>

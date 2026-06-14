@@ -51,7 +51,7 @@
 </div>
 
 <!-- Interactive Charts Section -->
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 1.5rem; margin-top: 2rem;">
     <!-- Chart 1: Visitor Traffic -->
     <div class="dashboard-card" style="display: block; min-height: auto; padding-bottom: 1.5rem; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
         <h3 style="font-size: 1.15rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
@@ -74,11 +74,22 @@
         </div>
     </div>
 
-    <!-- Chart 3: Device / Browser Distribution -->
+    <!-- Chart 3: Browser Distribution -->
     <div class="dashboard-card" style="display: block; min-height: auto; padding-bottom: 1.5rem; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
         <h3 style="font-size: 1.15rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
-            <i data-feather="smartphone" style="width: 20px; height: 20px; color: var(--warning);"></i>
+            <i data-feather="globe" style="width: 20px; height: 20px; color: var(--warning);"></i>
             Browser Pengunjung
+        </h3>
+        <div style="width: 100%; height: 280px; position: relative; display: flex; align-items: center; justify-content: center;">
+            <canvas id="browserChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Chart 4: Device Distribution -->
+    <div class="dashboard-card" style="display: block; min-height: auto; padding-bottom: 1.5rem; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+        <h3 style="font-size: 1.15rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
+            <i data-feather="smartphone" style="width: 20px; height: 20px; color: var(--info);"></i>
+            Perangkat Pengunjung
         </h3>
         <div style="width: 100%; height: 280px; position: relative; display: flex; align-items: center; justify-content: center;">
             <canvas id="deviceChart"></canvas>
@@ -87,9 +98,9 @@
 </div>
 
 <!-- Latest Submissions & Activity Log Grid -->
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: 1.5rem; margin-top: 2rem;">
     <!-- Left Column: Latest Submissions -->
-    <div class="dashboard-card" style="display: block; min-height: auto; padding-bottom: 1.5rem; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); overflow-x: auto;">
+    <div class="dashboard-card" style="display: block; min-height: auto; padding-bottom: 1.5rem; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
         <h3 style="font-size: 1.15rem; font-weight: 600; margin-bottom: 1.25rem; color: var(--text-main); display: flex; align-items: center; justify-content: space-between;">
             <span style="display: flex; align-items: center; gap: 8px;">
                 <i data-feather="file-text" style="width: 20px; height: 20px; color: var(--primary);"></i>
@@ -97,7 +108,8 @@
             </span>
             <a href="{{ route('lihatkarya') }}" style="font-size: 0.85rem; color: var(--primary); font-weight: 500; text-decoration: none;">Lihat Semua</a>
         </h3>
-        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+        <div class="table-responsive">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
             <thead>
                 <tr style="border-bottom: 2px solid var(--border-color); color: var(--text-muted); font-size: 0.85rem;">
                     <th style="padding: 0.75rem 0.5rem; font-weight: 600;">Karya</th>
@@ -131,7 +143,8 @@
                     </tr>
                 @endforelse
             </tbody>
-        </table>
+            </table>
+        </div>
     </div>
 
     <!-- Right Column: Recent System Activities -->
@@ -304,8 +317,81 @@
             });
         }
 
-        // Browser/Device Chart (Doughnut Chart)
-        const deviceData = @json($visitor_devices['browsers'] ?? []);
+        // Browser Chart (Doughnut Chart)
+        const browserData = @json($visitor_devices['browsers'] ?? []);
+        const browserLabels = Object.keys(browserData);
+        const browserCounts = Object.values(browserData);
+
+        const ctxBrowser = document.getElementById('browserChart').getContext('2d');
+        if (browserCounts.length === 0) {
+            new Chart(ctxBrowser, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Belum ada data'],
+                    datasets: [{
+                        data: [1],
+                        backgroundColor: ['#E5E7EB'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                font: {
+                                    family: 'Outfit'
+                                }
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        } else {
+            new Chart(ctxBrowser, {
+                type: 'doughnut',
+                data: {
+                    labels: browserLabels,
+                    datasets: [{
+                        data: browserCounts,
+                        backgroundColor: [
+                            '#4F46E5', // Indigo
+                            '#10B981', // Emerald
+                            '#F59E0B', // Amber
+                            '#3B82F6', // Blue
+                            '#EC4899', // Pink
+                            '#8B5CF6'  // Purple
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                boxWidth: 12,
+                                font: {
+                                    family: 'Outfit',
+                                    size: 12
+                                },
+                                color: '#4B5563'
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+
+        // Device Chart (Doughnut Chart)
+        const deviceData = @json($visitor_devices['devices'] ?? []);
         const deviceLabels = Object.keys(deviceData);
         const deviceCounts = Object.values(deviceData);
 
@@ -345,12 +431,11 @@
                     datasets: [{
                         data: deviceCounts,
                         backgroundColor: [
-                            '#8B5CF6', // Violet / Purple
                             '#3B82F6', // Blue
                             '#EC4899', // Pink
-                            '#F59E0B', // Amber / Orange
+                            '#F59E0B', // Amber
                             '#10B981', // Emerald
-                            '#6B7280'  // Grey
+                            '#8B5CF6'  // Purple
                         ],
                         borderWidth: 2,
                         borderColor: '#fff'

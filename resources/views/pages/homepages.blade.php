@@ -92,7 +92,7 @@
                             @elseif ($i <= ceil($avgRating) && $avgRating - floor($avgRating) >= 0.5)
                                 <i class="bi bi-star-half"></i>
                             @else
-                                <i class="bi bi-star"></i>
+                                <i class="bi bi-star text-gray-300 dark:text-gray-600"></i>
                             @endif
                         @endfor
                         <span class="ml-2 text-sm text-gray-500 dark:text-gray-400 font-medium">

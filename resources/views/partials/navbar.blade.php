@@ -13,6 +13,7 @@
             <!-- Desktop Menu -->
             <div class="hidden lg:flex lg:items-center lg:space-x-8">
                 <a href="{{ route('home') }}" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('home') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">Beranda</a>
+                <a href="{{ route('karya.public') }}" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('karya.public') || request()->routeIs('karya.public.show') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">Karya</a>
                 <a href="{{ route('tentang') }}" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('tentang') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">Tentang</a>
                 <a href="{{ route('homepage.dosen') }}" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('homepage.dosen') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">Dosen</a>
                 <a href="{{ route('matakuliah.user') }}" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('matakuliah.user') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">Mata Kuliah</a>
@@ -78,6 +79,7 @@
     <div x-show="mobileMenuOpen" class="lg:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 shadow-lg" style="display: none;">
         <div class="px-4 pt-2 pb-6 space-y-2">
             <a href="{{ route('home') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">Beranda</a>
+            <a href="{{ route('karya.public') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">Karya</a>
             <a href="{{ route('tentang') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">Tentang</a>
             <a href="{{ route('homepage.dosen') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">Dosen</a>
             <a href="{{ route('matakuliah.user') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800">Mata Kuliah</a>

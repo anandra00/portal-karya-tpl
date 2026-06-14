@@ -70,11 +70,14 @@ class KaryaController extends Controller
     public function index()
     {
         $karyas = Karya::with('user')
-            ->whereIn('status_validasi', ['accepted', 'rejected'])
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('admin.karya.lihatkarya', compact('karyas'));
+        $trashed = Karya::onlyTrashed()
+            ->orderBy('deleted_at', 'desc')
+            ->get();
+
+        return view('admin.karya.lihatkarya', compact('karyas', 'trashed'));
     }
 
     public function store(StoreKaryaRequest $request)
@@ -105,7 +108,12 @@ class KaryaController extends Controller
         ]);
 
         // 4. Redirect dengan pesan sukses
-        return redirect()->route('karya.validasi')
+        if ($role === 'admin') {
+            return redirect()->route('karya.index')
+                ->with('success', 'Karya berhasil ditambahkan!');
+        }
+
+        return redirect()->route('unggah')
             ->with('success', 'Karya berhasil diunggah! Menunggu validasi admin.');
     }
 
@@ -179,7 +187,7 @@ class KaryaController extends Controller
             // Silently catch mail errors so it doesn't break flow if SMTP is not configured
         }
 
-        return redirect()->route('kelolakarya')
+        return redirect()->route('karya.index')
             ->with('success', 'Karya berhasil disetujui!');
     }
 
@@ -208,7 +216,7 @@ class KaryaController extends Controller
             // Silently catch mail errors
         }
 
-        return redirect()->route('kelolakarya')
+        return redirect()->route('karya.index')
             ->with('success', 'Karya berhasil ditolak!');
     }
 
@@ -222,8 +230,9 @@ class KaryaController extends Controller
     // Admin - halaman lihat karya accepted
     public function lihatKarya()
     {
-        $karyas = Karya::where('status_validasi', 'accepted')->get();        
-        return view('admin.karya.lihatkarya', compact('karyas'));
+        $karyas = Karya::where('status_validasi', 'accepted')->orderBy('created_at', 'desc')->get();        
+        $trashed = collect();
+        return view('admin.karya.lihatkarya', compact('karyas', 'trashed'));
     }
 
     // Admin - export data ke Excel (.xlsx) dengan template premium
@@ -393,5 +402,26 @@ class KaryaController extends Controller
 
         return redirect()->route('validasikonten')
             ->with('success', 'Karya berhasil ditambahkan! Silakan validasi.');
+    }
+
+    // Admin - memulihkan karya terhapus
+    public function restore($id)
+    {
+        $karya = Karya::onlyTrashed()->findOrFail($id);
+        $karya->restore();
+
+        return redirect()->route('karya.index')->with('success', 'Karya berhasil dipulihkan!');
+    }
+
+    // Admin - hapus karya permanen
+    public function forceDelete($id)
+    {
+        $karya = Karya::onlyTrashed()->findOrFail($id);
+        if ($karya->preview_karya) {
+            Storage::disk('public')->delete($karya->preview_karya);
+        }
+        $karya->forceDelete();
+
+        return redirect()->route('karya.index')->with('success', 'Karya berhasil dihapus secara permanen!');
     }
 }

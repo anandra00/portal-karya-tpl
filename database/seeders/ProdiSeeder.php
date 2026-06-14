@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\ProfilProdi;
+use Modules\Core\Models\ProfilProdi;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

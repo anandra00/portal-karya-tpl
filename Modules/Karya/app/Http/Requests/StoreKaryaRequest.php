@@ -45,11 +45,14 @@ class StoreKaryaRequest extends FormRequest
         ];
     }
 
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
+        if (auth()->check()) {
+            $user = auth()->user();
+            if ($user->role === 'user' && !str_ends_with($user->email, '@apps.ipb.ac.id')) {
+                return false;
+            }
+        }
         return true;
     }
 }

@@ -13,6 +13,7 @@ use Modules\Auth\Http\Controllers\AuthController;
 use Modules\Core\Http\Controllers\HomeController;
 use Modules\Core\Http\Controllers\ProfileController;
 use Modules\Akademik\Http\Controllers\BeritaUserController;
+use Modules\Core\Http\Controllers\api\ApiController;
 
 use Modules\Akademik\Http\Controllers\admin\DosenController;
 use Modules\Akademik\Http\Controllers\admin\MataKuliahController;
@@ -39,6 +40,15 @@ Route::get('/berita/{id}', [BeritaUserController::class, 'show'])->name('berita.
 
 Route::get('/karya', [KaryaController::class, 'karyaUser'])->name('karya.public');
 Route::get('/karya/{id}', [KaryaController::class, 'userShow'])->name('karya.public.show');
+
+// ============================================
+// PUBLIC REST API ROUTES (V1)
+// ============================================
+Route::prefix('api/v1')->group(function () {
+    Route::get('/karyas', [ApiController::class, 'getKaryas'])->name('api.v1.karyas');
+    Route::get('/karyas/{id}', [ApiController::class, 'getKaryaDetail'])->name('api.v1.karya.detail');
+    Route::get('/dosens', [ApiController::class, 'getDosens'])->name('api.v1.dosens');
+});
 
 // ============================================
 // AUTH ROUTES (Login/Register/Password)
@@ -71,7 +81,7 @@ Route::middleware(['auth'])->group(function () {
         $categories = \Modules\Karya\Models\Kategori::all();
         return view('pages.unggah', compact('categories'));
     })->name('unggah');
-    // Route::post('karya', [KaryaController::class, 'store'])->name('karya.store');
+    Route::post('karya', [KaryaController::class, 'store'])->name('karya.store');
     
     // Rating & Review (User)
     Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
@@ -101,6 +111,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     // ----------------------------------------
     Route::name('admin.')->group(function () {
         Route::resource('berita', BeritaController::class);
+        Route::post('berita/{id}/restore', [BeritaController::class, 'restore'])->name('berita.restore');
+        Route::delete('berita/{id}/force-delete', [BeritaController::class, 'forceDelete'])->name('berita.force-delete');
         Route::resource('matakuliah', MataKuliahController::class);
         
         // Perbaikan celah keamanan Review (sudah dipindah ke dalam grup admin)
@@ -119,10 +131,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('karya/validasi', [KaryaController::class, 'validation'])->name("karya.validasi");
     Route::get('karya/export', [KaryaController::class, 'exportCsv'])->name('karya.export');
     Route::get('karya/validasi/{id}', [KaryaController::class, 'validationForm'])->name("karya.form");
-    Route::resource('karya', KaryaController::class);
+    Route::post('karya/{id}/restore', [KaryaController::class, 'restore'])->name('admin.karya.restore');
+    Route::delete('karya/{id}/force-delete', [KaryaController::class, 'forceDelete'])->name('admin.karya.force-delete');
+    Route::resource('karya', KaryaController::class)->except(['store']);
 
     // Admin - Activity Log
     Route::get('/activity-logs', [\Modules\Core\Http\Controllers\admin\ActivityController::class, 'index'])->name('activity-logs.index');
+    Route::post('/activity-logs/clear', [\Modules\Core\Http\Controllers\admin\ActivityController::class, 'clearLogs'])->name('admin.activity-logs.clear');
 
     // Admin - Info Prodi
     Route::resource('info-prodi', ProfilProdiController::class);
@@ -146,6 +161,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     // Pengunjung Management
     Route::get('lihat-pengunjung', [AdminController::class, 'lihatPengunjung'])->name('lihatpengunjung');
     Route::get('export-pengunjung', [AdminController::class, 'exportPengunjung'])->name('pengunjung.export');
+    Route::post('lihat-pengunjung/clear', [AdminController::class, 'clearVisitorLogs'])->name('pengunjung.clear');
 
     // Admin List & Management
     Route::get('/list', [AdminController::class, 'index'])->name('admin.list');

@@ -8,94 +8,77 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $ajuan_karya = \Illuminate\Support\Facades\Cache::remember('dashboard_ajuan', 600, function() {
-            return \Modules\Karya\Models\Karya::where('status_validasi', 'submission')->count();
-        });
+        $ajuan_karya = \Modules\Karya\Models\Karya::where('status_validasi', 'submission')->count();
 
-        $karya_terunggah = \Illuminate\Support\Facades\Cache::remember('dashboard_terunggah', 600, function() {
-            return \Modules\Karya\Models\Karya::where('status_validasi', 'accepted')->count();
-        });
+        $karya_terunggah = \Modules\Karya\Models\Karya::where('status_validasi', 'accepted')->count();
 
-        $pengunjung = \Illuminate\Support\Facades\Cache::remember('dashboard_pengunjung', 600, function() {
-            return \Modules\Core\Models\Visitor::count();
-        });
+        $pengunjung = \Modules\Core\Models\Visitor::count();
 
         // Data chart karya per kategori (Doughnut Chart)
-        $karya_by_kategori = \Illuminate\Support\Facades\Cache::remember('dashboard_chart_kategori', 600, function() {
-            return \Modules\Karya\Models\Karya::selectRaw('kategori, count(*) as count')
-                ->where('status_validasi', 'accepted')
-                ->groupBy('kategori')
-                ->get()
-                ->toArray();
-        });
+        $karya_by_kategori = \Modules\Karya\Models\Karya::selectRaw('kategori, count(*) as count')
+            ->where('status_validasi', 'accepted')
+            ->groupBy('kategori')
+            ->get()
+            ->toArray();
 
         // Data chart kunjungan harian 7 hari terakhir (Line Chart)
-        $kunjungan_harian = \Illuminate\Support\Facades\Cache::remember('dashboard_chart_kunjungan', 600, function() {
-            $data = \Modules\Core\Models\Visitor::selectRaw('DATE(visited_at) as date, count(*) as count')
-                ->where('visited_at', '>=', now()->subDays(6))
-                ->groupBy('date')
-                ->orderBy('date')
-                ->get();
-            
-            $chartData = [];
-            for ($i = 6; $i >= 0; $i--) {
-                $dateStr = now()->subDays($i)->format('Y-m-d');
-                $formattedDate = now()->subDays($i)->translatedFormat('d M');
-                $match = $data->firstWhere('date', $dateStr);
-                $chartData[] = [
-                    'label' => $formattedDate,
-                    'count' => $match ? $match->count : 0
-                ];
-            }
-            return $chartData;
-        });
-
-        $visitor_devices = \Illuminate\Support\Facades\Cache::remember('dashboard_visitor_devices', 600, function() {
-            $visitors = \Modules\Core\Models\Visitor::all();
-            
-            $browsers = [
-                'Chrome' => 0,
-                'Safari' => 0,
-                'Firefox' => 0,
-                'Edge' => 0,
-                'Opera' => 0,
-                'Lainnya' => 0
+        $data = \Modules\Core\Models\Visitor::selectRaw('DATE(visited_at) as date, count(*) as count')
+            ->where('visited_at', '>=', now()->subDays(6)->startOfDay())
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+        
+        $kunjungan_harian = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $dateStr = now()->subDays($i)->format('Y-m-d');
+            $formattedDate = now()->subDays($i)->translatedFormat('d M');
+            $match = $data->firstWhere('date', $dateStr);
+            $kunjungan_harian[] = [
+                'label' => $formattedDate,
+                'count' => $match ? $match->count : 0
             ];
+        }
 
-            $devices = [
-                'Desktop' => 0,
-                'Mobile' => 0,
-                'Tablet' => 0
-            ];
+        $visitors = \Modules\Core\Models\Visitor::all();
+        
+        $browsers = [
+            'Chrome' => 0,
+            'Safari' => 0,
+            'Firefox' => 0,
+            'Edge' => 0,
+            'Opera' => 0,
+            'Lainnya' => 0
+        ];
 
-            foreach ($visitors as $v) {
-                $browser = $v->browser;
-                $device = $v->device;
+        $devices = [
+            'Desktop' => 0,
+            'Mobile' => 0,
+            'Tablet' => 0
+        ];
 
-                if (isset($browsers[$browser])) {
-                    $browsers[$browser]++;
-                } else {
-                    $browsers['Lainnya']++;
-                }
+        foreach ($visitors as $v) {
+            $browser = $v->browser;
+            $device = $v->device;
 
-                if (isset($devices[$device])) {
-                    $devices[$device]++;
-                }
+            if (isset($browsers[$browser])) {
+                $browsers[$browser]++;
+            } else {
+                $browsers['Lainnya']++;
             }
 
-            return [
-                'browsers' => array_filter($browsers, fn($count) => $count > 0),
-                'devices' => array_filter($devices, fn($count) => $count > 0)
-            ];
-        });
+            if (isset($devices[$device])) {
+                $devices[$device]++;
+            }
+        }
 
-        $latest_karyas = \Illuminate\Support\Facades\Cache::remember('dashboard_latest_karyas', 60, function() {
-            return \Modules\Karya\Models\Karya::orderBy('created_at', 'desc')->limit(5)->get();
-        });
+        $visitor_devices = [
+            'browsers' => array_filter($browsers, fn($count) => $count > 0),
+            'devices' => array_filter($devices, fn($count) => $count > 0)
+        ];
 
-        $latest_activities = \Illuminate\Support\Facades\Cache::remember('dashboard_latest_activities', 60, function() {
-            return \Modules\Core\Models\ActivityLog::orderBy('created_at', 'desc')->limit(5)->get();
-        });
+        $latest_karyas = \Modules\Karya\Models\Karya::orderBy('created_at', 'desc')->limit(5)->get();
+
+        $latest_activities = \Modules\Core\Models\ActivityLog::orderBy('created_at', 'desc')->limit(5)->get();
 
         return view('admin.dashboard', compact(
             'ajuan_karya', 

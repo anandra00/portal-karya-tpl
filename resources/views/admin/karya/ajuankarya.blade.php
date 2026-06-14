@@ -8,10 +8,10 @@
     <p class="page-subtitle">Karya yang berstatus submission menunggu validasi.</p>
 </div>
 
-<div class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));">
+<div class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(min(100%, 350px), 1fr));">
     @forelse ($karyas as $karya)
         <div class="dashboard-card" style="flex-direction: column; align-items: flex-start; position: relative; gap: 1rem;">
-            <div style="width: 100%;">
+            <div style="width: 100%;" class="word-break-all">
                 <h4 style="font-size: 1.15rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">{{ $karya->judul }}</h4>
                 <p style="color: var(--text-muted); font-size: 0.95rem;">
                     Oleh: <strong style="color: var(--primary);">{{ $karya->tim_pembuat }}</strong>

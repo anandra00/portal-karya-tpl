@@ -13,7 +13,28 @@
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="fade-in-up">
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-8 sm:p-10">
-                <h3 class="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white mb-8 tracking-tight">Form Unggah Karya</h3>
+                @php
+                    $email = Auth::user()->email ?? '';
+                    $isIpbEmail = str_ends_with($email, '@apps.ipb.ac.id');
+                    $isAdmin = Auth::check() && Auth::user()->role === 'admin';
+                    $canUpload = $isIpbEmail || $isAdmin;
+                @endphp
+
+                @if (!$canUpload)
+                    <div class="text-center py-12">
+                        <div class="w-20 h-20 bg-red-50 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-6 text-red-500">
+                            <i class="bi bi-shield-slash-fill text-4xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Akses Terbatas</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed max-w-md mx-auto">
+                            Hanya mahasiswa dengan alamat email berdomain <strong class="text-indigo-600 dark:text-indigo-400 font-semibold">@apps.ipb.ac.id</strong> yang diizinkan untuk mengunggah karya di platform ini.
+                        </p>
+                        <a href="{{ route('home') }}" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-bold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors shadow-sm">
+                            Kembali ke Beranda
+                        </a>
+                    </div>
+                @else
+                    <h3 class="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white mb-8 tracking-tight">Form Unggah Karya</h3>
                 
                 {{-- Pesan Error --}}
                 @if ($errors->any())
@@ -186,6 +207,7 @@
                         </a>
                     </div>
                 </form>
+                @endif
             </div>
         </div>
     </div>

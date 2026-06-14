@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Karya;
+use Modules\Karya\Models\Karya;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -12,12 +12,12 @@ class KaryaSeeder extends Seeder
    public function run(): void
     {
         $kategori = [
-            'Web Development',
-            'Mobile Apps',
-            'Data Science',
-            'IoT',
-            'Game Development',
-            'Lainnya'
+            'Aplikasi Web',
+            'Aplikasi Mobile',
+            'Internet of Things (IoT)',
+            'Game',
+            'UI/UX Design',
+            'Machine Learning'
         ];
 
         $status = ['accepted', 'rejected', 'submission'];

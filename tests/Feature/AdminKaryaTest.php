@@ -56,4 +56,55 @@ class AdminKaryaTest extends TestCase
         $response->assertStatus(200);
         $response->assertHeader('content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     }
+
+    /**
+     * Test admin can restore a soft-deleted karya.
+     */
+    public function test_admin_can_restore_karya(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $karya = Karya::create([
+            'user_id' => $admin->id,
+            'judul' => 'Karya Soft Deleted',
+            'deskripsi' => 'Deskripsi',
+            'kategori' => 'IoT',
+            'tahun' => 2026,
+            'tim_pembuat' => 'Tim Test',
+            'status_validasi' => 'accepted'
+        ]);
+        $karya->delete(); // Soft delete it
+
+        $this->assertEquals(0, Karya::count()); // Active count is 0
+        $this->assertEquals(1, Karya::withTrashed()->count());
+
+        $response = $this->actingAs($admin)->post(route('admin.karya.restore', $karya->id));
+
+        $response->assertRedirect(route('karya.index'));
+        $this->assertEquals(1, Karya::count()); // Active count is 1
+    }
+
+    /**
+     * Test admin can force delete a soft-deleted karya.
+     */
+    public function test_admin_can_force_delete_karya(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $karya = Karya::create([
+            'user_id' => $admin->id,
+            'judul' => 'Karya For Force Delete',
+            'deskripsi' => 'Deskripsi',
+            'kategori' => 'IoT',
+            'tahun' => 2026,
+            'tim_pembuat' => 'Tim Test',
+            'status_validasi' => 'accepted'
+        ]);
+        $karya->delete(); // Soft delete it
+
+        $this->assertEquals(1, Karya::withTrashed()->count());
+
+        $response = $this->actingAs($admin)->delete(route('admin.karya.force-delete', $karya->id));
+
+        $response->assertRedirect(route('karya.index'));
+        $this->assertEquals(0, Karya::withTrashed()->count()); // Fully deleted
+    }
 }

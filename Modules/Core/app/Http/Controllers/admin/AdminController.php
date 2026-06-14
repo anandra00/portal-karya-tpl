@@ -49,10 +49,21 @@ class AdminController extends Controller
     }
 
     // LIHAT PENGUNJUNG
-    public function lihatPengunjung()
+    public function lihatPengunjung(Request $request)
     {
-        $users = User::where('role', 'user')->get();
-        return view('admin.pengunjung.index', compact('users'));
+        $users = User::where('role', 'user')->orderBy('created_at', 'desc')->get();
+        
+        // Paginate visitors logs
+        $visitors = \Modules\Core\Models\Visitor::orderBy('visited_at', 'desc')->paginate(15, ['*'], 'page_visitors');
+        
+        return view('admin.pengunjung.index', compact('users', 'visitors'));
+    }
+
+    // HAPUS SEMUA LOG KUNJUNGAN (Untuk Reset Dummy Data)
+    public function clearVisitorLogs()
+    {
+        \Modules\Core\Models\Visitor::truncate();
+        return redirect()->route('lihatpengunjung')->with('success', 'Semua log kunjungan berhasil dihapus!');
     }
 
     // EXPORT PENGUNJUNG ke Excel (.xlsx) dengan template premium

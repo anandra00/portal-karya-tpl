@@ -13,8 +13,8 @@ class BeritaController extends Controller
     public function index()
     {
         $berita = Berita::with('user')->latest()->get();
-        return view('admin.berita.index', compact('berita'));
-
+        $trashed = Berita::onlyTrashed()->orderBy('deleted_at', 'desc')->get();
+        return view('admin.berita.index', compact('berita', 'trashed'));
     }
     public function indexUser($id)
 {
@@ -84,11 +84,29 @@ class BeritaController extends Controller
     public function destroy(string $id)
     {
         $berita = Berita::findOrFail($id);
-
-        // File gambar tidak dihapus secara fisik karena menggunakan SoftDeletes
-
         $berita->delete();
 
-        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dihapus!');
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dipindahkan ke Sampah!');
+    }
+
+    // Admin - memulihkan berita terhapus
+    public function restore($id)
+    {
+        $berita = Berita::onlyTrashed()->findOrFail($id);
+        $berita->restore();
+
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dipulihkan!');
+    }
+
+    // Admin - hapus berita permanen
+    public function forceDelete($id)
+    {
+        $berita = Berita::onlyTrashed()->findOrFail($id);
+        if ($berita->gambar) {
+            Storage::disk('public')->delete($berita->gambar);
+        }
+        $berita->forceDelete();
+
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dihapus secara permanen!');
     }
 }

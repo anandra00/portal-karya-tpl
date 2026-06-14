@@ -3,11 +3,17 @@
 @section('title', 'Activity Log')
 
 @section('content')
-<div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
     <div>
         <h1 class="page-title">Activity Log (Jejak Audit)</h1>
         <p class="page-subtitle">Daftar semua aktivitas yang tercatat dalam sistem</p>
     </div>
+    <form action="{{ route('admin.activity-logs.clear') }}" method="POST" class="delete-form" data-name="Seluruh Jejak Audit Sistem" style="margin: 0;">
+        @csrf
+        <button type="submit" class="btn btn-danger" style="padding: 0.5rem 1rem; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px;">
+            <i data-feather="trash-2" style="width: 18px; height: 18px;"></i> Bersihkan Log
+        </button>
+    </form>
 </div>
 
 <div class="dashboard-card" style="display: block; overflow-x: auto;">
