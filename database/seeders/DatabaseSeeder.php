@@ -54,6 +54,7 @@ class DatabaseSeeder extends Seeder
             ProdiSeeder::class,
             VisitorSeeder::class,
             DosenSeeder::class,
+            MataKuliahSeeder::class,
         ]);
     }
 }

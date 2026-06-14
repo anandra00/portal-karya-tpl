@@ -126,7 +126,7 @@
                         <i class="bi bi-person-badge text-xl"></i>
                     </div>
                     <div class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight" x-text="countDosen">0</div>
-                    <div class="text-sm font-semibold text-gray-500 dark:text-gray-400 mt-2">Dosen Pembimbing</div>
+                    <div class="text-sm font-semibold text-gray-500 dark:text-gray-400 mt-2">Dosen</div>
                 </div>
 
                 <!-- Stat 3 -->
