@@ -44,8 +44,8 @@
                             <i class="bi bi-speedometer2 mr-2"></i>Dashboard
                         </a>
                     @endif
-                    <a href="{{ route('profile.edit') }}" class="font-bold text-gray-900 dark:text-white flex items-center hover:text-indigo-600 transition">
-                        <i class="bi bi-person-circle mr-2"></i>Profil ({{ Auth::user()->name }})
+                    <a href="{{ route('profile.edit') }}" class="font-bold text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition flex items-center">
+                        <i class="bi bi-person-circle mr-1.5"></i>Profil
                     </a>
                     <a href="{{ route('logout') }}" class="text-red-500 hover:text-red-700 font-semibold transition flex items-center" onclick="event.preventDefault(); document.getElementById('public-logout-form').submit();">
                         <i class="bi bi-box-arrow-right mr-1"></i>Keluar
@@ -99,9 +99,9 @@
             <div class="border-t border-gray-200 dark:border-gray-700 pt-4 pb-2">
                 @auth
                     @if(Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                        <a href="{{ route('dashboard') }}" class="block px-3 py-2 text-base font-bold text-gray-900 dark:text-white hover:text-indigo-600 transition"><i class="bi bi-speedometer2 mr-2"></i>Dashboard</a>
+                        <a href="{{ route('dashboard') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800"><i class="bi bi-speedometer2 mr-2"></i>Dashboard</a>
                     @endif
-                    <a href="{{ route('profile.edit') }}" class="block px-3 py-2 text-base font-bold text-gray-900 dark:text-white hover:text-indigo-600 transition"><i class="bi bi-person-circle mr-2"></i>Profil ({{ Auth::user()->name }})</a>
+                    <a href="{{ route('profile.edit') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800"><i class="bi bi-person-circle mr-2"></i>Profil</a>
                     <a href="{{ route('logout') }}" class="block px-3 py-2 text-base font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md" onclick="event.preventDefault(); document.getElementById('public-logout-form-mobile').submit();">Keluar</a>
                     <form id="public-logout-form-mobile" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
