@@ -9,9 +9,12 @@
         <p class="page-subtitle">Selamat datang di Portal Karya Teknologi Rekayasa Perangkat Lunak Sekolah Vokasi IPB University</p>
     </div>
     @if (Auth::check() && Auth::user()->role == 'superadmin')
-    <a href="{{ route('admin.backup') }}" class="btn btn-danger" style="padding: 0.5rem 1rem; border-radius: 8px;">
-        <i data-feather="database" style="width: 18px; height: 18px; margin-right: 4px;"></i> Backup Database
-    </a>
+    <form action="{{ route('admin.backup') }}" method="POST" style="display: inline;" class="backup-form">
+        @csrf
+        <button type="submit" class="btn btn-danger" style="padding: 0.5rem 1rem; border-radius: 8px;">
+            <i data-feather="database" style="width: 18px; height: 18px; margin-right: 4px;"></i> Backup Database
+        </button>
+    </form>
     @endif
 </div>
 
@@ -265,6 +268,29 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Backup Confirmation
+        const backupForms = document.querySelectorAll('.backup-form');
+        backupForms.forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Konfirmasi Backup',
+                    html: `Apakah Anda yakin ingin mengekspor seluruh basis data ke berkas SQL?`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#EF4444',
+                    cancelButtonColor: '#6B7280',
+                    confirmButtonText: 'Ya, Backup!',
+                    cancelButtonText: 'Batal',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.submit();
+                    }
+                });
+            });
+        });
+
         // Visitor Chart (Line Chart)
         const visitorData = @json($kunjungan_harian);
         const visitorLabels = visitorData.map(item => item.label);

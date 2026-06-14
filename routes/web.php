@@ -54,16 +54,16 @@ Route::prefix('api/v1')->group(function () {
 // AUTH ROUTES (Login/Register/Password)
 // ============================================
 Route::get('/register', function () { return view('auth.register'); })->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
+Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:5,1')->name('register.submit');
 
 Route::get('/login', function () { return view('auth.login'); })->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
-Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1')->name('login.submit');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/forgot-password', function () { return view('auth.forgot-password'); })->name('forgot-password');
-Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password.submit');
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->middleware('throttle:3,1')->name('forgot-password.submit');
 Route::get('/reset-password/{token}', [AuthController::class, 'resetPassword'])->name('reset-password');
-Route::post('/reset-password/{token}', [AuthController::class, 'submitResetPassword'])->name('reset-password.submit');
+Route::post('/reset-password/{token}', [AuthController::class, 'submitResetPassword'])->middleware('throttle:5,1')->name('reset-password.submit');
 
 require __DIR__.'/auth.php';
 
@@ -91,21 +91,23 @@ Route::middleware(['auth'])->group(function () {
 // ============================================
 // ADMIN ROUTES (Butuh role:admin)
 // ============================================
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'role:admin,superadmin'])->prefix('admin')->group(function () {
     
     // Dashboard Admin
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    // Mail Testing (Admin only)
-    Route::get('/mail/send', function () {
-        $data = [
-            'subject' => 'Testing Kirim Email',
-            'title' => 'Testing Kirim Email',
-            'body' => 'Ini adalah email uji coba dari Portal Prodi TPL.'
-        ];
-        Mail::to('email_tujuan@gmail.com')->send(new SendEmail($data));
-        return 'Email berhasil dikirim!';
-    });
+    // Mail Testing (Admin only - Local environment only)
+    if (app()->isLocal()) {
+        Route::get('/mail/send', function () {
+            $data = [
+                'subject' => 'Testing Kirim Email',
+                'title' => 'Testing Kirim Email',
+                'body' => 'Ini adalah email uji coba dari Portal Prodi TPL.'
+            ];
+            Mail::to('email_tujuan@gmail.com')->send(new SendEmail($data));
+            return 'Email berhasil dikirim!';
+        });
+    }
 
     // ----------------------------------------
     // Rute yang membutuhkan prefix admin. di namanya (admin.berita.*, admin.matakuliah.*)
@@ -166,7 +168,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
     // Admin List & Management
     Route::get('/list', [AdminController::class, 'index'])->name('admin.list');
-    Route::get('/backup-database', [DashboardController::class, 'backupDatabase'])->name('admin.backup');
+    Route::post('/backup-database', [DashboardController::class, 'backupDatabase'])->name('admin.backup');
     Route::get('/create', [AdminController::class, 'create'])->name('admin.create');
     Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
     Route::delete('/delete/{id}', [AdminController::class, 'destroy'])->name('admin.delete');

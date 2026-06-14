@@ -175,8 +175,7 @@ class DashboardController extends Controller
                     foreach ($rows as $row) {
                         $values = array_map(function ($value) {
                             if (is_null($value)) return "NULL";
-                            $value = addslashes($value);
-                            return "'$value'";
+                            return \Illuminate\Support\Facades\DB::connection()->getPdo()->quote($value);
                         }, (array) $row);
                         
                         fwrite($file, "INSERT INTO `$tableName` VALUES (" . implode(", ", $values) . ");\n");

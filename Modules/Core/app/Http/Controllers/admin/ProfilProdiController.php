@@ -41,7 +41,7 @@ class ProfilProdiController extends Controller
             'visi'      => 'nullable|string',
             'misi'      => 'nullable|string',
             'capaian'   => 'nullable|string',
-            'video'     => 'nullable|file',
+            'video'     => 'nullable|file|mimes:mp4,webm,avi,mov|max:51200',
         ]);
 
         // Ambil profil berdasarkan kode_prodi
@@ -59,8 +59,10 @@ class ProfilProdiController extends Controller
                 unlink(public_path('uploads/video/' . $profil->video));
             }
 
-            // Simpan video baru
-            $videoName = time() . '_' . $request->video->getClientOriginalName();
+            // Sanitize nama file untuk mencegah path traversal
+            $originalName = pathinfo($request->video->getClientOriginalName(), PATHINFO_FILENAME);
+            $extension = $request->video->getClientOriginalExtension();
+            $videoName = time() . '_' . \Illuminate\Support\Str::slug($originalName) . '.' . $extension;
             $request->video->move(public_path('uploads/video'), $videoName);
 
             $validated['video'] = $videoName;

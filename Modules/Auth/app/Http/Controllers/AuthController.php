@@ -41,36 +41,22 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        // 1. tangkep data
-        $name = $request->name;
-        $email = $request->email;
-        $password = $request->password;
-        $password_confirmation = $request->password_confirmation;
-
-        // 2. validasi (email udh ada atau blm)
+        // 1. validasi input
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email', // Cek unik otomatis
-            'password' => 'required|min:8|confirmed', // Cek confirmation otomatis
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8|confirmed',
         ]);
 
-        // 3. check password
-        if ($password !== $password_confirmation) {
-            return back();
-        }
-
-        // 4. hash password
-        $hashPass = Hash::make($password);
-
-        // 5. masukin ke db
+        // 2. hash password & simpan ke db
         $user = User::create([
-            "name" => $name,
-            "email" => $email,
-            "password" => $hashPass,
-            "role" => "user"
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => 'user',
         ]);
 
-        // 6. arahin ke login
+        // 3. arahin ke login
         return redirect(route('login'))->with('success', 'Registrasi berhasil. Silakan login');
     }
 
@@ -87,19 +73,42 @@ class AuthController extends Controller
 
     public function forgotPassword(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
         $email = $request->email;
         $user = User::where('email', $email)->first();
         if (!$user) {
-            return back();
+            // Jangan bocorkan info apakah email terdaftar atau tidak
+            return back()->with('success', 'Jika email terdaftar, link reset password akan dikirim.');
         }
-        $token = Crypt::encryptString(value: json_encode($user));
+
+        // Token berisi user ID + timestamp expiry (1 jam)
+        $tokenPayload = json_encode([
+            'id' => $user->id,
+            'expires_at' => now()->addHour()->timestamp,
+        ]);
+        $token = Crypt::encryptString($tokenPayload);
         $resetLink = route('reset-password', $token);
         Mail::to($email)->send(new SendEmail($resetLink));
-        return back()->with('success', 'Link reset password berhasil dikirim ke email kamu!');
+        return back()->with('success', 'Jika email terdaftar, link reset password akan dikirim.');
     }
 
     public function resetPassword(Request $request)
     {
+        // Validasi token sebelum menampilkan form
+        try {
+            $decrypt = Crypt::decryptString($request->token);
+            $data = json_decode($decrypt, true);
+
+            if (!isset($data['expires_at']) || now()->timestamp > $data['expires_at']) {
+                return redirect(route('forgot-password'))->with('error', 'Link reset password sudah kadaluarsa. Silakan minta ulang.');
+            }
+        } catch (\Exception $e) {
+            return redirect(route('forgot-password'))->with('error', 'Link reset password tidak valid.');
+        }
+
         return view('auth.reset-password', [
             'token' => $request->token
         ]);
@@ -111,15 +120,25 @@ class AuthController extends Controller
             'password' => 'required|min:8|confirmed',
         ]);
 
-        $decrypt = Crypt::decryptString($request->token);
-        $data = json_decode($decrypt, true);
-        $userId = $data["id"];
+        try {
+            $decrypt = Crypt::decryptString($request->token);
+            $data = json_decode($decrypt, true);
+        } catch (\Exception $e) {
+            return redirect(route('forgot-password'))->with('error', 'Token tidak valid.');
+        }
+
+        // Cek expiry token
+        if (!isset($data['expires_at']) || now()->timestamp > $data['expires_at']) {
+            return redirect(route('forgot-password'))->with('error', 'Link reset password sudah kadaluarsa. Silakan minta ulang.');
+        }
+
+        $userId = $data['id'];
 
         // update password
-        $update = User::where("id", $userId)->update([
-            "password" => Hash::make($request->password),
+        User::where('id', $userId)->update([
+            'password' => Hash::make($request->password),
         ]);
 
-        return redirect(route('login'));
+        return redirect(route('login'))->with('success', 'Password berhasil direset. Silakan login.');
     }
 }

@@ -32,7 +32,7 @@ class MataKuliahController extends Controller
             'semester' => 'required|integer|min:1|max:8'
         ]);
 
-        MataKuliah::create($request->all());
+        MataKuliah::create($request->only(['kode_matkul', 'nama_matkul', 'sks_teori', 'sks_praktik', 'semester']));
 
         \Illuminate\Support\Facades\Cache::forget('mata_kuliah_user');
 
@@ -59,7 +59,7 @@ class MataKuliahController extends Controller
         ]);
 
         $matakuliah = MataKuliah::findOrFail($id);
-        $matakuliah->update($request->all());
+        $matakuliah->update($request->only(['kode_matkul', 'nama_matkul', 'sks_teori', 'sks_praktik', 'semester']));
 
         \Illuminate\Support\Facades\Cache::forget('mata_kuliah_user');
 

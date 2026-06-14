@@ -26,9 +26,9 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required'
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8'
         ]);
 
         User::create([
@@ -41,9 +41,13 @@ class AdminController extends Controller
         return redirect()->route('admin.list')->with('success', 'Admin berhasil ditambahkan!');
     }
 
-    // HAPUS ADMIN
     public function destroy($id)
     {
+        // Cegah admin menghapus akun sendiri
+        if ($id == auth()->id()) {
+            return back()->with('error', 'Tidak bisa menghapus akun sendiri.');
+        }
+
         User::where('id', $id)->delete();
         return back()->with('success', 'Admin dihapus.');
     }
