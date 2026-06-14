@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🎓 Portal Karya TRPL SV IPB (PJBL-EUYY)
+# 🎓 Portal Karya TRPL SV IPB (portal-karya-trpl)
 **Sistem Informasi Terpadu & Galeri Karya Mahasiswa Berbasis Modular Monolith**
 
 [![Laravel](https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
@@ -186,8 +186,8 @@ Pastikan Anda memiliki **PHP >= 8.2**, **Composer >= 2.x**, **Node.js >= 18.x**,
 
 1. **Clone Repositori**
    ```bash
-   git clone https://github.com/username/pjbl-euyy.git
-   cd pjbl-euyy
+   git clone https://github.com/anandra00/portal-karya-trpl.git
+   cd portal-karya-trpl
    ```
 
 2. **Instal Dependensi Backend & Frontend**
