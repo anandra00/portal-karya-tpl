@@ -10,6 +10,9 @@ class DosenSeeder extends Seeder
 {
     public function run(): void
     {
+        // Clear old records
+        Dosen::truncate();
+
         $dosenDir = storage_path('app/public/dosen');
         if (!File::exists($dosenDir)) {
             File::makeDirectory($dosenDir, 0755, true);
