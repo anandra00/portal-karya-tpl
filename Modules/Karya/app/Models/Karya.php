@@ -19,7 +19,7 @@ class Karya extends Model
         'tahun',
         'file_karya',
         'preview_karya',
-        'link_pengumpulan', // ✅ TAMBAHKAN INI
+        'link_pengumpulan',
         'tim_pembuat',
         'status_validasi',
         'tanggal_upload',

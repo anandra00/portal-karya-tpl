@@ -366,7 +366,6 @@ class KaryaController extends Controller
         return view('admin.karya.validation.index', compact('karyas'));
     }
 
-    // dan dibawah ini tambahan terbaru ya 
     // Admin - store karya baru (dari dashboard)
     public function storeAdmin(Request $request)
     {
