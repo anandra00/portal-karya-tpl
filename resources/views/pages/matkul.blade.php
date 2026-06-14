@@ -5,7 +5,10 @@
 
 
 @section('hero')
-@include('partials.hero')
+@include('partials.hero', [
+    'title' => 'Kurikulum & Mata Kuliah',
+    'subtitle' => 'Struktur Kurikulum Program Studi TRPL Sekolah Vokasi IPB University'
+])
 @endsection
 
 @section('content')

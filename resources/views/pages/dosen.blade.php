@@ -5,7 +5,10 @@
 
 
 @section('hero')
-@include('partials.hero')
+@include('partials.hero', [
+    'title' => 'Direktori Dosen',
+    'subtitle' => 'Daftar Pengajar & Staf Akademik TRPL Sekolah Vokasi IPB University'
+])
 @endsection
 
 @section('content')

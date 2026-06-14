@@ -13,7 +13,10 @@
 
 
 @section('hero')
-@include('partials.hero')
+@include('partials.hero', [
+    'title' => $karya->judul,
+    'subtitle' => 'Kategori: ' . $karya->kategori . ' | Angkatan ' . $karya->tahun
+])
 @endsection
 
 @section('content')

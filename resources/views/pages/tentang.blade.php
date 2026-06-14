@@ -5,7 +5,10 @@
 
 
 @section('hero')
-@include('partials.hero')
+@include('partials.hero', [
+    'title' => 'Tentang Program Studi',
+    'subtitle' => 'Teknologi Rekayasa Perangkat Lunak Sekolah Vokasi IPB University'
+])
 @endsection
 
 @section('content')

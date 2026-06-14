@@ -6,7 +6,10 @@
 
 {{-- BAGIAN HERO --}}
 @section('hero')
-@include('partials.hero')
+@include('partials.hero', [
+    'title' => 'Selamat Datang di Portal TRPL',
+    'subtitle' => 'Portal Resmi Program Studi Teknologi Rekayasa Perangkat Lunak SV IPB University'
+])
 @endsection
 
 @section('content')

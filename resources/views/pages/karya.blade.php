@@ -3,7 +3,10 @@
 @section('title', 'Karya Mahasiswa')
 
 @section('hero')
-@include('partials.hero')
+@include('partials.hero', [
+    'title' => 'Galeri Karya Mahasiswa',
+    'subtitle' => 'Karya Kreatif & Solutif Berbasis Teknologi Rekayasa Perangkat Lunak'
+])
 @endsection
 
 @section('content')

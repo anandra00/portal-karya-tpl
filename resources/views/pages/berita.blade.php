@@ -13,7 +13,10 @@
 
 
 @section('hero')
-@include('partials.hero')
+@include('partials.hero', [
+    'title' => 'Berita & Kegiatan',
+    'subtitle' => $berita->judul
+])
 @endsection
 
 @section('content')
