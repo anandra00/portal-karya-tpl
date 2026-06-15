@@ -10,7 +10,7 @@
     </div>
 </div>
 
-<div class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
+<div class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));">
     {{-- Video Profil --}}
     <div class="dashboard-card" style="flex-direction: column; align-items: flex-start;">
         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">

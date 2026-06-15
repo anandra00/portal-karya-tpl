@@ -13,7 +13,7 @@
     </a>
 </div>
 
-<div class="dashboard-card" style="display: block; max-width: 800px;">
+<div class="form-card" style="max-width: 800px;">
     <form action="{{ route('info-prodi.update', $profil->kode_prodi) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')

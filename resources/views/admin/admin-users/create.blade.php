@@ -13,7 +13,7 @@
     </a>
 </div>
 
-<div class="dashboard-card" style="display: block; max-width: 600px;">
+<div class="form-card" style="max-width: 600px;">
     @if ($errors->any())
         <div style="background-color: #FEE2E2; color: #991B1B; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid #F87171;">
             <ul style="margin: 0; padding-left: 1.5rem;">

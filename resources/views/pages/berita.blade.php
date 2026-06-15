@@ -39,9 +39,12 @@
                     </span>
                 </div>
 
-                <div class="rounded-2xl overflow-hidden mb-10 shadow-md">
-                    <img src="{{ asset('storage/' . $berita->gambar) }}" alt="{{ $berita->judul }}"
-                        class="w-full h-auto max-h-[500px] object-cover hover:scale-105 transition-transform duration-700">
+                <div class="rounded-2xl overflow-hidden mb-10 shadow-md bg-gray-200 dark:bg-gray-700" :class="loaded ? '' : 'animate-pulse'" x-data="{ loaded: false }" x-init="if ($refs.img && $refs.img.complete) loaded = true">
+                    <img x-ref="img" src="{{ asset('storage/' . $berita->gambar) }}" alt="{{ $berita->judul }}"
+                        class="w-full h-auto max-h-[500px] object-cover hover:scale-105 transition-all duration-700"
+                        loading="lazy"
+                        @load="loaded = true"
+                        :class="loaded ? 'opacity-100' : 'opacity-0'">
                 </div>
 
                 <article class="prose prose-lg dark:prose-invert max-w-none prose-indigo leading-relaxed text-gray-700 dark:text-gray-300">

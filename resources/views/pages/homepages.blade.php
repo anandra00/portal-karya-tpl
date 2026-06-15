@@ -115,39 +115,39 @@
 
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                 <!-- Stat 1 -->
-                <div class="text-center p-6 bg-white/60 dark:bg-gray-800/40 rounded-2xl border border-gray-100/40 dark:border-gray-700/40 hover:shadow-md transition-all">
-                    <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <div class="text-center p-6 bg-white dark:bg-gray-850 rounded-3xl border border-gray-100 dark:border-gray-750/80 shadow-[inset_0_2px_4px_rgba(255,255,255,0.05),_0_10px_30px_-5px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_-5px_rgba(0,0,0,0.2)] hover:shadow-xl dark:hover:shadow-indigo-950/20 hover:-translate-y-1.5 transition-all duration-300 relative group overflow-hidden">
+                    <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                         <i class="bi bi-file-earmark-code text-xl"></i>
                     </div>
                     <div class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight" x-text="countKarya">0</div>
-                    <div class="text-sm font-semibold text-gray-500 dark:text-gray-400 mt-2">Karya Terpublikasi</div>
+                    <div class="text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 mt-2">Karya Terpublikasi</div>
                 </div>
 
                 <!-- Stat 2 -->
-                <div class="text-center p-6 bg-white/60 dark:bg-gray-800/40 rounded-2xl border border-gray-100/40 dark:border-gray-700/40 hover:shadow-md transition-all">
-                    <div class="w-12 h-12 bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <div class="text-center p-6 bg-white dark:bg-gray-850 rounded-3xl border border-gray-100 dark:border-gray-750/80 shadow-[inset_0_2px_4px_rgba(255,255,255,0.05),_0_10px_30px_-5px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_-5px_rgba(0,0,0,0.2)] hover:shadow-xl dark:hover:shadow-green-950/20 hover:-translate-y-1.5 transition-all duration-300 relative group overflow-hidden">
+                    <div class="w-12 h-12 bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                         <i class="bi bi-person-badge text-xl"></i>
                     </div>
                     <div class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight" x-text="countDosen">0</div>
-                    <div class="text-sm font-semibold text-gray-500 dark:text-gray-400 mt-2">Dosen</div>
+                    <div class="text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 mt-2">Dosen</div>
                 </div>
 
                 <!-- Stat 3 -->
-                <div class="text-center p-6 bg-white/60 dark:bg-gray-800/40 rounded-2xl border border-gray-100/40 dark:border-gray-700/40 hover:shadow-md transition-all">
-                    <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/40 text-yellow-600 dark:text-yellow-400 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <div class="text-center p-6 bg-white dark:bg-gray-850 rounded-3xl border border-gray-100 dark:border-gray-750/80 shadow-[inset_0_2px_4px_rgba(255,255,255,0.05),_0_10px_30px_-5px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_-5px_rgba(0,0,0,0.2)] hover:shadow-xl dark:hover:shadow-yellow-950/20 hover:-translate-y-1.5 transition-all duration-300 relative group overflow-hidden">
+                    <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/40 text-yellow-600 dark:text-yellow-400 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                         <i class="bi bi-chat-left-heart text-xl"></i>
                     </div>
                     <div class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight" x-text="countReview">0</div>
-                    <div class="text-sm font-semibold text-gray-500 dark:text-gray-400 mt-2">Ulasan Pengguna</div>
+                    <div class="text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 mt-2">Ulasan Pengguna</div>
                 </div>
 
                 <!-- Stat 4 -->
-                <div class="text-center p-6 bg-white/60 dark:bg-gray-800/40 rounded-2xl border border-gray-100/40 dark:border-gray-700/40 hover:shadow-md transition-all">
-                    <div class="w-12 h-12 bg-pink-100 dark:bg-pink-900/40 text-pink-600 dark:text-pink-400 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <div class="text-center p-6 bg-white dark:bg-gray-850 rounded-3xl border border-gray-100 dark:border-gray-750/80 shadow-[inset_0_2px_4px_rgba(255,255,255,0.05),_0_10px_30px_-5px_rgba(0,0,0,0.03)] dark:shadow-[0_10px_30px_-5px_rgba(0,0,0,0.2)] hover:shadow-xl dark:hover:shadow-pink-950/20 hover:-translate-y-1.5 transition-all duration-300 relative group overflow-hidden">
+                    <div class="w-12 h-12 bg-pink-100 dark:bg-pink-900/40 text-pink-600 dark:text-pink-400 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                         <i class="bi bi-journal-code text-xl"></i>
                     </div>
                     <div class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight" x-text="countMatkul">0</div>
-                    <div class="text-sm font-semibold text-gray-500 dark:text-gray-400 mt-2">Mata Kuliah TRPL</div>
+                    <div class="text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 mt-2">Mata Kuliah TRPL</div>
                 </div>
             </div>
         </div>
@@ -162,10 +162,13 @@
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach ($karyas as $karya)
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100 dark:border-gray-700 fade-in-up">
-                <div class="relative overflow-hidden h-56">
-                    <img src="{{ $karya->preview_karya ? asset('storage/' . $karya->preview_karya) : 'https://placehold.co/600x400/333/white?text=Aplikasi+1' }}" 
-                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+            <div class="karya-card bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100 dark:border-gray-700 fade-in-up">
+                <div class="relative overflow-hidden h-56 bg-gray-200 dark:bg-gray-700" :class="loaded ? '' : 'animate-pulse'" x-data="{ loaded: false }" x-init="if ($refs.img && $refs.img.complete) loaded = true">
+                    <img x-ref="img" src="{{ $karya->preview_karya ? asset('storage/' . $karya->preview_karya) : 'https://placehold.co/600x400/333/white?text=Aplikasi+1' }}" 
+                         class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105" 
+                         loading="lazy"
+                         @load="loaded = true"
+                         :class="loaded ? 'opacity-100' : 'opacity-0'"
                          alt="Karya Mahasiswa">
                     <div class="absolute top-4 left-4">
                         <span class="px-3 py-1 bg-indigo-600 text-white text-xs font-bold rounded-full shadow-sm">{{ $karya->kategori }}</span>
@@ -220,9 +223,12 @@
                 <div class="bg-gray-50 dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 dark:border-gray-800 fade-in-up">
                     <div class="flex flex-col sm:flex-row">
                         <div class="sm:w-1/3">
-                            <a href="{{ route('berita.show', $berita->id) }}" class="block h-full">
-                                <img src="{{ asset('storage/' . $berita->gambar ) }}" 
-                                     class="w-full h-48 sm:h-full object-cover" 
+                            <a href="{{ route('berita.show', $berita->id) }}" class="block h-full relative bg-gray-200 dark:bg-gray-700" :class="loaded ? '' : 'animate-pulse'" x-data="{ loaded: false }" x-init="if ($refs.img && $refs.img.complete) loaded = true">
+                                <img x-ref="img" src="{{ asset('storage/' . $berita->gambar ) }}" 
+                                     class="w-full h-48 sm:h-full object-cover transition-all duration-300" 
+                                     loading="lazy"
+                                     @load="loaded = true"
+                                     :class="loaded ? 'opacity-100' : 'opacity-0'"
                                      alt="{{ $berita->judul }}">
                             </a>
                         </div>

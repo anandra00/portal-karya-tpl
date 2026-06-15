@@ -8,7 +8,7 @@
     <div class="topbar-right">
         <!-- Ke Halaman Utama -->
         <a href="{{ route('home') }}" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.4rem 0.8rem;">
-            <i data-feather="globe" style="width: 14px; height: 14px;"></i> Lihat Web
+            <i data-feather="globe" style="width: 14px; height: 14px;"></i> <span class="topbar-btn-text">Lihat Web</span>
         </a>
         
         <!-- Google Translate Hidden Engine -->

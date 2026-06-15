@@ -81,7 +81,7 @@
     </button>
 </div>
 
-<div class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));">
+<div class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));">
     @forelse ($dosens as $dosen)
         <div class="dosen-card">
             @if ($dosen->foto)

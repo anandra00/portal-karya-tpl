@@ -129,9 +129,14 @@
 
         <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 p-8 md:p-10 hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row items-center gap-8 fade-in-up">
             <div class="w-full md:w-1/3 flex justify-center">
-                <div class="relative group">
+                <div class="relative group bg-gray-200 dark:bg-gray-700 rounded-full" :class="loaded ? '' : 'animate-pulse'" x-data="{ loaded: false }" x-init="if ($refs.img && $refs.img.complete) loaded = true">
                     <div class="absolute inset-0 bg-gradient-to-tr from-indigo-600 to-pink-500 rounded-full blur-md opacity-30 group-hover:opacity-60 transition-opacity"></div>
-                    <img src="https://github.com/anandra00.png" alt="Anandra Dandi Anugrah" class="relative w-40 h-40 rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-lg group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Anandra+Dandi+Anugrah&background=4f46e5&color=fff&size=180';">
+                    <img x-ref="img" src="https://github.com/anandra00.png" alt="Anandra Dandi Anugrah" 
+                         class="relative w-40 h-40 rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-lg group-hover:scale-105 transition-all duration-300 transition-opacity duration-300" 
+                         loading="lazy"
+                         @load="loaded = true"
+                         :class="loaded ? 'opacity-100' : 'opacity-0'"
+                         onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Anandra+Dandi+Anugrah&background=4f46e5&color=fff&size=180';">
                 </div>
             </div>
             <div class="w-full md:w-2/3 text-center md:text-left">

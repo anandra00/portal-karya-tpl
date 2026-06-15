@@ -62,16 +62,16 @@
         {{-- Search Bar --}}
         <div class="max-w-2xl mx-auto mb-10 fade-in-up">
             <form action="{{ route('karya.public') }}" method="GET" @submit.prevent="">
-                <div class="relative flex items-center">
-                    <span class="absolute left-4 text-gray-400 dark:text-gray-500">
+                <div class="relative flex items-center group">
+                    <span class="absolute left-4 text-gray-400 dark:text-gray-500 group-focus-within:text-indigo-500 transition-colors">
                         <i class="bi bi-search"></i>
                     </span>
                     <input type="text" 
-                           class="w-full pl-12 pr-24 py-4 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm transition-all" 
+                           class="w-full pl-12 pr-24 py-4 rounded-full border border-gray-200 dark:border-gray-750 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm focus:shadow-[0_0_25px_rgba(99,102,241,0.15)] transition-all outline-none" 
                            name="search" 
                            x-model="searchQuery"
                            placeholder="Cari karya...">
-                    <button class="absolute right-2 top-2 bottom-2 px-6 bg-indigo-600 text-white font-semibold rounded-full hover:bg-indigo-700 transition-colors shadow-sm" type="button" @click="searchQuery = searchQuery">Cari</button>
+                    <button class="absolute right-2 top-2 bottom-2 px-6 bg-indigo-600 text-white font-semibold rounded-full hover:bg-indigo-700 hover:scale-105 transition-all shadow-sm" type="button" @click="searchQuery = searchQuery">Cari</button>
                 </div>
             </form>
         </div>
@@ -80,15 +80,15 @@
         <div class="flex flex-wrap justify-center gap-3 mb-16 fade-in-up">
             <a href="#" 
                @click.prevent="selectedCategory = 'Semua'"
-               :class="selectedCategory === 'Semua' ? 'bg-indigo-600 text-white' : 'bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-gray-700 hover:border-indigo-500 hover:text-indigo-700 dark:hover:text-indigo-300'"
-               class="px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-sm">
+               :class="selectedCategory === 'Semua' ? 'bg-indigo-600 text-white shadow-indigo-600/20 shadow-md' : 'bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-gray-700 hover:border-indigo-500 hover:text-indigo-700 dark:hover:text-indigo-300'"
+               class="px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-sm transform hover:scale-105 active:scale-95 duration-200">
                 Semua
             </a>
             @foreach($categories as $kat)
             <a href="#" 
                @click.prevent="selectedCategory = '{{ $kat->name }}'"
-               :class="selectedCategory === '{{ $kat->name }}' ? 'bg-indigo-600 text-white' : 'bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-gray-700 hover:border-indigo-500 hover:text-indigo-700 dark:hover:text-indigo-300'"
-               class="px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-sm">
+               :class="selectedCategory === '{{ $kat->name }}' ? 'bg-indigo-600 text-white shadow-indigo-600/20 shadow-md' : 'bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-gray-700 hover:border-indigo-500 hover:text-indigo-700 dark:hover:text-indigo-300'"
+               class="px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-sm transform hover:scale-105 active:scale-95 duration-200">
                 {{ $kat->name }}
             </a>
             @endforeach
@@ -100,13 +100,16 @@
                 <div class="karya-card bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100 dark:border-gray-700 fade-in-up"
                      x-show="filterKarya('{{ addslashes($k->judul) }}', '{{ addslashes($k->kategori) }}', '{{ addslashes($k->tim_pembuat) }}', '{{ addslashes(Str::limit(strip_tags($k->deskripsi), 200)) }}')">
                     
-                    <div class="relative overflow-hidden h-64 bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+                    <div class="relative overflow-hidden h-64 bg-gray-100 dark:bg-gray-900 flex items-center justify-center" :class="loaded ? '' : 'animate-pulse'" x-data="{ loaded: false }" x-init="if ($refs.img && $refs.img.complete) loaded = true">
                         @if($k->preview_karya)
-                            <img src="{{ asset('storage/' . $k->preview_karya) }}" 
-                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                            <img x-ref="img" src="{{ asset('storage/' . $k->preview_karya) }}" 
+                                 class="w-full h-full object-cover transition-all duration-500 group-hover:scale-105" 
+                                 loading="lazy"
+                                 @load="loaded = true"
+                                 :class="loaded ? 'opacity-100' : 'opacity-0'"
                                  alt="{{ $k->judul }}">
                         @else
-                            <span class="text-xl font-bold text-gray-400 dark:text-gray-600">{{ $k->judul }}</span>
+                            <span class="text-xl font-bold text-gray-400 dark:text-gray-600" x-init="loaded = true">{{ $k->judul }}</span>
                         @endif
                         <div class="absolute top-4 left-4">
                             <span class="px-3 py-1 bg-indigo-600 text-white text-xs font-bold rounded-full shadow-sm">{{ $k->kategori }}</span>

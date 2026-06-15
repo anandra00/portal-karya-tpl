@@ -12,12 +12,30 @@
 
             <!-- Desktop Menu -->
             <div class="hidden lg:flex lg:items-center lg:space-x-8">
-                <a href="{{ route('home') }}" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('home') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">Beranda</a>
-                <a href="{{ route('karya.public') }}" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('karya.public') || request()->routeIs('karya.public.show') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">Karya</a>
-                <a href="{{ route('tentang') }}" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('tentang') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">Tentang</a>
-                <a href="{{ route('homepage.dosen') }}" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('homepage.dosen') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">Dosen</a>
-                <a href="{{ route('matakuliah.user') }}" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('matakuliah.user') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">Mata Kuliah</a>
-                <a href="{{ route('faq') }}" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('faq') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">FAQ</a>
+                <a href="{{ route('home') }}" class="relative py-2 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('home') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">
+                    Beranda
+                    <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full transition-all duration-300 {{ request()->routeIs('home') ? 'w-full opacity-100' : 'w-0 opacity-0' }}"></span>
+                </a>
+                <a href="{{ route('karya.public') }}" class="relative py-2 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('karya.public') || request()->routeIs('karya.public.show') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">
+                    Karya
+                    <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full transition-all duration-300 {{ request()->routeIs('karya.public') || request()->routeIs('karya.public.show') ? 'w-full opacity-100' : 'w-0 opacity-0' }}"></span>
+                </a>
+                <a href="{{ route('tentang') }}" class="relative py-2 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('tentang') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">
+                    Tentang
+                    <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full transition-all duration-300 {{ request()->routeIs('tentang') ? 'w-full opacity-100' : 'w-0 opacity-0' }}"></span>
+                </a>
+                <a href="{{ route('homepage.dosen') }}" class="relative py-2 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('homepage.dosen') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">
+                    Dosen
+                    <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full transition-all duration-300 {{ request()->routeIs('homepage.dosen') ? 'w-full opacity-100' : 'w-0 opacity-0' }}"></span>
+                </a>
+                <a href="{{ route('matakuliah.user') }}" class="relative py-2 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('matakuliah.user') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">
+                    Mata Kuliah
+                    <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full transition-all duration-300 {{ request()->routeIs('matakuliah.user') ? 'w-full opacity-100' : 'w-0 opacity-0' }}"></span>
+                </a>
+                <a href="{{ route('faq') }}" class="relative py-2 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition {{ request()->routeIs('faq') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">
+                    FAQ
+                    <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full transition-all duration-300 {{ request()->routeIs('faq') ? 'w-full opacity-100' : 'w-0 opacity-0' }}"></span>
+                </a>
 
                 <!-- Theme Toggle -->
                 <button id="theme-toggle" class="text-gray-500 hover:text-yellow-500 focus:outline-none transition">

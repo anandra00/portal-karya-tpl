@@ -220,6 +220,10 @@ body {
 }
 
 .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
     margin-bottom: 2rem;
 }
 
@@ -549,6 +553,18 @@ textarea.form-control {
     display: block;
 }
 
+.filter-card {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    background: var(--bg-card);
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .admin-sidebar {
@@ -597,6 +613,49 @@ textarea.form-control {
 
     .action-group {
         flex-wrap: wrap;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .page-header form {
+        width: 100%;
+    }
+    .page-header button {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .admin-topbar {
+        padding: 0 1rem !important;
+    }
+    .topbar-right {
+        gap: 0.5rem !important;
+    }
+    .user-profile span {
+        display: none !important;
+    }
+    .btn-logout span {
+        display: none !important;
+    }
+    .topbar-btn-text {
+        display: none !important;
+    }
+    .admin-topbar .btn {
+        padding: 0.4rem 0.6rem !important;
+    }
+    .admin-custom-lang {
+        margin-right: 0 !important;
+    }
+
+    input, select, textarea, .form-control, .admin-custom-lang, .modal-body .form-control {
+        font-size: 16px !important;
+    }
+    .filter-card > div {
+        width: 100% !important;
+        flex: none !important;
     }
 }
 

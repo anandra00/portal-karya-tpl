@@ -80,7 +80,7 @@
                         <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}" 
                              style="width: 200px; height: 140px; object-fit: cover; border-radius: 8px; flex-shrink: 0; box-shadow: var(--shadow-sm);">
                     @else
-                        <div style="width: 200px; height: 140px; background: var(--bg-main); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); border: 1px dashed var(--border-color); flex-shrink: 0;">
+                        <div class="news-img-fallback" style="width: 200px; height: 140px; background: var(--bg-main); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); border: 1px dashed var(--border-color); flex-shrink: 0;">
                             <i data-feather="image" style="width: 24px; height: 24px;"></i>
                         </div>
                     @endif
@@ -148,7 +148,7 @@
                         <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}" 
                              style="width: 200px; height: 140px; object-fit: cover; border-radius: 8px; flex-shrink: 0; opacity: 0.5; box-shadow: var(--shadow-sm);">
                     @else
-                        <div style="width: 200px; height: 140px; background: var(--bg-main); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); border: 1px dashed var(--border-color); flex-shrink: 0; opacity: 0.5;">
+                        <div class="news-img-fallback" style="width: 200px; height: 140px; background: var(--bg-main); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); border: 1px dashed var(--border-color); flex-shrink: 0; opacity: 0.5;">
                             <i data-feather="image" style="width: 24px; height: 24px;"></i>
                         </div>
                     @endif
@@ -207,7 +207,7 @@
         .dashboard-card {
             flex-direction: column !important;
         }
-        .dashboard-card img {
+        .dashboard-card img, .news-img-fallback {
             width: 100% !important;
             height: 200px !important;
         }

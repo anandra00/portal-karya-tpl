@@ -63,20 +63,34 @@
                 <div class="dosen-card bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col items-center p-8 border border-gray-100 dark:border-gray-700 group fade-in-up"
                      x-show="filterDosen('{{ addslashes($dosen->nama) }}', '{{ addslashes($dosen->prodi) }}')">
                     
-                    <div class="relative w-32 h-32 mb-6">
+                    <div class="relative w-32 h-32 mb-6 bg-gray-200 dark:bg-gray-700 rounded-full" :class="loaded ? '' : 'animate-pulse'" x-data="{ loaded: false }" x-init="if ($refs.img && $refs.img.complete) loaded = true">
                         @if ($dosen->foto)
-                            <img src="{{ asset('storage/' . $dosen->foto) }}" 
-                                 class="w-full h-full object-cover rounded-full shadow-md group-hover:scale-105 transition-transform duration-300 ring-4 ring-indigo-50 dark:ring-gray-700"
+                            <img x-ref="img" src="{{ asset('storage/' . $dosen->foto) }}" 
+                                 class="w-full h-full object-cover rounded-full shadow-md group-hover:scale-105 transition-all duration-300 ring-4 ring-indigo-50 dark:ring-gray-700 transition-opacity duration-300"
+                                 loading="lazy"
+                                 @load="loaded = true"
+                                 :class="loaded ? 'opacity-100' : 'opacity-0'"
                                  alt="Foto {{ $dosen->nama }}">
                         @else
                             <img src="{{ asset('images/default-user.png') }}"
-                                 class="w-full h-full object-cover rounded-full shadow-md group-hover:scale-105 transition-transform duration-300 ring-4 ring-indigo-50 dark:ring-gray-700"
+                                 class="w-full h-full object-cover rounded-full shadow-md group-hover:scale-105 transition-all duration-300 ring-4 ring-indigo-50 dark:ring-gray-700"
+                                 x-init="loaded = true"
                                  alt="Default Foto">
                         @endif
                     </div>
 
                     <h5 class="text-xl font-bold text-gray-900 dark:text-white text-center mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{{ $dosen->nama }}</h5>
-                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400 text-center mb-6">{{ $dosen->prodi }}</p>
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400 text-center mb-4">{{ $dosen->prodi }}</p>
+
+                    @if($dosen->research_interest)
+                        <div class="flex flex-wrap gap-1.5 justify-center mb-6 max-w-[220px]">
+                            @foreach(explode(',', $dosen->research_interest) as $interest)
+                                <span class="px-2.5 py-0.5 text-[10px] font-bold bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 rounded-full border border-indigo-100 dark:border-indigo-900/30 whitespace-nowrap">
+                                    {{ trim($interest) }}
+                                </span>
+                            @endforeach
+                        </div>
+                    @endif
 
                     <span class="mt-auto px-4 py-1.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold uppercase tracking-wider rounded-full">
                         {{ $dosen->status ?? 'Aktif' }}

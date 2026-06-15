@@ -13,7 +13,7 @@
     </a>
 </div>
 
-<div class="dashboard-card" style="display: block; max-width: 800px;">
+<div class="form-card" style="max-width: 800px;">
     @if(session('success'))
         <div style="background-color: #D1FAE5; color: #065F46; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid #34D399; display: flex; align-items: center; gap: 8px;">
             <i data-feather="check-circle" style="width: 18px; height: 18px;"></i> {{ session('success') }}

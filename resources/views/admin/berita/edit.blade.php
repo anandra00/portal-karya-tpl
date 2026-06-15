@@ -15,7 +15,7 @@
 
 <div class="row g-4">
     <div class="col-lg-8">
-        <div class="dashboard-card" style="display: block;">
+        <div class="form-card" style="max-width: 100%;">
             <form action="{{ route('admin.berita.update', $berita->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -54,7 +54,7 @@
     </div>
 
     <div class="col-lg-4">
-        <div class="dashboard-card" style="display: block;">
+        <div class="form-card" style="max-width: 100%;">
             <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main);">Gambar Saat Ini</h3>
             @if($berita->gambar)
                 <img src="{{ asset('storage/' . $berita->gambar) }}" alt="Gambar Berita" style="width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border-color);">

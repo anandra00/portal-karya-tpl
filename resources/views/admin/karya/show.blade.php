@@ -15,7 +15,7 @@
 
 <div class="row g-4">
     <div class="col-lg-8">
-        <div class="dashboard-card" style="display: block;">
+        <div class="form-card" style="max-width: 100%;">
             <form action="{{ route('karya.update', $karya->id) }}" method="POST">
                 @csrf
                 @method('PUT')
@@ -90,7 +90,7 @@
     </div>
 
     <div class="col-lg-4">
-        <div class="dashboard-card" style="display: block;">
+        <div class="form-card" style="max-width: 100%;">
             <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main);">Preview Gambar</h3>
             @if($karya->preview_karya)
                 <img src="{{ asset('storage/' . $karya->preview_karya) }}" alt="Preview" style="width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border-color);">

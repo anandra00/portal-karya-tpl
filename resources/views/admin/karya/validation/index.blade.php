@@ -10,7 +10,7 @@
     </div>
 </div>
 
-<div class="dashboard-card" style="display: block;">
+<div class="form-card" style="max-width: 100%;">
     <div style="display: flex; flex-direction: column; gap: 1rem;">
         @forelse ($karyas as $karya)
             <div class="flex-responsive" style="padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-main); transition: transform 0.2s, box-shadow 0.2s;">

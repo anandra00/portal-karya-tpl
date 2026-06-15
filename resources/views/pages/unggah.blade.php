@@ -48,16 +48,7 @@
                     </div>
                 @endif
 
-                {{-- Pesan Sukses --}}
-                @if (session('success'))
-                    <div class="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-xl p-6 mb-8 relative flex items-center gap-3" role="alert" x-data="{ show: true }" x-show="show" x-transition>
-                        <i class="bi bi-check-circle-fill text-green-600 dark:text-green-400 text-xl"></i>
-                        <span class="text-green-800 dark:text-green-300 font-medium"><strong>Berhasil!</strong> {{ session('success') }}</span>
-                        <button type="button" @click="show = false" class="absolute right-4 top-1/2 -translate-y-1/2 text-green-700 dark:text-green-400 hover:text-green-900 dark:hover:text-green-200 focus:outline-none">
-                            <i class="bi bi-x-lg"></i>
-                        </button>
-                    </div>
-                @endif
+
                 
                 <form action="{{ route('karya.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                     @csrf

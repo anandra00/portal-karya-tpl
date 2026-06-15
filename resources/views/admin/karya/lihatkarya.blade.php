@@ -79,7 +79,7 @@
     <!-- Tab 1: Karya Aktif -->
     <div x-show="activeTab === 'active'">
         <!-- Filter & Search Bar -->
-        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; background: var(--bg-card); padding: 1rem; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+        <div class="filter-card">
             <div style="flex: 1; min-width: 200px; position: relative;">
                 <i data-feather="search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--text-muted); pointer-events: none;"></i>
                 <input type="text" x-model="search" placeholder="Cari judul atau pembuat karya..." class="form-control" style="padding-left: 36px; border-radius: 8px; width: 100%;">

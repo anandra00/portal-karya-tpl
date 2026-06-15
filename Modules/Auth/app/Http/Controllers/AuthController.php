@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\Rules\Password as PasswordRule;
 
 class AuthController extends Controller
 {
@@ -45,7 +46,7 @@ class AuthController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8|confirmed',
+            'password' => ['required', 'confirmed', PasswordRule::min(12)->uncompromised()],
         ]);
 
         // 2. hash password & simpan ke db
@@ -117,7 +118,7 @@ class AuthController extends Controller
     public function submitResetPassword(Request $request)
     {
         $request->validate([
-            'password' => 'required|min:8|confirmed',
+            'password' => ['required', 'confirmed', PasswordRule::min(12)->uncompromised()],
         ]);
 
         try {
