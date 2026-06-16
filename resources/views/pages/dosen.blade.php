@@ -41,58 +41,70 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div class="text-center mb-16">
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">Dosen Teknologi Rekayasa Perangkat Lunak Sekolah Vokasi IPB University</h2>
-            <div class="w-24 h-1.5 bg-gradient-to-r from-indigo-600 to-indigo-400 rounded-full mx-auto mt-6"></div>
+            <span class="inline-flex items-center gap-2 text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest bg-indigo-50 dark:bg-indigo-950/40 px-4 py-1.5 rounded-full border border-indigo-100 dark:border-indigo-900/30 mb-4">
+                <i class="bi bi-mortarboard-fill"></i>
+                Tenaga Pengajar
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">Dosen Teknologi Rekayasa Perangkat Lunak<br class="hidden sm:block"/> Sekolah Vokasi IPB University</h2>
+            <div class="w-24 h-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full mx-auto mt-6"></div>
         </div>
 
         {{-- Live Search Box --}}
-        <div class="max-w-md mx-auto mb-12 fade-in-up">
-            <div class="relative flex items-center">
-                <span class="absolute left-4 text-gray-400 dark:text-gray-500">
-                    <i class="bi bi-search"></i>
+        <div class="max-w-md mx-auto mb-14 fade-in-up">
+            <div class="relative flex items-center group">
+                <span class="absolute left-5 text-gray-400 dark:text-gray-500 group-focus-within:text-indigo-500 transition-colors">
+                    <i class="bi bi-search text-lg"></i>
                 </span>
                 <input type="text" 
                        x-model="searchQuery"
-                       class="w-full pl-12 pr-4 py-3.5 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm transition-all text-sm font-medium" 
+                       class="w-full pl-14 pr-4 py-4 rounded-2xl border border-gray-200/80 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm focus:shadow-[0_0_30px_rgba(99,102,241,0.12)] transition-all text-sm font-medium outline-none" 
                        placeholder="Cari dosen berdasarkan nama atau prodi...">
             </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             @foreach ($dosens as $dosen)
-                <div class="dosen-card bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col items-center p-8 border border-gray-100 dark:border-gray-700 group fade-in-up"
+                <div class="dosen-card bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden flex flex-col items-center p-8 border border-gray-100 dark:border-gray-700 group fade-in-up glow-ring"
                      x-show="filterDosen('{{ addslashes($dosen->nama) }}', '{{ addslashes($dosen->prodi) }}')">
                     
-                    <div class="relative w-32 h-32 mb-6 bg-gray-200 dark:bg-gray-700 rounded-full" :class="loaded ? '' : 'animate-pulse'" x-data="{ loaded: false }" x-init="if ($refs.img && $refs.img.complete) loaded = true">
-                        @if ($dosen->foto)
-                            <img x-ref="img" src="{{ asset('storage/' . $dosen->foto) }}" 
-                                 class="w-full h-full object-cover rounded-full shadow-md group-hover:scale-105 transition-all duration-300 ring-4 ring-indigo-50 dark:ring-gray-700 transition-opacity duration-300"
-                                 loading="lazy"
-                                 @load="loaded = true"
-                                 :class="loaded ? 'opacity-100' : 'opacity-0'"
-                                 alt="Foto {{ $dosen->nama }}">
-                        @else
-                            <img src="{{ asset('images/default-user.png') }}"
-                                 class="w-full h-full object-cover rounded-full shadow-md group-hover:scale-105 transition-all duration-300 ring-4 ring-indigo-50 dark:ring-gray-700"
-                                 x-init="loaded = true"
-                                 alt="Default Foto">
-                        @endif
+                    {{-- Gradient ring photo --}}
+                    <div class="relative w-32 h-32 mb-6" x-data="{ loaded: false }" x-init="if ($refs.img && $refs.img.complete) loaded = true">
+                        {{-- Animated gradient ring --}}
+                        <div class="absolute -inset-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full opacity-0 group-hover:opacity-70 transition-opacity duration-500 blur-sm animate-spin-slow"></div>
+                        <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        
+                        <div class="relative w-full h-full rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 ring-3 ring-white dark:ring-gray-800" :class="loaded ? '' : 'animate-pulse'">
+                            @if ($dosen->foto)
+                                <img x-ref="img" src="{{ asset('storage/' . $dosen->foto) }}" 
+                                     class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
+                                     loading="lazy"
+                                     @load="loaded = true"
+                                     :class="loaded ? 'opacity-100' : 'opacity-0'"
+                                     alt="Foto {{ $dosen->nama }}">
+                            @else
+                                <img src="{{ asset('images/default-user.png') }}"
+                                     class="w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
+                                     x-init="loaded = true"
+                                     alt="Default Foto">
+                            @endif
+                        </div>
                     </div>
 
-                    <h5 class="text-xl font-bold text-gray-900 dark:text-white text-center mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{{ $dosen->nama }}</h5>
-                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400 text-center mb-4">{{ $dosen->prodi }}</p>
+                    <h5 class="text-lg font-bold text-gray-900 dark:text-white text-center mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{{ $dosen->nama }}</h5>
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400 text-center mb-5">{{ $dosen->prodi }}</p>
 
                     @if($dosen->research_interest)
                         <div class="flex flex-wrap gap-1.5 justify-center mb-6 max-w-[220px]">
                             @foreach(explode(',', $dosen->research_interest) as $interest)
-                                <span class="px-2.5 py-0.5 text-[10px] font-bold bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 rounded-full border border-indigo-100 dark:border-indigo-900/30 whitespace-nowrap">
+                                <span class="px-2.5 py-0.5 text-[10px] font-bold bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 rounded-full border border-indigo-100 dark:border-indigo-900/30 whitespace-nowrap transition-colors group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/60">
                                     {{ trim($interest) }}
                                 </span>
                             @endforeach
                         </div>
                     @endif
 
-                    <span class="mt-auto px-4 py-1.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold uppercase tracking-wider rounded-full">
+                    <span class="mt-auto inline-flex items-center gap-1.5 px-4 py-1.5 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider rounded-full border border-emerald-100 dark:border-emerald-800/50">
+                        <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
                         {{ $dosen->status ?? 'Aktif' }}
                     </span>
                     
@@ -101,9 +113,10 @@
 
             {{-- Dynamic No Results Message --}}
             <div class="col-span-full" id="no-dosen-results" style="display: none;">
-                <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400 px-6 py-4 rounded-xl flex items-center justify-center">
-                    <i class="bi bi-info-circle mr-3 text-xl"></i>
-                    <span class="font-medium">Tidak ada dosen yang cocok dengan pencarian Anda.</span>
+                <div class="text-center py-16 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700">
+                    <i class="bi bi-person-x text-5xl text-gray-300 dark:text-gray-600 mb-4 block"></i>
+                    <h3 class="text-lg font-bold text-gray-700 dark:text-gray-300">Tidak ada dosen ditemukan</h3>
+                    <p class="text-gray-500 dark:text-gray-400 mt-2">Coba gunakan kata kunci pencarian yang lain.</p>
                 </div>
             </div>
         </div>

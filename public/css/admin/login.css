@@ -7,6 +7,21 @@
     --text-primary: #1e293b;
     --text-secondary: #64748b;
     --bg-glass: rgba(255, 255, 255, 0.85);
+    --bg-input: #f8fafc;
+    --border-input: #cbd5e1;
+    --bg-input-focus: #ffffff;
+    --bg-left-panel: linear-gradient(135deg, rgba(79, 70, 229, 0.9), rgba(59, 91, 219, 0.9));
+}
+
+.dark {
+    --warna-hero: #090514;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --bg-glass: rgba(15, 23, 42, 0.75);
+    --bg-input: #1f2937;
+    --border-input: #374151;
+    --bg-input-focus: #111827;
+    --bg-left-panel: linear-gradient(135deg, rgba(67, 56, 202, 0.9), rgba(49, 46, 129, 0.9));
 }
 
 * {
@@ -88,7 +103,7 @@ body {
 /* ===== LEFT PANEL ===== */
 .left-panel {
     flex: 1;
-    background: linear-gradient(135deg, rgba(79, 70, 229, 0.9), rgba(59, 91, 219, 0.9));
+    background: var(--bg-left-panel);
     color: white;
     display: flex;
     flex-direction: column;
@@ -180,11 +195,11 @@ label {
 input {
     width: 100%;
     padding: 0.85rem 1rem;
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--border-input);
     border-radius: 12px;
     font-size: 1rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background-color: #f8fafc;
+    background-color: var(--bg-input);
     color: var(--text-primary);
 }
 
@@ -196,7 +211,7 @@ input:focus {
     outline: none;
     border-color: var(--warna-utama);
     box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
-    background-color: #ffffff;
+    background-color: var(--bg-input-focus);
 }
 
 .input-group {
@@ -389,4 +404,39 @@ input:focus {
         max-width: 100%;
         padding: 0 1rem;
     }
+}
+
+/* ===== ADDITIONAL DARK MODE OVERRIDES ===== */
+.dark body {
+    background: linear-gradient(135deg, var(--warna-hero), #09090b, #030712);
+}
+
+.dark .login-container {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.dark .toggle-password:hover {
+    color: #818cf8;
+    background-color: #374151;
+}
+
+.dark .signup:hover {
+    color: #a5b4fc;
+}
+
+.dark .forgot:hover {
+    color: #818cf8;
+}
+
+.dark .alert-success {
+    background-color: rgba(22, 101, 52, 0.2);
+    color: #4ade80;
+    border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+.dark .alert-error {
+    background-color: rgba(153, 27, 27, 0.2);
+    color: #f87171;
+    border: 1px solid rgba(248, 113, 113, 0.3);
 }

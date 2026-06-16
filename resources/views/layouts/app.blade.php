@@ -30,11 +30,20 @@
         }
         body { font-family: 'Outfit', sans-serif !important; }
         
-        /* Custom Fade In Up Animation */
+        /* Page Load Animation */
+        body {
+            animation: page-fade-in 0.5s ease-out;
+        }
+        @keyframes page-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Custom Fade In Up Animation — Enhanced with stagger support */
         .fade-in-up {
             opacity: 0;
-            transform: translateY(15px);
-            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(20px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
         .fade-in-up.visible {
@@ -68,23 +77,23 @@
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
         .karya-card:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.15), 0 10px 10px -5px rgba(79, 70, 229, 0.08);
-            border-color: rgba(99, 102, 241, 0.4) !important;
+            transform: perspective(1000px) rotateX(1deg) rotateY(-1deg) translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(79, 70, 229, 0.2), 0 12px 24px -8px rgba(79, 70, 229, 0.1);
+            border-color: rgba(99, 102, 241, 0.5) !important;
         }
         .dark .karya-card:hover {
-            box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.25), 0 10px 10px -5px rgba(99, 102, 241, 0.12);
-            border-color: rgba(99, 102, 241, 0.5) !important;
+            box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.3), 0 12px 24px -8px rgba(99, 102, 241, 0.15);
+            border-color: rgba(99, 102, 241, 0.6) !important;
         }
 
         .dosen-card:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 20px 25px -5px rgba(16, 185, 129, 0.15), 0 10px 10px -5px rgba(16, 185, 129, 0.08);
-            border-color: rgba(16, 185, 129, 0.4) !important;
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.2), 0 12px 24px -8px rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.5) !important;
         }
         .dark .dosen-card:hover {
-            box-shadow: 0 20px 25px -5px rgba(16, 185, 129, 0.25), 0 10px 10px -5px rgba(16, 185, 129, 0.12);
-            border-color: rgba(16, 185, 129, 0.5) !important;
+            box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.3), 0 12px 24px -8px rgba(16, 185, 129, 0.15);
+            border-color: rgba(16, 185, 129, 0.6) !important;
         }
 
         /* Google Translate Customization - HIDDEN */
@@ -105,9 +114,21 @@
             height: 1px !important;
             overflow: hidden !important;
         }
+
+        /* Dark mode toggle rotation */
+        .theme-toggle-btn {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .theme-toggle-btn:hover {
+            transform: rotate(15deg) scale(1.15);
+        }
+        .theme-toggle-btn:active {
+            transform: rotate(360deg) scale(0.95);
+        }
     </style>
     
-    {{-- Alpine.js --}}
+    {{-- Alpine.js Collapse Plugin & Core --}}
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     {{-- Tailwind via Vite --}}
@@ -127,6 +148,10 @@
 </head>
 
 <body class="font-sans antialiased text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900 transition-colors duration-300 flex flex-col min-h-screen">
+    
+    {{-- Scroll Progress Bar --}}
+    <div id="scroll-progress" class="scroll-progress" style="width: 0%;"></div>
+
     <!-- Global Toast Notification -->
     <div x-data="{ 
              show: false, 
@@ -154,22 +179,26 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="fixed top-24 right-4 z-50 max-w-sm w-full bg-white dark:bg-gray-800 shadow-xl rounded-2xl border border-gray-100 dark:border-gray-700 p-4 flex items-start gap-3 pointer-events-auto"
+         class="fixed top-24 right-4 z-50 max-w-sm w-full glass shadow-xl rounded-2xl p-4 flex items-start gap-3 pointer-events-auto"
          style="display: none;"
     >
         <div class="flex-shrink-0">
             <template x-if="type === 'success'">
-                <i class="bi bi-check-circle-fill text-green-500 text-xl"></i>
+                <div class="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                    <i class="bi bi-check-circle-fill text-green-500 text-lg"></i>
+                </div>
             </template>
             <template x-if="type === 'error'">
-                <i class="bi bi-exclamation-triangle-fill text-red-500 text-xl"></i>
+                <div class="w-8 h-8 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+                    <i class="bi bi-exclamation-triangle-fill text-red-500 text-lg"></i>
+                </div>
             </template>
         </div>
         <div class="flex-grow pt-0.5">
-            <p class="text-sm font-bold text-gray-900 dark:text-white" x-text="type === 'success' ? 'Berhasil' : 'Error'"></p>
+            <p class="text-sm font-bold text-gray-900 dark:text-white" x-text="type === 'success' ? 'Berhasil!' : 'Terjadi Kesalahan'"></p>
             <p class="text-xs text-gray-600 dark:text-gray-400 mt-1" x-text="message"></p>
         </div>
-        <button @click="show = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 focus:outline-none">
+        <button @click="show = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 focus:outline-none transition-colors">
             <i class="bi bi-x-lg text-sm"></i>
         </button>
     </div>
@@ -191,27 +220,62 @@
     {{-- FOOTER --}}
     @include('partials.footer')
 
+    {{-- Back to Top Button --}}
+    <button id="back-to-top" class="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Kembali ke atas">
+        <i class="bi bi-chevron-up text-xl"></i>
+    </button>
 
-
-        {{-- Scroll Animation (Intersection Observer) --}}
+        {{-- Scroll Animation (Enhanced Intersection Observer with Stagger) --}}
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const observer = new IntersectionObserver((entries) => {
-                    entries.forEach((entry) => {
+                    entries.forEach((entry, index) => {
                         if (entry.isIntersecting) {
-                            entry.target.classList.add('visible');
+                            // Add stagger delay based on position among siblings
+                            const siblings = entry.target.parentElement ? 
+                                Array.from(entry.target.parentElement.querySelectorAll('.fade-in-up')) : [];
+                            const siblingIndex = siblings.indexOf(entry.target);
+                            const delay = siblingIndex >= 0 ? siblingIndex * 60 : 0;
+                            
+                            setTimeout(() => {
+                                entry.target.classList.add('visible');
+                            }, delay);
                             observer.unobserve(entry.target);
                         }
                     });
                 }, {
                     threshold: 0.05,
-                    rootMargin: '0px 0px -20px 0px'
+                    rootMargin: '0px 0px -30px 0px'
                 });
 
-                // Observe all .fade-in-up elements
                 document.querySelectorAll('.fade-in-up').forEach(el => {
                     observer.observe(el);
                 });
+            });
+        </script>
+
+        {{-- Scroll Progress & Back to Top --}}
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const progressBar = document.getElementById('scroll-progress');
+                const backToTopBtn = document.getElementById('back-to-top');
+                
+                window.addEventListener('scroll', () => {
+                    // Progress bar
+                    const scrollTop = window.scrollY;
+                    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+                    if (progressBar) progressBar.style.width = scrollPercent + '%';
+                    
+                    // Back to top visibility
+                    if (backToTopBtn) {
+                        if (scrollTop > 500) {
+                            backToTopBtn.classList.add('visible');
+                        } else {
+                            backToTopBtn.classList.remove('visible');
+                        }
+                    }
+                }, { passive: true });
             });
         </script>
 

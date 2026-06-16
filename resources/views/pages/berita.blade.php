@@ -47,23 +47,47 @@
                         :class="loaded ? 'opacity-100' : 'opacity-0'">
                 </div>
 
-                <article class="prose prose-lg dark:prose-invert max-w-none prose-indigo leading-relaxed text-gray-700 dark:text-gray-300">
-                    {{$berita->isi}}
+                <article class="prose prose-lg dark:prose-invert max-w-none prose-indigo leading-relaxed text-gray-700 dark:text-gray-300 mb-12">
+                    {!! nl2br(e($berita->isi)) !!}
                 </article>
 
                 <hr class="my-10 border-gray-200 dark:border-gray-700">
 
                 <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
-                    <div class="flex items-center">
-                        <strong class="text-gray-900 dark:text-white mr-4">Bagikan Artikel:</strong>
-                        <div class="flex space-x-3">
-                            <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-100 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors"><i class="bi bi-facebook text-lg"></i></a>
-                            <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-sky-100 text-sky-500 hover:bg-sky-500 hover:text-white transition-colors"><i class="bi bi-twitter text-lg"></i></a>
-                            <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-green-100 text-green-500 hover:bg-green-500 hover:text-white transition-colors"><i class="bi bi-whatsapp text-lg"></i></a>
+                    <div class="flex flex-wrap items-center gap-4">
+                        <strong class="text-gray-900 dark:text-white mr-2">Bagikan Artikel:</strong>
+                        <div class="flex items-center gap-2">
+                            <!-- WhatsApp -->
+                            <a href="https://api.whatsapp.com/send?text={{ rawurlencode('Yuk baca berita ini: ' . $berita->judul . ' - ' . url()->current()) }}" 
+                               target="_blank" 
+                               class="w-10 h-10 flex items-center justify-center rounded-xl bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366] hover:text-white transition-all transform hover:-translate-y-0.5"
+                               title="Bagikan ke WhatsApp">
+                                <i class="bi bi-whatsapp text-lg"></i>
+                            </a>
+                            <!-- Facebook -->
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" 
+                               target="_blank" 
+                               class="w-10 h-10 flex items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white transition-all transform hover:-translate-y-0.5"
+                               title="Bagikan ke Facebook">
+                                <i class="bi bi-facebook text-lg"></i>
+                            </a>
+                            <!-- X (Twitter) -->
+                            <a href="https://twitter.com/intent/tweet?url={{ urlencode(url()->current()) }}&text={{ urlencode($berita->judul) }}" 
+                               target="_blank" 
+                               class="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-gray-900 transition-all transform hover:-translate-y-0.5"
+                               title="Bagikan ke X">
+                                <i class="bi bi-twitter-x text-lg"></i>
+                            </a>
+                            <!-- Copy Link Button -->
+                            <button id="btn-copy-news-link" data-url="{{ url()->current() }}"
+                                    class="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/30 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-all transform hover:-translate-y-0.5 group"
+                                    title="Salin Tautan">
+                                <i id="copy-news-icon" class="bi bi-link-45deg text-xl"></i>
+                            </button>
                         </div>
                     </div>
 
-                    <a href="{{ route('home') }}" class="inline-flex items-center px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-semibold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                    <a href="{{ route('home') }}" class="inline-flex items-center px-6 py-3.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 font-bold rounded-xl transition-all shadow-sm">
                         <i class="bi bi-arrow-left mr-2"></i>Kembali ke Home
                     </a>
                 </div>
@@ -72,4 +96,31 @@
 
         </div>
     </main>
+
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const btnCopyLink = document.getElementById('btn-copy-news-link');
+                if (btnCopyLink) {
+                    btnCopyLink.addEventListener('click', function() {
+                        const url = this.getAttribute('data-url');
+                        navigator.clipboard.writeText(url).then(() => {
+                            const icon = document.getElementById('copy-news-icon');
+                            icon.className = 'bi bi-check-lg text-green-500';
+                            btnCopyLink.classList.remove('bg-indigo-50', 'text-indigo-600');
+                            btnCopyLink.classList.add('bg-green-50', 'border-green-300');
+                            
+                            setTimeout(() => {
+                                icon.className = 'bi bi-link-45deg';
+                                btnCopyLink.classList.add('bg-indigo-50', 'text-indigo-600');
+                                btnCopyLink.classList.remove('bg-green-50', 'border-green-300');
+                            }, 2000);
+                        }).catch(err => {
+                            console.error('Gagal menyalin tautan: ', err);
+                        });
+                    });
+                }
+            });
+        </script>
+    @endpush
 @endsection
