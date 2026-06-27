@@ -1,0 +1,401 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Portal Karya TRPL SV IPB REST API",
+        "description": "Dokumentasi REST API v1 untuk Portal Karya Mahasiswa TRPL Sekolah Vokasi IPB University.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api",
+            "description": "Server API Utama (Local/Production)"
+        }
+    ],
+    "paths": {
+        "/v1/karyas": {
+            "get": {
+                "tags": [
+                    "Karya"
+                ],
+                "summary": "Dapatkan semua karya mahasiswa yang berstatus accepted",
+                "operationId": "24c6c93bf3263ed0d4018c2076f88d66",
+                "responses": {
+                    "200": {
+                        "description": "Daftar karya mahasiswa berhasil diambil.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "List of accepted works retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Karya"
+                ],
+                "summary": "Unggah karya baru (Butuh Token)",
+                "operationId": "034e16c00d056cf6b736cda692ec9522",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "judul",
+                                    "kategori",
+                                    "deskripsi",
+                                    "tim_pembuat",
+                                    "tahun"
+                                ],
+                                "properties": {
+                                    "judul": {
+                                        "type": "string",
+                                        "example": "E-Learning TRPL"
+                                    },
+                                    "kategori": {
+                                        "type": "string",
+                                        "example": "Web Application"
+                                    },
+                                    "deskripsi": {
+                                        "type": "string",
+                                        "example": "Aplikasi pembelajaran interaktif"
+                                    },
+                                    "tim_pembuat": {
+                                        "type": "string",
+                                        "example": "Budi, Susi"
+                                    },
+                                    "tahun": {
+                                        "type": "integer",
+                                        "example": 2026
+                                    },
+                                    "link": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "https://github.com/example/elearning"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Karya berhasil diajukan.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Karya berhasil diajukan! Menunggu validasi admin."
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized (Token salah atau hilang)."
+                    },
+                    "403": {
+                        "description": "Hanya mahasiswa IPB yang diizinkan mengunggah karya."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/karyas/{id}": {
+            "get": {
+                "tags": [
+                    "Karya"
+                ],
+                "summary": "Dapatkan detail satu karya mahasiswa beserta ulasannya",
+                "operationId": "25d2eeb0aa3fca95a5a1fd9711496207",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID Karya",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detail karya berhasil diambil.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Karya detail retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Karya tidak ditemukan atau belum diterima."
+                    }
+                }
+            }
+        },
+        "/v1/dosens": {
+            "get": {
+                "tags": [
+                    "Dosen"
+                ],
+                "summary": "Dapatkan daftar dosen prodi",
+                "operationId": "396860eb6762af1a36011500a42e4483",
+                "responses": {
+                    "200": {
+                        "description": "Daftar dosen berhasil diambil.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "List of lecturers retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Otentikasi pengguna & dapatkan Token API",
+                "operationId": "e4586f1bd3f4cdb977ecb31e8bc8fc29",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "mahasiswa@apps.ipb.ac.id"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login sukses, mengembalikan token.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login berhasil"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|AbCdEfGhIjKlMnOpQrStUvWxYz"
+                                        },
+                                        "user": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Kredensial tidak valid."
+                    }
+                }
+            }
+        },
+        "/v1/karyas/{id}/reviews": {
+            "post": {
+                "tags": [
+                    "Review"
+                ],
+                "summary": "Berikan ulasan dan rating pada karya (Butuh Token)",
+                "operationId": "12077f372d2d040064fd47cf89a4ffe2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID Karya yang ingin diulas",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "rating"
+                                ],
+                                "properties": {
+                                    "rating": {
+                                        "type": "integer",
+                                        "example": 5,
+                                        "maximum": 5,
+                                        "minimum": 1
+                                    },
+                                    "comment": {
+                                        "type": "string",
+                                        "example": "Sangat inovatif!"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ulasan berhasil ditambahkan.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Review berhasil ditambahkan!"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Anda sudah memberikan review untuk karya ini."
+                    },
+                    "401": {
+                        "description": "Unauthorized (Token salah atau hilang)."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Gunakan Token Bearer yang diperoleh setelah memanggil API login.",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Karya",
+            "description": "Karya"
+        },
+        {
+            "name": "Dosen",
+            "description": "Dosen"
+        },
+        {
+            "name": "Auth",
+            "description": "Auth"
+        },
+        {
+            "name": "Review",
+            "description": "Review"
+        }
+    ]
+}

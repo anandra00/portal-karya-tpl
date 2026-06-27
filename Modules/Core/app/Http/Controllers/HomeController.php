@@ -39,4 +39,13 @@ class HomeController extends Controller
     {
         return view('pages.faq');
     }
+
+    public function readAllNotifications()
+    {
+        if (auth()->check()) {
+            auth()->user()->unreadNotifications->markAsRead();
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false], 401);
+    }
 }

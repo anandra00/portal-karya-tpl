@@ -26,12 +26,21 @@ class ReviewController extends Controller
             return back()->with('error', 'Anda sudah memberikan review untuk karya ini.');
         }
 
-        Review::create([
+        $review = Review::create([
             'karya_id' => $validated['karya_id'],
             'user_id' => Auth::id(),
             'rating' => $validated['rating'],
             'comment' => $validated['comment'],
         ]);
+
+        try {
+            $karya = $review->karya;
+            if ($karya && $karya->user && $karya->user->id !== Auth::id()) {
+                $karya->user->notify(new \Modules\Karya\Notifications\NewReviewNotification($review));
+            }
+        } catch (\Exception $e) {
+            // Silently catch notification/broadcast errors
+        }
 
         return back()->with('success', 'Review berhasil ditambahkan! Terima kasih atas feedback Anda.');
     }

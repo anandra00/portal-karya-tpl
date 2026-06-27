@@ -394,5 +394,46 @@
     </script>
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
+    <!-- Real-time Toast Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-[9999] flex flex-col gap-3 w-80 pointer-events-none"></div>
+
+    <script>
+        window.showNotificationToast = function(message, link = '#') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toast = document.createElement('a');
+            toast.href = link;
+            toast.className = "pointer-events-auto flex items-start gap-3 p-4 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-indigo-200/50 dark:border-gray-700 shadow-xl rounded-2xl transition-all duration-300 translate-y-10 opacity-0";
+            toast.innerHTML = `
+                <div class="flex-shrink-0 h-8 w-8 rounded-full bg-indigo-50 dark:bg-indigo-950/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                    <i class="bi bi-bell-fill"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs font-bold text-gray-800 dark:text-gray-100">Notifikasi Baru</p>
+                    <p class="text-[11px] text-gray-600 dark:text-gray-300 mt-0.5 line-clamp-2 leading-snug">${message}</p>
+                </div>
+                <button onclick="event.preventDefault(); this.parentElement.remove();" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-250">
+                    <i class="bi bi-x text-sm"></i>
+                </button>
+            `;
+
+            container.appendChild(toast);
+
+            // Animate In
+            setTimeout(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+            }, 50);
+
+            // Auto Remove after 6 seconds
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 6000);
+        };
+    </script>
+
 </body>
 </html>

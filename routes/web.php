@@ -77,6 +77,9 @@ Route::middleware(['auth'])->group(function () {
     
     // Rating & Review (User)
     Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
+    
+    // Notifications (User)
+    Route::post('/notifications/read-all', [HomeController::class, 'readAllNotifications'])->name('notifications.read-all');
 });
 
 // ============================================

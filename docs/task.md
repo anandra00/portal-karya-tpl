@@ -55,7 +55,27 @@ Dokumen ini berisi daftar tugas, status pengembangan, dan roadmap untuk sistem *
 
 ---
 
-## 🔮 Fase 4: Pengembangan Lanjutan & Roadmap Masa Depan
+## 🚀 Fase 4: WebSockets & REST API v1 (Laravel Sanctum & Swagger)
+*Status: Selesai*
+
+- [x] **Setup Backend WebSockets dengan Laravel Reverb**:
+  - [x] Instalasi Laravel Reverb server & penyiaran.
+  - [x] Instalasi dependency Echo & Pusher-js.
+  - [x] Pembuatan tabel & migrasi database `notifications`.
+- [x] **Real-time Notifications**:
+  - [x] Pembuatan kelas notifikasi `KaryaStatusNotification` dan `NewReviewNotification`.
+  - [x] Pemicuan notifikasi real-time di controller saat status karya diubah dan review baru masuk.
+  - [x] Pembuatan menu dropdown Bell Notifikasi di navbar menggunakan Alpine.js & Echo.
+  - [x] Pembuatan popup Toast real-time di layout utama.
+- [x] **Penyempurnaan API RESTful v1**:
+  - [x] Implementasi API token authentication (Laravel Sanctum) untuk rute API tulis (`POST /v1/karyas` & `POST /v1/karyas/{id}/reviews`).
+  - [x] Integrasi generator Swagger (`darkaonline/l5-swagger`) dengan UI interaktif di `/api/documentation`.
+  - [x] Konfigurasi scan path untuk modul monolit dan penulisan OpenAPI 3.0 annotations menggunakan modern PHP 8 Attributes.
+  - [x] Pembuatan Automated Feature Tests untuk Sanctum Auth & alur API-to-notification.
+
+---
+
+## 🔮 Fase 5: Roadmap Masa Depan (Backlog)
 *Status: Belum Mulai (Backlog)*
 
 - [ ] **Integrasi Single Sign-On (SSO) IPB IAM**
@@ -66,13 +86,7 @@ Dokumen ini berisi daftar tugas, status pengembangan, dan roadmap untuk sistem *
   - [ ] Konfigurasi package driver filesystem S3 (seperti AWS S3 atau Google Cloud Storage).
   - [ ] Pembaruan kode unggah file agar otomatis disimpan ke bucket cloud.
   - [ ] Integrasi Cloudflare CDN untuk caching visual preview karya mahasiswa.
-- [ ] **Notifikasi Real-time & WebSockets**
-  - [ ] Setup Laravel Reverb atau Pusher sebagai WebSocket Server.
-  - [ ] Pembuatan event notifikasi (misal: `KaryaTervalidasi`, `UlasanBaru`).
-  - [ ] Integrasi listener client-side dengan Laravel Echo untuk memunculkan notifikasi toasty/pop-up secara real-time.
 - [ ] **Sistem Moderasi Karya Otomatis Berbasis Machine Learning**
   - [ ] Integrasi API Computer Vision untuk menyaring gambar preview karya yang tidak pantas (NSFW).
   - [ ] Integrasi API NLP (seperti HuggingFace / OpenAI) untuk menyaring deskripsi karya dari spam atau kata-kata kasar secara otomatis.
-- [ ] **Penyempurnaan API RESTful v1**
-  - [ ] Implementasi API token authentication (Laravel Sanctum) untuk rute API tulis (POST/PUT/DELETE) jika dibutuhkan client eksternal.
-  - [ ] Pembuatan dokumentasi API interaktif menggunakan Swagger / OpenAPI Spec.
+

@@ -80,6 +80,98 @@
                 <div class="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-2"></div>
 
                 @auth
+                    <!-- Notifications Dropdown -->
+                    @php
+                        $unreadCount = Auth::user()->unreadNotifications->count();
+                        $recentNotifications = Auth::user()->notifications()->take(5)->get();
+                    @endphp
+                    <div x-data="{ 
+                        open: false,
+                        unreadCount: {{ $unreadCount }},
+                        notifications: [
+                            @foreach($recentNotifications as $n)
+                            {
+                                id: '{{ $n->id }}',
+                                message: '{{ addslashes($n->data['message'] ?? '') }}',
+                                link: '{{ $n->data['link'] ?? '#' }}',
+                                read: {{ $n->read_at ? 'true' : 'false' }},
+                                created_at: '{{ $n->created_at->diffForHumans() }}'
+                            },
+                            @endforeach
+                        ],
+                        init() {
+                            document.addEventListener('DOMContentLoaded', () => {
+                                if (window.Echo) {
+                                    window.Echo.private('App.Models.User.{{ Auth::id() }}')
+                                        .notification((notification) => {
+                                            this.unreadCount++;
+                                            this.notifications.unshift({
+                                                id: notification.id,
+                                                message: notification.message,
+                                                link: notification.link || '#',
+                                                read: false,
+                                                created_at: 'Baru saja'
+                                            });
+                                            if (this.notifications.length > 5) {
+                                                this.notifications.pop();
+                                            }
+                                            
+                                            if (window.showNotificationToast) {
+                                                window.showNotificationToast(notification.message, notification.link);
+                                            }
+                                        });
+                                }
+                            });
+                        },
+                        markAllAsRead() {
+                            fetch('{{ route('notifications.read-all') }}', {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json'
+                                }
+                            }).then(res => {
+                                if (res.ok) {
+                                    this.unreadCount = 0;
+                                    this.notifications.forEach(n => n.read = true);
+                                }
+                            });
+                        }
+                    }" class="relative flex items-center" @click.outside="open = false">
+                        <button @click="open = !open" class="relative text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-400 focus:outline-none p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-all mr-1">
+                            <i class="bi bi-bell text-lg"></i>
+                            <span x-show="unreadCount > 0" x-text="unreadCount" class="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[9px] font-extrabold text-white animate-pulse"></span>
+                        </button>
+                        
+                        <!-- Dropdown Panel -->
+                        <div x-show="open" 
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             style="display: none;"
+                             class="absolute right-0 mt-2 top-full w-80 rounded-2xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-xl z-50 overflow-hidden">
+                            <div class="flex justify-between items-center px-4 py-3 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-xs font-bold text-gray-700 dark:text-gray-200">Notifikasi</span>
+                                <button x-show="unreadCount > 0" @click="markAllAsRead()" class="text-[10px] text-indigo-600 dark:text-indigo-400 hover:underline">Tandai dibaca</button>
+                            </div>
+                            <div class="max-h-64 overflow-y-auto divide-y divide-gray-100 dark:divide-gray-700">
+                                <template x-if="notifications.length === 0">
+                                    <div class="px-4 py-6 text-center text-xs text-gray-400 dark:text-gray-500">Tidak ada notifikasi baru</div>
+                                </template>
+                                <template x-for="n in notifications" :key="n.id">
+                                    <a :href="n.link" class="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors" :class="{'bg-indigo-50/20 dark:bg-indigo-950/10 font-semibold': !n.read}">
+                                        <p x-text="n.message" class="text-[11px] text-gray-600 dark:text-gray-300 line-clamp-2 leading-snug"></p>
+                                        <span x-text="n.created_at" class="text-[9px] text-gray-400 dark:text-gray-500 block mt-1"></span>
+                                    </a>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
                     @if(Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
                         <a href="{{ route('dashboard') }}" class="px-4 py-2 rounded-xl text-sm font-bold text-gray-700 dark:text-white flex items-center hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all">
                             <i class="bi bi-speedometer2 mr-2"></i>Dashboard

@@ -207,6 +207,14 @@ class KaryaController extends Controller
             // Silently catch mail errors so it doesn't break flow if SMTP is not configured
         }
 
+        try {
+            if ($karya->user) {
+                $karya->user->notify(new \Modules\Karya\Notifications\KaryaStatusNotification($karya));
+            }
+        } catch (\Exception $e) {
+            // Silently catch notification/broadcast errors
+        }
+
         return redirect()->route('karya.index')
             ->with('success', 'Karya berhasil disetujui!');
     }
@@ -234,6 +242,14 @@ class KaryaController extends Controller
             }
         } catch (\Exception $e) {
             // Silently catch mail errors
+        }
+
+        try {
+            if ($karya->user) {
+                $karya->user->notify(new \Modules\Karya\Notifications\KaryaStatusNotification($karya));
+            }
+        } catch (\Exception $e) {
+            // Silently catch notification/broadcast errors
         }
 
         return redirect()->route('karya.index')
