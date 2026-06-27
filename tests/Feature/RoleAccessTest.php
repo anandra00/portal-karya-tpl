@@ -46,4 +46,39 @@ class RoleAccessTest extends TestCase
         
         $response->assertStatus(200);
     }
+
+    /**
+     * Test admin list page (Kelola Admin) restricts admin but allows superadmin.
+     */
+    public function test_admin_list_restricts_admin_but_allows_superadmin(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $superadmin = User::factory()->create(['role' => 'superadmin']);
+
+        // Admin should be redirected to home with error
+        $responseAdmin = $this->actingAs($admin)->get('/admin/list');
+        $responseAdmin->assertRedirect('/');
+
+        // Superadmin should access successfully
+        $responseSuperadmin = $this->actingAs($superadmin)->get('/admin/list');
+        $responseSuperadmin->assertStatus(200);
+    }
+
+    /**
+     * Test backup database restricts admin but allows superadmin.
+     */
+    public function test_database_backup_restricts_admin_but_allows_superadmin(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $superadmin = User::factory()->create(['role' => 'superadmin']);
+
+        // Admin should be redirected to home
+        $responseAdmin = $this->actingAs($admin)->post('/admin/backup-database');
+        $responseAdmin->assertRedirect('/');
+
+        // Superadmin should access successfully (stream download)
+        $responseSuperadmin = $this->actingAs($superadmin)->post('/admin/backup-database');
+        $responseSuperadmin->assertStatus(200)
+            ->assertHeader('Content-Type', 'application/octet-stream');
+    }
 }

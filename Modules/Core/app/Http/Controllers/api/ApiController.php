@@ -327,7 +327,16 @@ class ApiController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Karya berhasil diajukan! Menunggu validasi admin.',
-            'data' => $karya
+            'data' => [
+                'id' => $karya->id,
+                'judul' => $karya->judul,
+                'kategori' => $karya->kategori,
+                'deskripsi' => $karya->deskripsi,
+                'tim_pembuat' => $karya->tim_pembuat,
+                'tahun' => $karya->tahun,
+                'status_validasi' => $karya->status_validasi,
+                'created_at' => $karya->created_at,
+            ]
         ], 201);
     }
 

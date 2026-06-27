@@ -10,7 +10,7 @@ class BeritaUserController extends Controller
     public function index()
     {
         $berita = Berita::latest()->get();
-        return view('pages.berita', compact('berita'));
+        return view('pages.berita_list', compact('berita'));
     }
 
     public function show($id)

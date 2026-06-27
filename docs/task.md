@@ -72,6 +72,14 @@ Dokumen ini berisi daftar tugas, status pengembangan, dan roadmap untuk sistem *
   - [x] Integrasi generator Swagger (`darkaonline/l5-swagger`) dengan UI interaktif di `/api/documentation`.
   - [x] Konfigurasi scan path untuk modul monolit dan penulisan OpenAPI 3.0 annotations menggunakan modern PHP 8 Attributes.
   - [x] Pembuatan Automated Feature Tests untuk Sanctum Auth & alur API-to-notification.
+- [x] **QA & Keamanan Sistem (Bugfix & Hardening)**:
+  - [x] Perbaikan celah XSS Kritis pada Toast Notification (`app.blade.php`) menggunakan DOM API `textContent`.
+  - [x] Perbaikan celah XSS Tinggi pada menu dropdown Notifikasi di Navbar (`navbar.blade.php`) menggunakan Blade `e()` helper.
+  - [x] Penerapan masa kedaluwarsa Token Sanctum selama 24 jam (`config/sanctum.php`).
+  - [x] Pembatasan brute-force rate limit ketat pada API Login (`throttle:5,1`).
+  - [x] Pengamanan dokumentasi Swagger UI dengan middleware hak akses admin/superadmin (`config/l5-swagger.php`).
+  - [x] Perbaikan 500 internal server error pada rute list berita `/berita` dengan membuat view khusus `berita_list.blade.php`.
+  - [x] Pengamanan hak akses backup database dan manajemen list admin khusus untuk role `superadmin` (`routes/web.php` & `sidebar.blade.php`).
 
 ---
 

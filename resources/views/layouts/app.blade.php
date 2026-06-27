@@ -405,18 +405,34 @@
             const toast = document.createElement('a');
             toast.href = link;
             toast.className = "pointer-events-auto flex items-start gap-3 p-4 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-indigo-200/50 dark:border-gray-700 shadow-xl rounded-2xl transition-all duration-300 translate-y-10 opacity-0";
-            toast.innerHTML = `
-                <div class="flex-shrink-0 h-8 w-8 rounded-full bg-indigo-50 dark:bg-indigo-950/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
-                    <i class="bi bi-bell-fill"></i>
-                </div>
-                <div class="flex-1 min-w-0">
-                    <p class="text-xs font-bold text-gray-800 dark:text-gray-100">Notifikasi Baru</p>
-                    <p class="text-[11px] text-gray-600 dark:text-gray-300 mt-0.5 line-clamp-2 leading-snug">${message}</p>
-                </div>
-                <button onclick="event.preventDefault(); this.parentElement.remove();" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-250">
-                    <i class="bi bi-x text-sm"></i>
-                </button>
-            `;
+
+            // Build toast DOM safely (no innerHTML with user data)
+            const iconWrap = document.createElement('div');
+            iconWrap.className = "flex-shrink-0 h-8 w-8 rounded-full bg-indigo-50 dark:bg-indigo-950/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400";
+            iconWrap.innerHTML = '<i class="bi bi-bell-fill"></i>';
+
+            const body = document.createElement('div');
+            body.className = "flex-1 min-w-0";
+            const title = document.createElement('p');
+            title.className = "text-xs font-bold text-gray-800 dark:text-gray-100";
+            title.textContent = "Notifikasi Baru";
+            const msg = document.createElement('p');
+            msg.className = "text-[11px] text-gray-600 dark:text-gray-300 mt-0.5 line-clamp-2 leading-snug";
+            msg.textContent = message; // Safe: textContent auto-escapes HTML
+            body.appendChild(title);
+            body.appendChild(msg);
+
+            const closeBtn = document.createElement('button');
+            closeBtn.className = "text-gray-400 hover:text-gray-600 dark:hover:text-gray-300";
+            closeBtn.innerHTML = '<i class="bi bi-x text-sm"></i>';
+            closeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                toast.remove();
+            });
+
+            toast.appendChild(iconWrap);
+            toast.appendChild(body);
+            toast.appendChild(closeBtn);
 
             container.appendChild(toast);
 

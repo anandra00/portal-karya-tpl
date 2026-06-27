@@ -42,7 +42,7 @@
             <span>Kelola Review</span>
         </a>
         
-        @if (Auth::check() && Auth::user()->role == 'admin')
+        @if (Auth::check() && Auth::user()->role == 'superadmin')
         <a href="{{ route('admin.list') }}" class="{{ request()->routeIs('admin.list') ? 'active' : '' }}">
             <i data-feather="shield"></i>
             <span>Kelola Admin</span>

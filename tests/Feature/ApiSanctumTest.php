@@ -77,9 +77,6 @@ class ApiSanctumTest extends TestCase
 
         $karyaId = $responseKarya->json('data.id');
 
-        // Logout from previous session
-        // auth()->logout();
-
         // Create reviewer user
         $reviewer = User::factory()->create([
             'email' => 'reviewer@apps.ipb.ac.id',

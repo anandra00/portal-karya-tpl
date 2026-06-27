@@ -92,8 +92,8 @@
                             @foreach($recentNotifications as $n)
                             {
                                 id: '{{ $n->id }}',
-                                message: '{{ addslashes($n->data['message'] ?? '') }}',
-                                link: '{{ $n->data['link'] ?? '#' }}',
+                                message: '{{ e($n->data['message'] ?? '') }}',
+                                link: '{{ e($n->data['link'] ?? '#') }}',
                                 read: {{ $n->read_at ? 'true' : 'false' }},
                                 created_at: '{{ $n->created_at->diffForHumans() }}'
                             },

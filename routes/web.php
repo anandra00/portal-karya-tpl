@@ -160,10 +160,12 @@ Route::middleware(['auth', 'role:admin,superadmin'])->prefix('admin')->group(fun
     Route::get('export-pengunjung', [AdminController::class, 'exportPengunjung'])->name('pengunjung.export');
     Route::post('lihat-pengunjung/clear', [AdminController::class, 'clearVisitorLogs'])->name('pengunjung.clear');
 
-    // Admin List & Management
-    Route::get('/list', [AdminController::class, 'index'])->name('admin.list');
-    Route::post('/backup-database', [DashboardController::class, 'backupDatabase'])->name('admin.backup');
-    Route::get('/create', [AdminController::class, 'create'])->name('admin.create');
-    Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
-    Route::delete('/delete/{id}', [AdminController::class, 'destroy'])->name('admin.delete');
+    // Admin List & Management (Superadmin Only)
+    Route::middleware(['role:superadmin'])->group(function () {
+        Route::get('/list', [AdminController::class, 'index'])->name('admin.list');
+        Route::post('/backup-database', [DashboardController::class, 'backupDatabase'])->name('admin.backup');
+        Route::get('/create', [AdminController::class, 'create'])->name('admin.create');
+        Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
+        Route::delete('/delete/{id}', [AdminController::class, 'destroy'])->name('admin.delete');
+    });
 });
