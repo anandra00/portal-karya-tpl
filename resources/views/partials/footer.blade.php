@@ -1,5 +1,5 @@
 {{-- Premium Footer with Wave Separator --}}
-<footer id="kontak" class="wave-separator bg-[#1E1B4B] dark:bg-gray-950 text-white pt-16 pb-8 border-t border-indigo-800/50 dark:border-gray-900 mt-auto relative">
+<footer id="kontak" class="wave-separator bg-[#1E1B4B] dark:bg-gray-950 text-white pt-16 pb-8 mt-auto relative">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col lg:flex-row items-center lg:items-start lg:justify-between gap-12">
             

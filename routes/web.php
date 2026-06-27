@@ -3,8 +3,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 
-use App\Models\Dosen;
-use App\Models\Karya;
 use App\Models\User;
 
 use App\Mail\SendEmail;
@@ -41,14 +39,7 @@ Route::get('/berita/{id}', [BeritaUserController::class, 'show'])->name('berita.
 Route::get('/karya', [KaryaController::class, 'karyaUser'])->name('karya.public');
 Route::get('/karya/{id}', [KaryaController::class, 'userShow'])->name('karya.public.show');
 
-// ============================================
-// PUBLIC REST API ROUTES (V1)
-// ============================================
-Route::prefix('api/v1')->group(function () {
-    Route::get('/karyas', [ApiController::class, 'getKaryas'])->name('api.v1.karyas');
-    Route::get('/karyas/{id}', [ApiController::class, 'getKaryaDetail'])->name('api.v1.karya.detail');
-    Route::get('/dosens', [ApiController::class, 'getDosens'])->name('api.v1.dosens');
-});
+
 
 // ============================================
 // AUTH ROUTES (Login/Register/Password)
@@ -132,7 +123,7 @@ Route::middleware(['auth', 'role:admin,superadmin'])->prefix('admin')->group(fun
     
     // Karya Management
     Route::get('karya/validasi', [KaryaController::class, 'validation'])->name("karya.validasi");
-    Route::get('karya/export', [KaryaController::class, 'exportCsv'])->name('karya.export');
+    Route::get('karya/export', [KaryaController::class, 'exportExcel'])->name('karya.export');
     Route::get('karya/validasi/{id}', [KaryaController::class, 'validationForm'])->name("karya.form");
     Route::post('karya/{id}/restore', [KaryaController::class, 'restore'])->name('admin.karya.restore');
     Route::delete('karya/{id}/force-delete', [KaryaController::class, 'forceDelete'])->name('admin.karya.force-delete');

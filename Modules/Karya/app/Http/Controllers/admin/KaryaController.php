@@ -256,7 +256,7 @@ class KaryaController extends Controller
     }
 
     // Admin - export data ke Excel (.xlsx) dengan template premium
-    public function exportCsv()
+    public function exportExcel()
     {
         $karyas = Karya::with('user')
             ->whereIn('status_validasi', ['accepted', 'rejected'])

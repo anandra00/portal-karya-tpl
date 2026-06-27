@@ -34,6 +34,8 @@ class DosenController extends Controller
 
         Dosen::create($validated);
 
+        \Illuminate\Support\Facades\Cache::forget('dosen_all');
+
         return redirect()
             ->route('dosen.index')
             ->with('success', 'Data dosen berhasil ditambahkan!');
@@ -69,6 +71,8 @@ class DosenController extends Controller
 
         $dosen->update($validated);
 
+        \Illuminate\Support\Facades\Cache::forget('dosen_all');
+
         return redirect()->route('dosen.index')
                         ->with('success', 'Data dosen berhasil diperbarui!');
     }
@@ -83,6 +87,8 @@ class DosenController extends Controller
         }
 
         $dosen->delete();
+
+        \Illuminate\Support\Facades\Cache::forget('dosen_all');
 
         // Perbaiki: route name yang benar
         return redirect()->route('dosen.index')
