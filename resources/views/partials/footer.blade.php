@@ -90,14 +90,8 @@
         </div>
 
         {{-- Decorative line --}}
-        <div class="mt-14 mb-8 flex items-center gap-4">
-            <div class="flex-1 h-px bg-gradient-to-r from-transparent via-indigo-700/50 to-transparent"></div>
-            <div class="flex gap-1.5">
-                <span class="w-1.5 h-1.5 rounded-full bg-indigo-500/50"></span>
-                <span class="w-1.5 h-1.5 rounded-full bg-indigo-400/50"></span>
-                <span class="w-1.5 h-1.5 rounded-full bg-indigo-500/50"></span>
-            </div>
-            <div class="flex-1 h-px bg-gradient-to-r from-transparent via-indigo-700/50 to-transparent"></div>
+        <div class="mt-14 mb-8">
+            <div class="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
         </div>
 
         <div class="text-center">
