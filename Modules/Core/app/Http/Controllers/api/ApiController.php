@@ -389,7 +389,7 @@ class ApiController extends Controller
             'comment' => 'nullable|string|max:1000',
         ]);
 
-        $karya = Karya::findOrFail($id);
+        $karya = Karya::where('status_validasi', 'accepted')->findOrFail($id);
 
         $existingReview = \Modules\Karya\Models\Review::where('karya_id', $karya->id)
             ->where('user_id', auth()->id())

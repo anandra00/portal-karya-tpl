@@ -12,31 +12,14 @@ class StoreKaryaRequest extends FormRequest
     public function rules(): array
     {
         $role = auth()->check() ? auth()->user()->role : 'user';
+        $service = new \Modules\Karya\Services\KaryaValidationService();
+        $rules = $service->getRules($role);
 
         if ($role === 'user') {
-            return [
-                'judul' => 'required|string|max:255',
-                'kategori' => 'required|string',
-                'deskripsi' => 'required|string',
-                'tim_pembuat' => 'required|string|max:255',
-                'email' => ['required', 'email', 'regex:/^[a-zA-Z0-9._%+-]+@apps\.ipb\.ac\.id$/'],
-                'preview_karya' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-                'file_karya' => 'nullable|file|mimes:pdf|max:10240',
-                'tahun' => 'required|integer|min:2000|max:' . (date('Y') + 1),
-                'link' => 'required|url',
-            ];
+            $rules['email'] = ['required', 'email', 'regex:/^[a-zA-Z0-9._%+-]+@apps\.ipb\.ac\.id$/'];
         }
 
-        return [
-            'judul' => 'required|string|max:255',
-            'kategori' => 'required|string',
-            'deskripsi' => 'required|string',
-            'tim_pembuat' => 'required|string|max:255',
-            'preview_karya' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'file_karya' => 'nullable|file|mimes:pdf|max:10240',
-            'tahun' => 'required|integer|min:2000|max:' . (date('Y') + 1),
-            'link' => 'nullable|url',
-        ];
+        return $rules;
     }
 
     public function messages(): array
@@ -50,10 +33,8 @@ class StoreKaryaRequest extends FormRequest
     public function authorize(): bool
     {
         if (auth()->check()) {
-            $user = auth()->user();
-            if ($user->role === 'user' && !str_ends_with($user->email, '@apps.ipb.ac.id')) {
-                return false;
-            }
+            $service = new \Modules\Karya\Services\KaryaValidationService();
+            return $service->authorizeUpload(auth()->user());
         }
         return true;
     }

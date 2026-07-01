@@ -17,6 +17,11 @@ class ReviewController extends Controller
             'comment' => 'nullable|string|max:1000',
         ]);
 
+        $karya = \Modules\Karya\Models\Karya::findOrFail($validated['karya_id']);
+        if ($karya->status_validasi !== 'accepted') {
+            return back()->with('error', 'Anda hanya dapat memberikan ulasan pada karya yang telah disetujui.');
+        }
+
         // Cek apakah user sudah pernah review
         $existingReview = Review::where('karya_id', $validated['karya_id'])
                                ->where('user_id', Auth::id())

@@ -30,14 +30,24 @@ class LogVisitor
             
             try {
                 $user = Auth::user();
-                Visitor::create([
+                $visitorData = [
                     'nama' => $user ? $user->name : 'Tamu',
                     'email' => $user ? $user->email : 'guest@tpl.svipb.ac.id',
                     'ip_address' => $request->ip() ?? '127.0.0.1',
                     'user_agent' => $request->userAgent() ?? '',
                     'page_visited' => $request->fullUrl(),
-                    'visited_at' => now(),
-                ]);
+                    'visited_at' => now()->toDateTimeString(),
+                ];
+
+                // Increment Redis counter
+                try {
+                    \Illuminate\Support\Facades\Redis::incr('visitor_count');
+                } catch (\Throwable $re) {
+                    // Ignore Redis connection issue or Class not found error
+                }
+
+                // Dispatch database insert to queue
+                \App\Jobs\LogVisitorJob::dispatch($visitorData);
             } catch (\Exception $e) {
                 // Keep it silent to prevent crashing user page if DB fails, log error
                 logger('Failed to log visitor: ' . $e->getMessage());

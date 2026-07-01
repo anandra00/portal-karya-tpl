@@ -77,6 +77,9 @@ class ApiSanctumTest extends TestCase
 
         $karyaId = $responseKarya->json('data.id');
 
+        // Approve the karya to make it reviewable
+        Karya::find($karyaId)->update(['status_validasi' => 'accepted']);
+
         // Create reviewer user
         $reviewer = User::factory()->create([
             'email' => 'reviewer@apps.ipb.ac.id',
@@ -111,5 +114,37 @@ class ApiSanctumTest extends TestCase
         $notification = $user->notifications()->first();
         $this->assertEquals('new_review', $notification->data['type']);
         $this->assertStringContainsString('memberikan ulasan bintang 5', $notification->data['message']);
+    }
+
+    /**
+     * Test API header versioning strategy.
+     */
+    public function test_api_versioning_header_strategy(): void
+    {
+        // 1. Request with correct version header
+        $response1 = $this->withHeaders([
+            'X-API-Version' => '1.0',
+        ])->getJson(route('api.v1.dosens'));
+        $response1->assertStatus(200);
+
+        // 2. Request with correct Accept header
+        $response2 = $this->withHeaders([
+            'Accept' => 'application/vnd.portaltpl.v1+json',
+        ])->getJson(route('api.v1.dosens'));
+        $response2->assertStatus(200);
+
+        // 3. Request with no headers (should default to v1)
+        $response3 = $this->getJson(route('api.v1.dosens'));
+        $response3->assertStatus(200);
+
+        // 4. Request with unsupported version header (should fail with 406)
+        $response4 = $this->withHeaders([
+            'X-API-Version' => '2.0',
+        ])->getJson(route('api.v1.dosens'));
+        $response4->assertStatus(406)
+            ->assertJson([
+                'success' => false,
+                'message' => 'API version not supported. Supported versions: 1'
+            ]);
     }
 }

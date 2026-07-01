@@ -19,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Tambahkan ini
         $middleware->alias([
             'role' => \App\Http\Middleware\CheckRole::class,
+            'api.version' => \App\Http\Middleware\ApiVersion::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

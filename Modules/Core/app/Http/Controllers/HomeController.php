@@ -18,7 +18,7 @@ class HomeController extends Controller
                       ->limit(3)
                       ->get();
         
-        $beritas = Berita::latest()->get();
+        $beritas = Berita::latest()->limit(3)->get();
         $karyas_count = Karya::where('status_validasi', 'accepted')->count();
         $dosens_count = \Modules\Akademik\Models\Dosen::count();
         $reviews_count = \Modules\Karya\Models\Review::count();

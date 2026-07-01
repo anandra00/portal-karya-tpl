@@ -20,7 +20,9 @@ use Modules\Core\Http\Controllers\admin\ProfilProdiController;
 use Modules\Core\Http\Controllers\admin\DashboardController;
 use Modules\Karya\Http\Controllers\admin\ReviewController;
 use Modules\Core\Http\Controllers\admin\AdminController;
-use Modules\Karya\Http\Controllers\admin\KaryaController;
+use Modules\Karya\Http\Controllers\admin\KaryaCrudController;
+use Modules\Karya\Http\Controllers\admin\KaryaValidationController;
+use Modules\Karya\Http\Controllers\admin\KaryaExportController;
 use Modules\Core\Http\Controllers\admin\KontakController;
 
 // ============================================
@@ -36,8 +38,8 @@ Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 Route::get('/berita', [BeritaUserController::class, 'index'])->name('berita.user');
 Route::get('/berita/{id}', [BeritaUserController::class, 'show'])->name('berita.show');
 
-Route::get('/karya', [KaryaController::class, 'karyaUser'])->name('karya.public');
-Route::get('/karya/{id}', [KaryaController::class, 'userShow'])->name('karya.public.show');
+Route::get('/karya', [KaryaCrudController::class, 'karyaUser'])->name('karya.public');
+Route::get('/karya/{id}', [KaryaCrudController::class, 'userShow'])->name('karya.public.show');
 
 
 
@@ -73,7 +75,7 @@ Route::middleware(['auth'])->group(function () {
         $categories = \Modules\Karya\Models\Kategori::all();
         return view('pages.unggah', compact('categories'));
     })->name('unggah');
-    Route::post('karya', [KaryaController::class, 'store'])->name('karya.store');
+    Route::post('karya', [KaryaCrudController::class, 'store'])->name('karya.store');
     
     // Rating & Review (User)
     Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
@@ -85,7 +87,7 @@ Route::middleware(['auth'])->group(function () {
 // ============================================
 // ADMIN ROUTES (Butuh role:admin)
 // ============================================
-Route::middleware(['auth', 'role:admin,superadmin'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'role:admin,superadmin', 'throttle:admin'])->prefix('admin')->group(function () {
     
     // Dashboard Admin
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -125,12 +127,15 @@ Route::middleware(['auth', 'role:admin,superadmin'])->prefix('admin')->group(fun
     // ----------------------------------------
     
     // Karya Management
-    Route::get('karya/validasi', [KaryaController::class, 'validation'])->name("karya.validasi");
-    Route::get('karya/export', [KaryaController::class, 'exportExcel'])->name('karya.export');
-    Route::get('karya/validasi/{id}', [KaryaController::class, 'validationForm'])->name("karya.form");
-    Route::post('karya/{id}/restore', [KaryaController::class, 'restore'])->name('admin.karya.restore');
-    Route::delete('karya/{id}/force-delete', [KaryaController::class, 'forceDelete'])->name('admin.karya.force-delete');
-    Route::resource('karya', KaryaController::class)->except(['store']);
+    Route::get('karya/validasi', [KaryaValidationController::class, 'validation'])->name("karya.validasi");
+    Route::get('karya/export', [KaryaExportController::class, 'exportExcel'])->name('karya.export');
+    Route::get('karya/validasi/{id}', [KaryaValidationController::class, 'validationForm'])->name("karya.form");
+    Route::post('karya/{id}/approve', [KaryaValidationController::class, 'approve'])->name('admin.karya.approve');
+    Route::post('karya/{id}/reject', [KaryaValidationController::class, 'reject'])->name('admin.karya.reject');
+    Route::post('karya/store-admin', [KaryaValidationController::class, 'storeAdmin'])->name('admin.karya.store-admin');
+    Route::post('karya/{id}/restore', [KaryaCrudController::class, 'restore'])->name('admin.karya.restore');
+    Route::delete('karya/{id}/force-delete', [KaryaCrudController::class, 'forceDelete'])->name('admin.karya.force-delete');
+    Route::resource('karya', KaryaCrudController::class)->except(['store']);
 
     // Admin - Activity Log
     Route::get('/activity-logs', [\Modules\Core\Http\Controllers\admin\ActivityController::class, 'index'])->name('activity-logs.index');
@@ -150,9 +155,8 @@ Route::middleware(['auth', 'role:admin,superadmin'])->prefix('admin')->group(fun
     Route::delete('dosen/{id}', [DosenController::class, 'destroy'])->name('dosen.destroy');
 
     // Ajuan Karya & Lihat Karya Pages
-    Route::get('ajuankarya', [KaryaController::class, 'ajuanKarya'])->name('ajuankarya');
-
-    Route::get('lihatkarya', [KaryaController::class, 'lihatKarya'])->name('lihatkarya');
+    Route::get('ajuankarya', [KaryaCrudController::class, 'ajuanKarya'])->name('ajuankarya');
+    Route::get('lihatkarya', [KaryaCrudController::class, 'lihatKarya'])->name('lihatkarya');
     
 
     // Pengunjung Management

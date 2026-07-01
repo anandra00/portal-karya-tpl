@@ -25,29 +25,24 @@ class User extends Authenticatable
     ];
 
     // Relationships
-    // public function karyas()
-    // {
-    //     return $this->hasMany(Karya::class, 'id_user', 'id_user');
-    // }
+    public function karyas()
+    {
+        return $this->hasMany(\Modules\Karya\Models\Karya::class, 'user_id');
+    }
 
-    // public function reviews()
-    // {
-    //     return $this->hasMany(Review::class, 'id_user', 'id_user');
-    // }
-
-    // public function ratings()
-    // {
-    //     return $this->hasMany(Rating::class, 'id_user', 'id_user');
-    // }
+    public function reviews()
+    {
+        return $this->hasMany(\Modules\Karya\Models\Review::class, 'user_id');
+    }
 
     // Helper methods
-    // public function isAdmin()
-    // {
-    //     return $this->id_role === 'admin';
-    // }
+    public function isAdmin()
+    {
+        return in_array($this->role, ['admin', 'superadmin']);
+    }
 
-    // public function isMahasiswa()
-    // {
-    //     return $this->id_role === 'mahasiswa';
-    // }
+    public function isMahasiswa()
+    {
+        return $this->role === 'user';
+    }
 }

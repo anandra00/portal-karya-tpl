@@ -6,7 +6,7 @@ use Modules\Core\Http\Controllers\api\ApiController;
 // ============================================
 // PUBLIC REST API ROUTES (V1)
 // ============================================
-Route::prefix('v1')->middleware('throttle:60,1')->group(function () {
+Route::prefix('v1')->middleware(['throttle:60,1', 'api.version'])->group(function () {
     // Auth & Token Generation (stricter rate limit to prevent brute-force)
     Route::post('/login', [ApiController::class, 'login'])
         ->middleware('throttle:5,1')
